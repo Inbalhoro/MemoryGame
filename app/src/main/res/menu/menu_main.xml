@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_login"
-        android:title="Login"
+        android:id="@+id/action_firstpage"
+        android:title="עמוד ראשי"
         android:orderInCategory="100"
         app:showAsAction="never"
         />
     <item
-        android:id="@+id/action_register"
-        android:title="Register"
+        android:id="@+id/action_settings"
         android:orderInCategory="200"
-        app:showAsAction="never"
-        />
+        android:title="הגדרות"
+        app:showAsAction="never" />
+
         <item
         android:id="@+id/action_start"
         android:title="Start"

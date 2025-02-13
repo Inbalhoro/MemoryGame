@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:orientation="vertical"
+    android:padding="28dp"
+    android:layout_margin="30dp"
+    tools:context=".SettingsActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="הגדרות"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textSize="19dp"
+        >
+
+    </TextView>
+        <!-- אופציה להשתקת צלילים -->
+        <Switch
+            android:id="@+id/switch_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="צלילים"
+            android:padding="6dp"
+            android:checked="false"/>
+
+
+        <!-- בחירת סוג קושי -->
+        <Spinner
+            android:id="@+id/spinner_difficulty"
+            android:textDirection="rtl"
+            android:layout_width="match_parent"
+            android:padding="6dp"
+            android:layout_height="wrap_content"/>
+        <Spinner
+            android:id="@+id/spinner_time"
+            android:textDirection="rtl"
+            android:padding="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- בחירת נושא המשחק -->
+        <RadioGroup
+            android:id="@+id/radio_group_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radio_button_theme1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="נושא 1"/>
+
+            <RadioButton
+                android:id="@+id/radio_button_theme2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="נושא 2"/>
+
+            <RadioButton
+                android:id="@+id/radio_button_theme3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="נושא 3"/>
+        </RadioGroup>
+
+</LinearLayout>
+
+

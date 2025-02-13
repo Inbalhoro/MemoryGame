@@ -10,6 +10,17 @@
     android:gravity="center"
     tools:context=".MainGirlsActivity">
 
+    <TextView
+        android:id="@+id/timerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="זמן: 0 שניות"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textColor="#000000"/>
+
     <!-- שורה 1 -->
     <LinearLayout
         android:orientation="horizontal"

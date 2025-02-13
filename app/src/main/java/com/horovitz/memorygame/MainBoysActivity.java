@@ -23,7 +23,6 @@ import java.util.Collections;
 public class MainBoysActivity extends AppCompatActivity {
     Button navigateButton; // הכפתור שיעביר אותנו לדף החדש
     Button navigateToFirstPageButton; // הכפתור שיעביר אותנו לדף החדש
-
     private long startTime;
     private long elapsedTime;
     private TextView timerTextView;  // TextView להצגת הזמן הרץ
@@ -230,11 +229,15 @@ public class MainBoysActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id==R.id.action_login){
-            Toast.makeText(this, "You selected login", Toast.LENGTH_SHORT).show();
+        if (id==R.id.action_firstpage){
+            // יצירת Intent כדי לעבור לדף החדש
+            Intent intent = new Intent(MainBoysActivity.this, MainActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+
         }
-        if (id==R.id.action_register){
-            Toast.makeText(this, "You selected register", Toast.LENGTH_SHORT).show();
+        if (id==R.id.action_settings){
+            Intent intent = new Intent(MainBoysActivity.this, SettingsActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_start){
             Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();

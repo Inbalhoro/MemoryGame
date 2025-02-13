@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="difficulty_levels">
+        <item>קל</item>
+        <item>בינוני</item>
+        <item>קשה</item>
+    </string-array>
+    <string-array name="presentation_of_the_cards">
+        <item>ארוך</item>
+        <item>רגיל</item>
+        <item>קצר</item>
+    </string-array>
+</resources>

@@ -67,11 +67,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id==R.id.action_login){
+        if (id==R.id.action_firstpage){
             Toast.makeText(this, "You selected login", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_register){
-            Toast.makeText(this, "You selected register", Toast.LENGTH_SHORT).show();
+        if (id==R.id.action_settings){
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_start){
             Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
