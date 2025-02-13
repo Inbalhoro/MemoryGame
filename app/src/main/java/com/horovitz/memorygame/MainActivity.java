@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main); ///כפתור הזזה בין מסך למסך בנים בנות
 
+        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
 
         navigateButton = findViewById(R.id.navigateButton);
         navigateButton.setOnClickListener(new View.OnClickListener() {
