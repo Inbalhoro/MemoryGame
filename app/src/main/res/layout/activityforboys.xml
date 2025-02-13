@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundboys"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    tools:context=".MainBoysActivity">
+
+    <TextView
+        android:id="@+id/timerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="זמן: 0 שניות"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textColor="#000000"/>
+
+    <!-- שורה 1 -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/button_1"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/white"
+            android:contentDescription="button_1"
+            android:elevation="4dp"
+            android:scaleType="centerCrop" />
+
+        <ImageButton
+            android:id="@+id/button_2"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/white"
+            android:contentDescription="button_2"
+            android:elevation="4dp"
+            android:scaleType="centerCrop" />
+        <ImageButton
+            android:id="@+id/button_3"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/white"
+            android:contentDescription="button_3"
+            android:elevation="4dp"
+            android:scaleType="centerCrop" />
+        <ImageButton
+            android:id="@+id/button_4"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/white"
+            android:contentDescription="button_4"
+            android:elevation="4dp"
+            android:scaleType="centerCrop"/>
+    </LinearLayout>
+
+    <!-- שורה 2 -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <ImageButton
+            android:id="@+id/button_5"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/white"
+            android:contentDescription="button_5"
+            android:elevation="4dp"
+            android:scaleType="centerCrop" />
+        <ImageButton
+            android:id="@+id/button_6"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/white"
+            android:contentDescription="button_6"
+            android:elevation="4dp"
+            android:scaleType="centerCrop" />
+        <ImageButton
+            android:id="@+id/button_7"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/white"
+            android:contentDescription="button_7"
+            android:elevation="4dp"
+            android:scaleType="centerCrop" />
+        <ImageButton
+            android:id="@+id/button_8"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/white"
+            android:contentDescription="button_8"
+            android:elevation="4dp"
+            android:scaleType="centerCrop" />
+    </LinearLayout>
+
+    <!-- שורה 3 -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <ImageButton
+            android:id="@+id/button_9"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/white"
+            android:contentDescription="button_9"
+            android:elevation="4dp"
+            android:scaleType="centerCrop" />
+        <ImageButton
+            android:id="@+id/button_10"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/white"
+            android:elevation="4dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="button_10" />
+        <ImageButton
+            android:id="@+id/button_11"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/white"
+            android:elevation="4dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="button_11" />
+        <ImageButton
+            android:id="@+id/button_12"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/white"
+            android:elevation="4dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="button_12" />
+    </LinearLayout>
+
+    <!-- שורה 4 -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <ImageButton
+            android:id="@+id/button_13"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/white"
+            android:elevation="4dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="button_13" />
+        <ImageButton
+            android:id="@+id/button_14"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/white"
+            android:elevation="4dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="button_14" />
+        <ImageButton
+            android:id="@+id/button_15"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/white"
+            android:elevation="4dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="button_15" />
+        <ImageButton
+            android:id="@+id/button_16"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/white"
+            android:elevation="4dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="button_16" />
+    </LinearLayout>
+
+    <!-- TextView להודעת מצב המשחק -->
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="התחל לשחק!"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" />
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="משחק חדש"
+        android:layout_gravity="center"
+        android:padding="12dp"
+        android:textSize="16sp"/>
+    <Button
+        android:id="@+id/navigateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="מחשק למתקדמים"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/navigateToFirstPageButton2"
+        android:text="חזרה לדף בית"
+        style="@style/CustomButtonStyle"/>
+
+</LinearLayout>
+
+
+
+
