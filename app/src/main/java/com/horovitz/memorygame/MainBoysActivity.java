@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -57,7 +58,6 @@ public class MainBoysActivity extends AppCompatActivity {
     private int secondChoiceIndex = -1;
     private boolean[] isButtonFlipped = new boolean[16]; // מעקב אם כפתור כבר נחשף
     private boolean[] isButtonMatched = new boolean[16]; // מעקב אם הכפתור כבר נמצא בזוג נכון
-
     private TextView statusText;
     private Button resetButton; // כפתור איפוס
 
@@ -164,6 +164,20 @@ public class MainBoysActivity extends AppCompatActivity {
         statusText.setText("התחל לשחק!");
     }
 
+    SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+    String timeSelection = sharedPreferences.getString("timeSelection", "רגיל"); // ברירת מחדל היא "רגיל"
+
+    // הגדרת זמן ברירת מחדל
+    long flipTime = 700;  // ברירת מחדל
+//
+//    // שנה את זמן הצגת הכרטיסים לפי הבחירה
+//    if ("קצר".equals(timeSelection)) {
+//            flipTime = 200;  // זמן קצר
+//    }
+//    else if ("ארוך".equals(timeSelection)) {
+//            flipTime = 1000;  // זמן ארוך
+//    }
+
     private void onButtonClick(int index) {
         // אם הכפתור כבר נמצא בזוג נכון, אל תאפשר ללחוץ עליו
         if (isButtonMatched[index]) {
@@ -214,7 +228,7 @@ public class MainBoysActivity extends AppCompatActivity {
                         setclickable(true);
                         resetChoices(); // אתחול הבחירות
                     }
-                }, 700); // השהייה של שנייה לפני החבאת התמונות
+                }, flipTime); // השהייה של שנייה לפני החבאת התמונות
             }
         }
     }
