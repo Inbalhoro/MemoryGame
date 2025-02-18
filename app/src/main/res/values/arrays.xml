@@ -5,9 +5,9 @@
         <item>בינוני</item>
         <item>קשה</item>
     </string-array>
-    <string-array name="presentation_of_the_cards">
-        <item>ארוך</item>
+    <string-array name="time_presentation_cards">
         <item>רגיל</item>
+        <item>ארוך</item>
         <item>קצר</item>
     </string-array>
 </resources>

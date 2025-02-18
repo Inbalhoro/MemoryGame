@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:orientation="vertical"
-    android:padding="28dp"
-    android:layout_margin="30dp"
+    android:layout_margin="15dp"
     tools:context=".SettingsActivity">
 
     <TextView
@@ -68,6 +67,15 @@
                 android:layout_height="wrap_content"
                 android:text="נושא 3"/>
         </RadioGroup>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_gravity="center"
+        android:text="SAVE"
+        android:layout_marginTop="10dp"
+        android:textColor="#E4F456"
+        android:layout_height="wrap_content"
+
 
 </LinearLayout>
 

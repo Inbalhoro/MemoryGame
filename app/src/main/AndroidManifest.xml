@@ -13,19 +13,21 @@
         android:theme="@style/Theme.MemoryGame"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".MainGirlsActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light" /> <!-- הגדרה של MainActivity2 -->
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".MainBoysActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light" /> <!-- שינוי מ-false ל-true -->
-        <!-- הגדרה של MainActivity -->
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity
-            android:name=".MainActivity"
+            android:name=".MainStart"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light">
             <intent-filter>
