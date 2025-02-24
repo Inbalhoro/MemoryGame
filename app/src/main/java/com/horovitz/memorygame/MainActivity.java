@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +29,14 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main); ///כפתור הזזה בין מסך למסך בנים בנות
 
-        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+        SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true);
+
+        if (isSoundEnabled) {
+            Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
+            startService(serviceIntent); // הפעלת מוזיקה ברגע ש-Activity נפתח
+        }
 
         navigateButton = findViewById(R.id.navigateButtonSingle);
         navigateButton.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +110,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // עצירת המוזיקה בעת סגירת ה-Activity
+        Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
+        stopService(serviceIntent);
     }
 
     @Override

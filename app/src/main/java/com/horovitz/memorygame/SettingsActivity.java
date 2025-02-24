@@ -2,18 +2,23 @@ package com.horovitz.memorygame;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -39,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(SettingsActivity.this, "saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsActivity.this, "saved", LENGTH_SHORT).show();
             }
         });
         soundSwitch = findViewById(R.id.switch_sound);
@@ -56,10 +61,28 @@ public class SettingsActivity extends AppCompatActivity {
         timeSpinner.setAdapter(adapter1);
 
         // שמירה של ההגדרות כאשר המשתמש משנה אותם
-        soundSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // שמור את הגדרת הצלילים
-            // לדוג' SharedPreferences או כל מנגנון אחר לשמירת הגדרות
+        soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences sharedPreferences = null;
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isSoundEnabled", isChecked); // שמירת מצב הסוויץ'
+                editor.apply();
+                // שמור את הגדרת הצלילים
+                // לדוג' SharedPreferences או כל מנגנון אחר לשמירת הגדרות
+                if (isChecked)
+                {
+                    Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
+                    stopService(serviceIntent);
+                }
+                else
+                {
+                    Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
+                    startService(serviceIntent);
+                }
+            }
         });
+
 
         difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -90,5 +113,42 @@ public class SettingsActivity extends AppCompatActivity {
             // שמור את הנושא שנבחר
         });
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // שמור את המצב של הצלילים כשה-Activity נפסק
+        SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        boolean isSoundEnabled = soundSwitch.isChecked();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isSoundEnabled", isSoundEnabled);
+        editor.apply();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.action_firstpage){
+            Toast.makeText(this, "You selected login", LENGTH_SHORT).show();
+            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_settings){
+            Intent intent = new Intent(SettingsActivity.this, SettingsActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_start){
+            Toast.makeText(this, "You selected start", LENGTH_SHORT).show();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }
