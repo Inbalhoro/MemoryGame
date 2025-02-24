@@ -9,25 +9,50 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:layout_marginTop="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Memory Game"
         android:textSize="50dp"
         android:gravity="center"
     />
+
     <TextView
         android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
         android:layout_height="wrap_content"
         android:text="let's play"
         android:textSize="25dp"
         android:gravity="center"
+        android:layout_marginBottom="10dp"
         />
-
-    <Button
-        android:id="@+id/navigateButton"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="r"
-        />
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/navigateButtonSingle"
+            android:background="@drawable/button1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="20dp"
+            android:textSize="20sp"
+            android:text="PLAY ALONE" />
+
+        <Button
+            android:id="@+id/navigateWithFriendButton"
+            android:background="@drawable/button1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:text="PLAY WITH A FRIEND" />
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

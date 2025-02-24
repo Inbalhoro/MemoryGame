@@ -11,12 +11,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private Button navigateButton;
+    private Button navigateWithButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
 
-        navigateButton = findViewById(R.id.navigateButton);
+        navigateButton = findViewById(R.id.navigateButtonSingle);
         navigateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +57,48 @@ public class MainActivity extends AppCompatActivity {
                         .show();
             }
 
+        });
+
+        navigateWithButton = findViewById(R.id.navigateWithFriendButton);
+        navigateWithButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("הזן שמות");
+
+                // יצירת Layout עבור הדיאלוג
+                LinearLayout layout = new LinearLayout(MainActivity.this);
+                layout.setOrientation(LinearLayout.VERTICAL);
+
+                final EditText nameEditText1 = new EditText(MainActivity.this);
+                nameEditText1.setHint("הזן את שמך");
+                layout.addView(nameEditText1);
+
+                final EditText nameEditText2 = new EditText(MainActivity.this);
+                nameEditText2.setHint("הזן את שם החבר");
+                layout.addView(nameEditText2);
+
+                builder.setView(layout);
+
+                builder.setMessage("בחר לאן אתה רוצה לעבור:")
+                        .setPositiveButton("למסך בנות", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // כפתור אחד - מעבר למסך MainActivity
+                                Intent intent = new Intent(MainActivity.this, MainGirlsActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("למסך בנים", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // כפתור שני - מעבר למסך אחר
+                                Intent intent = new Intent(MainActivity.this, MainBoysActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                builder.show();
+            }
         });
 
 

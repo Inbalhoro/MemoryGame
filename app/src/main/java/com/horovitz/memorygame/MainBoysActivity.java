@@ -61,10 +61,16 @@ public class MainBoysActivity extends AppCompatActivity {
     private TextView statusText;
     private Button resetButton; // כפתור איפוס
 
+    SharedPreferences sharedPreferences;
+    String timeSelection;
+    long flipTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activityforboys); // קישור ל-XML שלך
+
+        handleSP();
 
         // אתחול כפתורים
         buttons[0] = findViewById(R.id.button_1);
@@ -134,6 +140,22 @@ public class MainBoysActivity extends AppCompatActivity {
         });
     }
 
+    private void handleSP() {
+        sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        timeSelection = sharedPreferences.getString("timeSelection", "רגיל"); // ברירת מחדל היא "רגיל"
+
+        // הגדרת זמן ברירת מחדל
+        flipTime = 700;  // ברירת מחדל
+//
+//    // שנה את זמן הצגת הכרטיסים לפי הבחירה
+//    if ("קצר".equals(timeSelection)) {
+//            flipTime = 200;  // זמן קצר
+//    }
+//    else if ("ארוך".equals(timeSelection)) {
+//            flipTime = 1000;  // זמן ארוך
+//    }
+    }
+
     private void startNewGame() {
         // אתחול מחדש של כפתורים (מסתיר את התמונות)
         for (int i = 0; i < 16; i++) {
@@ -164,19 +186,7 @@ public class MainBoysActivity extends AppCompatActivity {
         statusText.setText("התחל לשחק!");
     }
 
-    SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-    String timeSelection = sharedPreferences.getString("timeSelection", "רגיל"); // ברירת מחדל היא "רגיל"
 
-    // הגדרת זמן ברירת מחדל
-    long flipTime = 700;  // ברירת מחדל
-//
-//    // שנה את זמן הצגת הכרטיסים לפי הבחירה
-//    if ("קצר".equals(timeSelection)) {
-//            flipTime = 200;  // זמן קצר
-//    }
-//    else if ("ארוך".equals(timeSelection)) {
-//            flipTime = 1000;  // זמן ארוך
-//    }
 
     private void onButtonClick(int index) {
         // אם הכפתור כבר נמצא בזוג נכון, אל תאפשר ללחוץ עליו
