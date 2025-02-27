@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/backstart"
+    android:background="@drawable/backgr"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".MainStart">
 
     <ProgressBar
-        android:layout_marginTop="590dp"
+        android:layout_marginTop="600dp"
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,13 +18,13 @@
         android:max="100"
         android:indeterminate="false" />
 
-    <!-- TextView להצגת הזמן הנותר -->
-    <TextView
-        android:id="@+id/timeLeftText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5"
-        android:textSize="30sp"
-        android:layout_below="@id/progressBar"
-        android:layout_centerHorizontal="true" />
+<!--    &lt;!&ndash; TextView להצגת הזמן הנותר &ndash;&gt;-->
+<!--    <TextView-->
+<!--        android:id="@+id/timeLeftText"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="90dp"-->
+<!--        android:text="5"-->
+<!--        android:textSize="30sp"-->
+<!--        android:layout_below="@id/progressBar"-->
+<!--        android:layout_centerHorizontal="true" />-->
 </LinearLayout>

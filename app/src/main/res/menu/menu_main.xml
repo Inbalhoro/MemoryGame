@@ -4,20 +4,38 @@
 
     <item
         android:id="@+id/action_firstpage"
-        android:title="עמוד ראשי"
+        android:title="Home Page"
         android:orderInCategory="100"
+        android:fontFamily="@font/title"
+        android:icon="@drawable/baseline_home"
         app:showAsAction="never"
+
         />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="200"
-        android:title="הגדרות"
-        app:showAsAction="never" />
+        android:title="settings"
+        android:icon="@drawable/baseline_settings_24"
+        app:showAsAction="always" />
 
         <item
         android:id="@+id/action_start"
         android:title="Start"
         android:orderInCategory="300"
         app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/action_rank"
+        android:title="rank"
+        android:icon="@drawable/baseline_rank"
+        android:orderInCategory="300"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/action_profile"
+        android:title="profile"
+        android:icon="@drawable/baseline_account"
+        android:orderInCategory="300"
+        app:showAsAction="always"
         />
 </menu>

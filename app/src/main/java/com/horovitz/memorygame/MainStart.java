@@ -26,7 +26,7 @@ public class MainStart extends AppCompatActivity {
         setContentView(R.layout.activity_main_start);
 
         progressBar = findViewById(R.id.progressBar);
-        timeLeftText = findViewById(R.id.timeLeftText);
+//        timeLeftText = findViewById(R.id.timeLeftText);
 
         new CountDownTimer(5000, 1000) {
             @Override
@@ -36,7 +36,7 @@ public class MainStart extends AppCompatActivity {
                 progressBar.setProgress(progress);
 
                 // הצגת הזמן הנותר בשניות
-                timeLeftText.setText(String.valueOf(millisUntilFinished / 1000));
+//                timeLeftText.setText(String.valueOf(millisUntilFinished / 1000));
             }
 
             @Override

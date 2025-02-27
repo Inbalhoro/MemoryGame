@@ -13,7 +13,7 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
         // Initialize media player when service is created
-        mediaPlayer = MediaPlayer.create(this, R.raw.memory_game_bg); // You can use your own audio file here (e.g., in res/raw folder)
+        mediaPlayer = MediaPlayer.create(this, R.raw.gamemusic); // You can use your own audio file here (e.g., in res/raw folder)
         mediaPlayer.setLooping(true); // Loop the music
     }
 

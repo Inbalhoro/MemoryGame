@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back1"
+    android:background="@drawable/backmainpage"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -44,18 +44,35 @@
         android:layout_width="123dp"
         android:layout_height="119dp"
         android:backgroundTint="#00FEFEFE"
-
+        android:elevation="0dp"
+        android:outlineProvider="none"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.982"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/navigateWithCom"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toEndOf="@+id/navigateButtonSingle"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.429" />
+
+    <Button
+        android:id="@+id/navigateWithCom"
+        android:layout_width="123dp"
+        android:layout_height="119dp"
+        android:backgroundTint="#00FEFEFE"
+        android:elevation="0dp"
+        android:outlineProvider="none"
+        app:layout_constraintBottom_toBottomOf="@+id/navigateWithFriendButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toEndOf="@+id/navigateButtonSingle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/navigateButtonSingle"
         android:layout_width="123dp"
         android:layout_height="119dp"
+        android:elevation="0dp"
+        android:outlineProvider="none"
         android:backgroundTint="#00FEFEFE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

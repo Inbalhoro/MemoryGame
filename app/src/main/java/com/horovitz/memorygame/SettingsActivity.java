@@ -40,14 +40,39 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        soundSwitch = findViewById(R.id.switch_sound);
+        SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל היא true (יש צלילים)
+        soundSwitch.setChecked(isSoundEnabled);
+
+        // עדכון המוזיקה על פי המצב של ה-Switch
+        if (isSoundEnabled) {
+            startMusicService();
+             } else {
+            stopMusicService();
+              }
+
+
+        // שמירה של ההגדרות כאשר המשתמש משנה אותם
+        soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(SettingsActivity.this, "saved", LENGTH_SHORT).show();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isSoundEnabled", isChecked); // שמירת מצב הסוויץ'
+                editor.apply();
+                // שמור את הגדרת הצלילים
+                // לדוג' SharedPreferences או כל מנגנון אחר לשמירת הגדרות
+                if (isChecked) {
+                    startMusicService();
+                    Toast.makeText(SettingsActivity.this, "המוזיקה פועלת", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    stopMusicService();   // עוצר את המוזיקה אם הסוויץ' לא פעיל
+                    Toast.makeText(SettingsActivity.this, "המוזיקה הופסקה", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-        soundSwitch = findViewById(R.id.switch_sound);
+
         difficultySpinner = findViewById(R.id.spinner_difficulty);
         timeSpinner = findViewById(R.id.spinner_time);
         themeRadioGroup = findViewById(R.id.radio_group_theme);
@@ -60,30 +85,6 @@ public class SettingsActivity extends AppCompatActivity {
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timeSpinner.setAdapter(adapter1);
 
-        // שמירה של ההגדרות כאשר המשתמש משנה אותם
-        soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedPreferences sharedPreferences = null;
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("isSoundEnabled", isChecked); // שמירת מצב הסוויץ'
-                editor.apply();
-                // שמור את הגדרת הצלילים
-                // לדוג' SharedPreferences או כל מנגנון אחר לשמירת הגדרות
-                if (isChecked)
-                {
-                    Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
-                    stopService(serviceIntent);
-                }
-                else
-                {
-                    Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
-                    startService(serviceIntent);
-                }
-            }
-        });
-
-
         difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
@@ -94,7 +95,6 @@ public class SettingsActivity extends AppCompatActivity {
                 // אם לא נבחר דבר
             }
         });
-        SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -112,6 +112,23 @@ public class SettingsActivity extends AppCompatActivity {
         themeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             // שמור את הנושא שנבחר
         });
+        saveButton = findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(SettingsActivity.this, "saved", LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void stopMusicService() {
+        Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
+        stopService(serviceIntent); // עוצר את המוזיקה
+    }
+
+    private void startMusicService() {
+        Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
+        startService(serviceIntent); // מתחיל את המוזיקה
     }
 
     @Override
@@ -121,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
         boolean isSoundEnabled = soundSwitch.isChecked();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("isSoundEnabled", isSoundEnabled);
+        editor.putBoolean("isSoundEnabled",  soundSwitch.isChecked());
         editor.apply();
     }
 
