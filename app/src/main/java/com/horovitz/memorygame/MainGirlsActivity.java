@@ -72,13 +72,10 @@ public class MainGirlsActivity extends AppCompatActivity {
 
         String difficulty = sharedPreferences.getString("selectedDifficulty", "קל"); // ברירת מחדל: "קל"
         String time = sharedPreferences.getString("selectedTime", "5 שניות"); // ברירת מחדל: "5 שניות"
-        String theme = sharedPreferences.getString("selectedTheme", "חיות"); // ברירת מחדל: "חיות"
+        String theme = sharedPreferences.getString("selectedTheme", "דמויות מצוירות"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
         updateGameSettings(difficulty, time, theme, isSoundEnabled);
-
-
-
 
         // אתחול כפתורים
         buttons[0] = findViewById(R.id.button_1);
@@ -150,7 +147,7 @@ public class MainGirlsActivity extends AppCompatActivity {
 
 
     private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
-        // עדכון רמת הקושי
+        // עדכון רמת הקושי ודיפולט של דמויות מצוירות
         if (difficulty.equals("קל")) {
             // לדוגמה, משחק עם פחות זוגות
             imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2};

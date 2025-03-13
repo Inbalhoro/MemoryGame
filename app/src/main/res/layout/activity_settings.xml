@@ -4,70 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
+    android:layoutDirection="ltr"
+    android:background="@drawable/settings"
     android:orientation="vertical"
-    android:layout_margin="22dp"
+    android:layout_margin="12dp"
     tools:context=".SettingsActivity">
 
+    <!-- task: לעשות פונטים לעברית  -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="הגדרות"
-        android:padding="10dp"
-        android:gravity="right"
+        android:text="Settings"
+        android:fontFamily="@font/title"
         android:textColor="@color/black"
-        android:textSize="35dp"
+        android:textSize="65dp"
         >
     </TextView>
         <!-- אופציה להשתקת צלילים -->
         <Switch
+            android:fontFamily="@font/title"
+            android:textSize="45dp"
             android:id="@+id/switch_sound"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="צלילים"
-            android:padding="6dp"
-            android:textSize="25dp"
+            android:text="Sounds"
+            android:padding="15dp"
             android:checked="true"/>
 
     <TextView
+        android:fontFamily="@font/title"
+        android:textSize="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="רמת קושי"
-        android:textSize="18dp"
+        android:text="Difficulty Level:"
         android:textColor="@color/black"
         />
 
         <!-- בחירת סוג קושי -->
         <Spinner
+            android:fontFamily="@font/title"
+            android:textSize="35dp"
             android:id="@+id/spinner_difficulty"
-            android:textDirection="rtl"
             android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:padding="6dp"
             android:layout_height="wrap_content"/>
 
     <TextView
+        android:fontFamily="@font/title"
+        android:textSize="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="משך הצגת הקלפים"
-        android:textSize="18dp"
+        android:text="Time Of Disply:"
         android:textColor="@color/black"
         />
         <Spinner
+            android:fontFamily="@font/title"
+            android:textSize="35dp"
             android:id="@+id/spinner_time"
-            android:textDirection="rtl"
             android:layout_marginBottom="20dp"
             android:padding="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:fontFamily="@font/title"
+            android:textSize="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="בחירת נושא"
-            android:textSize="18dp"
+            android:text="Images:"
             android:textColor="@color/black"
             />
         <!-- בחירת נושא המשחק -->
@@ -77,35 +82,48 @@
             android:layout_height="wrap_content">
 
             <RadioButton
+                android:fontFamily="@font/title"
+                android:textSize="30dp"
                 android:id="@+id/radio_button_theme1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="חיות"/>
+                android:text="Animals"/>
 
             <RadioButton
+                android:fontFamily="@font/title"
+                android:textSize="30dp"
                 android:id="@+id/radio_button_theme2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="דמויות מצוירות"/>
+                android:text="Cartoon Characters"/>
 
             <RadioButton
+                android:fontFamily="@font/title"
+                android:textSize="30dp"
                 android:id="@+id/radio_button_theme3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="נושא 3"/>
+                android:text="Food"/>
+            <RadioButton
+                android:fontFamily="@font/title"
+                android:textSize="30dp"
+                android:id="@+id/radio_button_theme4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Flags"/>
         </RadioGroup>
 
     <Button
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_gravity="center"
         android:text="Save"
-        android:textSize="25dp"
+        android:textSize="40dp"
         android:fontFamily="@font/title"
         android:layout_marginTop="30dp"
         android:textColor="#56221F"
         android:backgroundTint="#00FEFEFE"
         android:id="@+id/saveButton"
-        android:layout_height="60dp"/>
+        android:layout_height="70dp"/>
 </LinearLayout>
 
 

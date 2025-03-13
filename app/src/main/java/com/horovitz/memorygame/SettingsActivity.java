@@ -78,9 +78,11 @@ public class SettingsActivity extends AppCompatActivity {
         timeSpinner = findViewById(R.id.spinner_time);
         themeRadioGroup = findViewById(R.id.radio_group_theme);
 
-        // הגדרת את סוג הקושי
+        // הגדרת את סוג הקושי מערך של 0,1,2 ולכן הדיפולט הוא "רגיל"
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.difficulty_levels, android.R.layout.simple_spinner_item);
+        difficultySpinner.setSelection(1);
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.time_presentation_cards, android.R.layout.simple_spinner_item);
+        timeSpinner.setSelection(1);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         difficultySpinner.setAdapter(adapter);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -142,9 +144,17 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.apply(); // שמירה באופן אסינכרוני
 
                 // מעבר לעמוד המשחק
-                Intent intent = new Intent(SettingsActivity.this, MainGirlsActivity.class);
-                startActivity(intent); // התחלת ה-Activity החדש
-                Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
+                if (selectedDifficulty.equals("Hard")) {
+                    Intent intent = new Intent(SettingsActivity.this, MainHardActivity.class);
+                    startActivity(intent); // התחלת ה-Activity החדש
+                } else if (selectedDifficulty.equals("Easy")) {
+                    Intent intent = new Intent(SettingsActivity.this, MainEasyActivity.class);
+                    startActivity(intent); // התחלת ה-Activity החדש
+                } else {
+                    Intent intent = new Intent(SettingsActivity.this, MainGirlsActivity.class);
+                    startActivity(intent); // התחלת ה-Activity החדש
+                    Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

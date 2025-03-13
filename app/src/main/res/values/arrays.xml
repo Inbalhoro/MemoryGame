@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="difficulty_levels">
-        <item>קל</item>
-        <item>בינוני</item>
-        <item>קשה</item>
+        <item>Easy</item>
+        <item>Regular</item>
+        <item>Hard</item>
     </string-array>
     <string-array name="time_presentation_cards">
-        <item>רגיל</item>
-        <item>ארוך</item>
-        <item>קצר</item>
+        <item>Short</item>
+        <item>Regular</item>
+        <item>Long</item>
     </string-array>
 </resources>

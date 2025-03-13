@@ -5,7 +5,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
 android:gravity="center"
-android:padding="16dp"
+android:padding="50dp"
 android:background="@drawable/backgroundgirls"
 tools:context=".MainGirlsActivity">
 
@@ -27,15 +27,6 @@ tools:context=".MainGirlsActivity">
 
     <ImageButton
         android:id="@+id/button_1"
-        android:layout_width="0dp"
-        android:layout_height="74dp"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:background="@drawable/white"
-        android:scaleType="centerCrop" />
-
-    <ImageButton
-        android:id="@+id/button_2"
         android:layout_width="0dp"
         android:layout_height="74dp"
         android:layout_margin="8dp"
@@ -78,14 +69,6 @@ tools:context=".MainGirlsActivity">
         android:background="@drawable/white"
         android:scaleType="centerCrop" />
 
-    <ImageButton
-        android:id="@+id/button_6"
-        android:layout_width="0dp"
-        android:layout_height="74dp"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:background="@drawable/white"
-        android:scaleType="centerCrop" />
 </LinearLayout>
 
 <!-- שורה 3 -->
@@ -113,14 +96,6 @@ tools:context=".MainGirlsActivity">
         android:background="@drawable/white"
         android:scaleType="centerCrop" />
 
-    <ImageButton
-        android:id="@+id/button_9"
-        android:layout_width="0dp"
-        android:layout_height="74dp"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:background="@drawable/white"
-        android:scaleType="centerCrop" />
 </LinearLayout>
 
 <TextView
