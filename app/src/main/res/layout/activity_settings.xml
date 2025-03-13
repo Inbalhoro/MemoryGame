@@ -80,13 +80,13 @@
                 android:id="@+id/radio_button_theme1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="נושא 1"/>
+                android:text="חיות"/>
 
             <RadioButton
                 android:id="@+id/radio_button_theme2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="נושא 2"/>
+                android:text="דמויות מצוירות"/>
 
             <RadioButton
                 android:id="@+id/radio_button_theme3"

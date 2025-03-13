@@ -81,5 +81,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.429" />
 
+    <TextView
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/title"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="@+id/navigateWithCom"
+        app:layout_constraintHorizontal_bias="0.18"
+        app:layout_constraintStart_toStartOf="@+id/navigateWithFriendButton"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="413dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

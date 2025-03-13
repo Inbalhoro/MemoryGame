@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -116,7 +117,34 @@ public class SettingsActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(SettingsActivity.this, "saved", LENGTH_SHORT).show();
+                // שמירה של ההגדרות ב-SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                // שמירה של רמת הקושי
+                String selectedDifficulty = difficultySpinner.getSelectedItem().toString();
+                editor.putString("selectedDifficulty", selectedDifficulty);
+
+                // שמירה של זמן הצגת הקלפים
+                String selectedTime = timeSpinner.getSelectedItem().toString();
+                editor.putString("selectedTime", selectedTime);
+
+                // שמירה של נושא המשחק
+                int selectedThemeId = themeRadioGroup.getCheckedRadioButtonId();
+                RadioButton selectedRadioButton = findViewById(selectedThemeId);
+                String selectedTheme = selectedRadioButton.getText().toString();
+                editor.putString("selectedTheme", selectedTheme);
+
+                // שמירה של הגדרות הצלילים (כבר קיימת)
+                boolean isSoundEnabled = soundSwitch.isChecked();
+                editor.putBoolean("isSoundEnabled", isSoundEnabled);
+
+                editor.apply(); // שמירה באופן אסינכרוני
+
+                // מעבר לעמוד המשחק
+                Intent intent = new Intent(SettingsActivity.this, MainGirlsActivity.class);
+                startActivity(intent); // התחלת ה-Activity החדש
+                Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
             }
         });
     }

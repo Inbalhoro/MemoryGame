@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -43,6 +44,7 @@ public class MainGirlsActivity extends AppCompatActivity {
             }
         }
     };
+
     private ImageButton[] buttons = new ImageButton[16]; // מערך של כפתורים
     private ArrayList<Integer> images = new ArrayList<>(); // תמונות שנמצאות במשחק
     private int[] imageResources = {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
@@ -64,6 +66,19 @@ public class MainGirlsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activityforgirls); // קישור ל-XML שלך
+
+// קריאת ההגדרות מ-SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+
+        String difficulty = sharedPreferences.getString("selectedDifficulty", "קל"); // ברירת מחדל: "קל"
+        String time = sharedPreferences.getString("selectedTime", "5 שניות"); // ברירת מחדל: "5 שניות"
+        String theme = sharedPreferences.getString("selectedTheme", "חיות"); // ברירת מחדל: "חיות"
+        boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
+
+        updateGameSettings(difficulty, time, theme, isSoundEnabled);
+
+
+
 
         // אתחול כפתורים
         buttons[0] = findViewById(R.id.button_1);
@@ -133,6 +148,52 @@ public class MainGirlsActivity extends AppCompatActivity {
         });
     }
 
+
+    private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
+        // עדכון רמת הקושי
+        if (difficulty.equals("קל")) {
+            // לדוגמה, משחק עם פחות זוגות
+            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2};
+        } else if (difficulty.equals("בינוני")) {
+            // משחק עם יותר זוגות
+            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4};
+        } else if (difficulty.equals("קשה")) {
+            // משחק עם כל התמונות
+            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
+                    R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
+                    R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
+        }
+
+
+        // עדכון נושא
+        if (theme.equals("חיות")) {
+            // להשתמש בתמונות של חיות
+            imageResources = new int[] {R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image4, /* וכו' */};
+        } else if (theme.equals("דמויות מצוירות")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.image1, R.drawable.image1, R.drawable.image1, R.drawable.image1, /* וכו' */};
+        }
+
+        // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה
+        if (isSoundEnabled) {
+            startMusicService();
+        } else {
+            stopMusicService();
+        }
+    }
+
+    private void stopMusicService() {
+        Intent serviceIntent = new Intent(MainGirlsActivity.this, MusicService.class);
+        stopService(serviceIntent); // עוצר את המוזיקה
+    }
+
+    private void startMusicService() {
+        Intent serviceIntent = new Intent(MainGirlsActivity.this, MusicService.class);
+        startService(serviceIntent); // מתחיל את המוזיקה
+    }
+
     private void startNewGame() {
         // אתחול מחדש של כפתורים (מסתיר את התמונות)
         for (int i = 0; i < 16; i++) {
@@ -146,9 +207,9 @@ public class MainGirlsActivity extends AppCompatActivity {
 
         handler.postDelayed(timerRunnable, 100);  // כל 100 מילישניות
 
-        // אקראי מחדש את התמונות
+        // אקראי מחדש את התמונות על פי הגדרות
         images.clear();
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < imageResources.length; i++) {
             images.add(imageResources[i]);
         }
         Collections.shuffle(images);

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:gravity="center"
+android:padding="16dp"
+android:background="@drawable/backgroundgirls"
+tools:context=".MainGirlsActivity">
+
+<TextView
+    android:id="@+id/timerTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="זמן: 0 שניות"
+    android:textSize="20sp"
+    android:gravity="center"
+    android:textColor="#000000"/>
+
+<!-- שורה 1 -->
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <ImageButton
+        android:id="@+id/button_1"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/white"
+        android:scaleType="centerCrop" />
+
+    <ImageButton
+        android:id="@+id/button_2"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/white"
+        android:scaleType="centerCrop" />
+
+    <ImageButton
+        android:id="@+id/button_3"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/white"
+        android:scaleType="centerCrop" />
+</LinearLayout>
+
+<!-- שורה 2 -->
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <ImageButton
+        android:id="@+id/button_4"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/white"
+        android:scaleType="centerCrop" />
+
+    <ImageButton
+        android:id="@+id/button_5"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/white"
+        android:scaleType="centerCrop" />
+
+    <ImageButton
+        android:id="@+id/button_6"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/white"
+        android:scaleType="centerCrop" />
+</LinearLayout>
+
+<!-- שורה 3 -->
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <ImageButton
+        android:id="@+id/button_7"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/white"
+        android:scaleType="centerCrop" />
+
+    <ImageButton
+        android:id="@+id/button_8"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/white"
+        android:scaleType="centerCrop" />
+
+    <ImageButton
+        android:id="@+id/button_9"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/white"
+        android:scaleType="centerCrop" />
+</LinearLayout>
+
+<TextView
+    android:id="@+id/statusText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="התחל לשחק!"
+    android:textSize="18sp"
+    android:gravity="center"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="16dp"/>
+
+<Button
+    android:id="@+id/resetButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="משחק חדש"
+    android:layout_gravity="center"/>
+</LinearLayout>

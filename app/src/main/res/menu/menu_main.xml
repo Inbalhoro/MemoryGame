@@ -9,8 +9,8 @@
         android:fontFamily="@font/title"
         android:icon="@drawable/baseline_home"
         app:showAsAction="never"
-
         />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="200"
@@ -29,6 +29,13 @@
         android:title="rank"
         android:icon="@drawable/baseline_rank"
         android:orderInCategory="300"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/pause"
+        android:title="pause"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_media_pause"
         app:showAsAction="always"
         />
     <item
