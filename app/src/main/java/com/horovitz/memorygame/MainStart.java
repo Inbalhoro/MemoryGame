@@ -35,8 +35,6 @@ public class MainStart extends AppCompatActivity {
                 int progress = (int) ((5000 - millisUntilFinished) / 50); // חישוב התקדמות בפרוגרס בר
                 progressBar.setProgress(progress);
 
-                // הצגת הזמן הנותר בשניות
-//                timeLeftText.setText(String.valueOf(millisUntilFinished / 1000));
             }
 
             @Override

@@ -78,30 +78,36 @@ public class SettingsActivity extends AppCompatActivity {
         timeSpinner = findViewById(R.id.spinner_time);
         themeRadioGroup = findViewById(R.id.radio_group_theme);
 
-        // הגדרת את סוג הקושי מערך של 0,1,2 ולכן הדיפולט הוא "רגיל"
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.difficulty_levels, android.R.layout.simple_spinner_item);
-        difficultySpinner.setSelection(1);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.time_presentation_cards, android.R.layout.simple_spinner_item);
-        timeSpinner.setSelection(1);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         difficultySpinner.setAdapter(adapter);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.time_presentation_cards, android.R.layout.simple_spinner_item);
         timeSpinner.setAdapter(adapter1);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
         difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
-                // שמור את הקושי שנבחר
+                String selectedDifficulty = parentView.getItemAtPosition(position).toString();
+                editor.putString("difficulty", selectedDifficulty); // שומר את הבחירה
+                editor.apply();// שמור את הקושי שנבחר
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // אם לא נבחר דבר
             }
         });
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                // שמירה של זמן הצגת הקלפים
                 String timeSelection = adapterView.getItemAtPosition(i).toString();
                 editor.putString("timeSelection", timeSelection);  // שמור את הבחירה
                 editor.apply();  // שמירה באופן אסינכרוני
@@ -122,14 +128,13 @@ public class SettingsActivity extends AppCompatActivity {
                 // שמירה של ההגדרות ב-SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//                RadioGroup radioGroup = findViewById(R.id.spinner_difficulty);
+//                int selectedId = radioGroup.getCheckedRadioButtonId();
 
-                // שמירה של רמת הקושי
-                String selectedDifficulty = difficultySpinner.getSelectedItem().toString();
-                editor.putString("selectedDifficulty", selectedDifficulty);
-
-                // שמירה של זמן הצגת הקלפים
-                String selectedTime = timeSpinner.getSelectedItem().toString();
-                editor.putString("selectedTime", selectedTime);
+//                // שמירה של רמת הקושי
+//                String selectedDifficulty = difficultySpinner.getSelectedItem().toString();
+//                editor.putString("selectedDifficulty", selectedDifficulty);
 
                 // שמירה של נושא המשחק
                 int selectedThemeId = themeRadioGroup.getCheckedRadioButtonId();
@@ -143,18 +148,19 @@ public class SettingsActivity extends AppCompatActivity {
 
                 editor.apply(); // שמירה באופן אסינכרוני
 
-                // מעבר לעמוד המשחק
-                if (selectedDifficulty.equals("Hard")) {
-                    Intent intent = new Intent(SettingsActivity.this, MainHardActivity.class);
-                    startActivity(intent); // התחלת ה-Activity החדש
-                } else if (selectedDifficulty.equals("Easy")) {
-                    Intent intent = new Intent(SettingsActivity.this, MainEasyActivity.class);
-                    startActivity(intent); // התחלת ה-Activity החדש
-                } else {
-                    Intent intent = new Intent(SettingsActivity.this, MainGirlsActivity.class);
-                    startActivity(intent); // התחלת ה-Activity החדש
-                    Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
-                }
+
+//                // מעבר לעמוד המשחק
+//                if (selectedDifficulty.equals("Hard")) {
+//                    Intent intent = new Intent(SettingsActivity.this, MainHardActivity.class);
+//                    startActivity(intent); // התחלת ה-Activity החדש
+//                } else if (selectedDifficulty.equals("Easy")) {
+//                    Intent intent = new Intent(SettingsActivity.this, MainEasyActivity.class);
+//                    startActivity(intent); // התחלת ה-Activity החדש
+//                } else {
+//                    Intent intent = new Intent(SettingsActivity.this, MainGirlsActivity.class);
+//                    startActivity(intent); // התחלת ה-Activity החדש
+//                    Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
     }
@@ -199,6 +205,7 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_start){
+            Intent intent = new Intent(SettingsActivity.this, MainStart.class);
             Toast.makeText(this, "You selected start", LENGTH_SHORT).show();
 
         }

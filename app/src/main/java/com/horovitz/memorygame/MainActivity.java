@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); ///כפתור הזזה בין מסך למסך בנים בנות
 
-        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true);
 

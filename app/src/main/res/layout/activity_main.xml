@@ -88,11 +88,13 @@
         android:gravity="center"
         android:text="0"
         android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/navigateWithCom"
-        app:layout_constraintHorizontal_bias="0.18"
-        app:layout_constraintStart_toStartOf="@+id/navigateWithFriendButton"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="413dp" />
+        app:layout_constraintHorizontal_bias="0.309"
+        app:layout_constraintStart_toEndOf="@+id/navigateButtonSingle"
+        app:layout_constraintTop_toBottomOf="@+id/navigateWithFriendButton"
+        app:layout_constraintVertical_bias="0.089"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

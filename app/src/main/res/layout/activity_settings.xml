@@ -7,7 +7,7 @@
     android:layoutDirection="ltr"
     android:background="@drawable/settings"
     android:orientation="vertical"
-    android:layout_margin="12dp"
+    android:padding="10dp"
     tools:context=".SettingsActivity">
 
     <!-- task: לעשות פונטים לעברית  -->
@@ -15,11 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Settings"
+        android:layout_marginTop="10dp"
+        android:textColor="#56221F"
         android:fontFamily="@font/title"
-        android:textColor="@color/black"
-        android:textSize="65dp"
-        >
-    </TextView>
+        android:textSize="60dp"
+        />
         <!-- אופציה להשתקת צלילים -->
         <Switch
             android:fontFamily="@font/title"
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sounds"
-            android:padding="15dp"
+            android:padding="12dp"
             android:checked="true"/>
 
     <TextView
@@ -84,18 +84,19 @@
             <RadioButton
                 android:fontFamily="@font/title"
                 android:textSize="30dp"
-                android:id="@+id/radio_button_theme1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Animals"/>
-
-            <RadioButton
-                android:fontFamily="@font/title"
-                android:textSize="30dp"
+                android:checked="true"
                 android:id="@+id/radio_button_theme2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cartoon Characters"/>
+
+            <RadioButton
+                android:fontFamily="@font/title"
+                android:textSize="30dp"
+                android:id="@+id/radio_button_theme1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Animals"/>
 
             <RadioButton
                 android:fontFamily="@font/title"
@@ -114,16 +115,24 @@
         </RadioGroup>
 
     <Button
-        android:layout_width="220dp"
-        android:layout_gravity="center"
-        android:text="Save"
-        android:textSize="40dp"
-        android:fontFamily="@font/title"
-        android:layout_marginTop="30dp"
-        android:textColor="#56221F"
-        android:backgroundTint="#00FEFEFE"
         android:id="@+id/saveButton"
-        android:layout_height="70dp"/>
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="48dp"
+        android:backgroundTint="#00FEFEFE"
+        android:elevation="0dp"
+        android:fontFamily="@font/title"
+        android:outlineProvider="none"
+        android:text="Save"
+        android:textColor="#56221F"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.429" />
 </LinearLayout>
 
 

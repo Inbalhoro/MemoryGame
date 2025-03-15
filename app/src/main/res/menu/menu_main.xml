@@ -20,7 +20,7 @@
 
         <item
         android:id="@+id/action_start"
-        android:title="Start"
+        android:title="Start Over"
         android:orderInCategory="300"
         app:showAsAction="never"
         />
@@ -31,13 +31,13 @@
         android:orderInCategory="300"
         app:showAsAction="always"
         />
-    <item
-        android:id="@+id/pause"
-        android:title="pause"
-        android:orderInCategory="100"
-        android:icon="@android:drawable/ic_media_pause"
-        app:showAsAction="always"
-        />
+<!--    <item-->
+<!--        android:id="@+id/pause"-->
+<!--        android:title="pause"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:icon="@android:drawable/ic_media_pause"-->
+<!--        app:showAsAction="always"-->
+<!--        />-->
     <item
         android:id="@+id/action_profile"
         android:title="profile"
