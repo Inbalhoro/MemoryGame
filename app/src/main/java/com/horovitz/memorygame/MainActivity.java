@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main); ///כפתור הזזה בין מסך למסך בנים בנות
 
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Regular"
+        String selectedDifficulty = sharedPreferences.getString("selectedDifficulty", "Regular");  // ברירת מחדל היא "Regular"
         String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל: "Regular"
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
@@ -41,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
         navigateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("Hard".equals(difficulty)) {
+                if ("Hard".equals(selectedDifficulty)) {
                         Intent intent = new Intent(MainActivity.this, MainHardActivity.class);
                         startActivity(intent);
                     }
-                    else if("Easy".equals(difficulty)){
+                    else if("Easy".equals(selectedDifficulty)){
                         Intent intent = new Intent(MainActivity.this, MainEasyActivity.class);
                         startActivity(intent);
                     }
@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_start){
+            Intent intent = new Intent(MainActivity.this, MainStart.class);
             Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
 
         }

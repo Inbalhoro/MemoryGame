@@ -10,7 +10,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,7 +76,7 @@ public class MainRegularActivity extends AppCompatActivity {
         String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
 
         String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל: "5 שניות"
-        String theme = sharedPreferences.getString("selectedTheme", "דמויות מצוירות"); // ברירת מחדל: "דמויות מצוירות"
+        String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
         updateGameSettings(difficulty, time, theme, isSoundEnabled);
@@ -104,17 +108,21 @@ public class MainRegularActivity extends AppCompatActivity {
 //                startActivity(intent); // התחלת ה-Activity החדש
 //            }
 //        });
-        navigateButton = findViewById(R.id.navigateButton); // למצוא את הכפתור במסך
-        navigateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // יצירת Intent כדי לעבור לדף החדש
-                Intent intent = new Intent(MainRegularActivity.this, MainBoysActivity.class);
-                startActivity(intent); // התחלת ה-Activity החדש
-            }
 
 
-        });
+
+
+//        navigateButton = findViewById(R.id.navigateButton); // למצוא את הכפתור במסך
+//        navigateButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // יצירת Intent כדי לעבור לדף החדש
+//                Intent intent = new Intent(MainRegularActivity.this, MainBoysActivity.class);
+//                startActivity(intent); // התחלת ה-Activity החדש
+//            }
+//
+//
+//        });
 
         // אתחול ה-TextView
         statusText = findViewById(R.id.statusText);
@@ -145,23 +153,23 @@ public class MainRegularActivity extends AppCompatActivity {
         });
     }
 
-
+//
     private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
-        // עדכון רמת הקושי ודיפולט של דמויות מצוירות
-        if (difficulty.equals("קל")) {
-            // לדוגמה, משחק עם פחות זוגות
-            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2};
-        } else if (difficulty.equals("בינוני")) {
-            // משחק עם יותר זוגות
-            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
-                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4};
-        } else if (difficulty.equals("קשה")) {
-            // משחק עם כל התמונות
-            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
-                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
-                    R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
-                    R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
-        }
+//        // עדכון רמת הקושי ודיפולט של דמויות מצוירות
+//        if (difficulty.equals("קל")) {
+//            // לדוגמה, משחק עם פחות זוגות
+//            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2};
+//        } else if (difficulty.equals("בינוני")) {
+//            // משחק עם יותר זוגות
+//            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+//                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4};
+//        } else if (difficulty.equals("קשה")) {
+//            // משחק עם כל התמונות
+//            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+//                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
+//                    R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
+//                    R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
+//        }
 
 
         // עדכון נושא
@@ -339,11 +347,36 @@ public class MainRegularActivity extends AppCompatActivity {
 
     private void showTimeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Well done!");
-        builder.setTitle("You succeeded to reveal all couples!");
-        builder.setMessage("Time: " + (elapsedTime / 1000) + " s");  // הצגת הזמן בשניות
-        builder.setMessage("Score: " + (elapsedTime / 1000) );  // הצגת הניקוד/כסף שנקבל
-        builder.setPositiveButton("Home page!", new DialogInterface.OnClickListener() {
+
+        SpannableString title = new SpannableString("Game over - Well done!");
+        title.setSpan(new AbsoluteSizeSpan(24, true), 0, title.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת הראשונה ל-36sp
+        builder.setTitle(title);
+
+        SpannableString subTitle = new SpannableString("You succeeded to reveal all couples");
+        subTitle.setSpan(new AbsoluteSizeSpan(16, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת המשנה ל-24sp
+        builder.setMessage(subTitle);
+
+
+        // הצגת הזמן והניקוד בשתי שורות
+        String message = "Time: " + (elapsedTime / 1000) + " s\n";  // זמן בשניות
+        message += "Score: " ;  // הניקוד
+
+// יצירת TextView עם טקסט מותאם אישית
+        TextView messageTextView = new TextView(this);
+        messageTextView.setText(message);
+        messageTextView.setGravity(Gravity.CENTER);  // יישור טקסט למרכז
+        messageTextView.setTextSize(20);  // שינוי גודל טקסט לניקוד ולזמן
+
+        builder.setView(messageTextView);  // הגדרת TextView כצפייה בהודעה
+
+
+
+//        builder.setTitle("Well done!");
+//        builder.setTitle("You succeeded to reveal all couples");
+//
+//        builder.setMessage("Time: " + (elapsedTime / 1000) + " s");  // הצגת הזמן בשניות
+//        builder.setMessage("Score: "  );  // הצגת הניקוד/כסף שנקבל
+        builder.setPositiveButton("Home page", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // כפתור חזרה לדף הבית
@@ -351,7 +384,7 @@ public class MainRegularActivity extends AppCompatActivity {
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
-        builder.setPositiveButton("Yeah!", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Yeah!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // כפתור חזרה לדף הבית
@@ -359,7 +392,7 @@ public class MainRegularActivity extends AppCompatActivity {
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
-        builder.setPositiveButton("Record board!", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Record board", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(MainRegularActivity.this, RecordBoardActivity.class);

@@ -64,12 +64,13 @@ public class SettingsActivity extends AppCompatActivity {
                 // שמור את הגדרת הצלילים
                 // לדוג' SharedPreferences או כל מנגנון אחר לשמירת הגדרות
                 if (isChecked) {
-                    startMusicService();
-                    Toast.makeText(SettingsActivity.this, "המוזיקה פועלת", Toast.LENGTH_SHORT).show();
-                }
-                else{
                     stopMusicService();   // עוצר את המוזיקה אם הסוויץ' לא פעיל
                     Toast.makeText(SettingsActivity.this, "המוזיקה הופסקה", Toast.LENGTH_SHORT).show();
+
+                     }
+                else{
+                    startMusicService();
+                    Toast.makeText(SettingsActivity.this, "המוזיקה פועלת", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -93,9 +94,9 @@ public class SettingsActivity extends AppCompatActivity {
         difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
-                String selectedDifficulty = parentView.getItemAtPosition(position).toString();
-                editor.putString("difficulty", selectedDifficulty); // שומר את הבחירה
-                editor.apply();// שמור את הקושי שנבחר
+//                String selectedDifficulty = parentView.getItemAtPosition(position).toString();
+//                editor.putString("difficulty", selectedDifficulty); // שומר את הבחירה
+//                editor.apply();// שמור את הקושי שנבחר
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -105,12 +106,10 @@ public class SettingsActivity extends AppCompatActivity {
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-
-                // שמירה של זמן הצגת הקלפים
-                String timeSelection = adapterView.getItemAtPosition(i).toString();
-                editor.putString("timeSelection", timeSelection);  // שמור את הבחירה
-                editor.apply();  // שמירה באופן אסינכרוני
+//                // שמירה של זמן הצגת הקלפים
+//                String timeSelection = adapterView.getItemAtPosition(i).toString();
+//                editor.putString("timeSelection", timeSelection);  // שמור את הבחירה
+//                editor.apply();  // שמירה באופן אסינכרוני
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -121,20 +120,27 @@ public class SettingsActivity extends AppCompatActivity {
         themeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             // שמור את הנושא שנבחר
         });
+
+
         saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // שמירה של ההגדרות ב-SharedPreferences
-                SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-//
+
+
+
 //                RadioGroup radioGroup = findViewById(R.id.spinner_difficulty);
 //                int selectedId = radioGroup.getCheckedRadioButtonId();
 
-//                // שמירה של רמת הקושי
-//                String selectedDifficulty = difficultySpinner.getSelectedItem().toString();
-//                editor.putString("selectedDifficulty", selectedDifficulty);
+
+
+                // שמירה של ההגדרות ב-SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                // שמירה של רמת הקושי
+                String selectedDifficulty = difficultySpinner.getSelectedItem().toString();
+                editor.putString("selectedDifficulty", selectedDifficulty);
 
                 // שמירה של נושא המשחק
                 int selectedThemeId = themeRadioGroup.getCheckedRadioButtonId();
@@ -147,7 +153,6 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putBoolean("isSoundEnabled", isSoundEnabled);
 
                 editor.apply(); // שמירה באופן אסינכרוני
-
 
 //                // מעבר לעמוד המשחק
 //                if (selectedDifficulty.equals("Hard")) {
