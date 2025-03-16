@@ -21,7 +21,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 //
-public class MainGirlsActivity extends AppCompatActivity {
+public class MainRegularActivity extends AppCompatActivity {
     Button navigateButton; // הכפתור שיעביר אותנו לדף החדש
     Button navigateToFirstPageButton;
     private long startTime;
@@ -65,7 +65,7 @@ public class MainGirlsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activityforgirls); // קישור ל-XML שלך
+        setContentView(R.layout.activity_main_regular); // קישור ל-XML שלך
 
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
@@ -109,7 +109,7 @@ public class MainGirlsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // יצירת Intent כדי לעבור לדף החדש
-                Intent intent = new Intent(MainGirlsActivity.this, MainBoysActivity.class);
+                Intent intent = new Intent(MainRegularActivity.this, MainBoysActivity.class);
                 startActivity(intent); // התחלת ה-Activity החדש
             }
 
@@ -182,12 +182,12 @@ public class MainGirlsActivity extends AppCompatActivity {
     }
 
     private void stopMusicService() {
-        Intent serviceIntent = new Intent(MainGirlsActivity.this, MusicService.class);
+        Intent serviceIntent = new Intent(MainRegularActivity.this, MusicService.class);
         stopService(serviceIntent); // עוצר את המוזיקה
     }
 
     private void startMusicService() {
-        Intent serviceIntent = new Intent(MainGirlsActivity.this, MusicService.class);
+        Intent serviceIntent = new Intent(MainRegularActivity.this, MusicService.class);
         startService(serviceIntent); // מתחיל את המוזיקה
     }
 
@@ -287,17 +287,17 @@ public class MainGirlsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id==R.id.action_firstpage){
-            Intent intent = new Intent(MainGirlsActivity.this, MainActivity.class);
+            Intent intent = new Intent(MainRegularActivity.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_settings) {
-            Intent intent = new Intent(MainGirlsActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(MainRegularActivity.this, SettingsActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_start){
             Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
             // יצירת Intent כדי לעבור לדף החדש
-            Intent intent = new Intent(MainGirlsActivity.this, MainActivity.class);
+            Intent intent = new Intent(MainRegularActivity.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
 
 
@@ -347,7 +347,7 @@ public class MainGirlsActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // כפתור חזרה לדף הבית
-                Intent intent = new Intent(MainGirlsActivity.this, MainActivity.class);
+                Intent intent = new Intent(MainRegularActivity.this, MainActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
@@ -355,14 +355,14 @@ public class MainGirlsActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // כפתור חזרה לדף הבית
-                Intent intent = new Intent(MainGirlsActivity.this, MainGirlsActivity.class);
+                Intent intent = new Intent(MainRegularActivity.this, MainRegularActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
         builder.setPositiveButton("Record board!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(MainGirlsActivity.this, RecordBoardActivity.class);
+                Intent intent = new Intent(MainRegularActivity.this, RecordBoardActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });

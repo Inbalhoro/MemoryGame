@@ -104,7 +104,7 @@ public class MainBoysActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // יצירת Intent כדי לעבור לדף החדש
-                Intent intent = new Intent(MainBoysActivity.this, MainGirlsActivity.class);
+                Intent intent = new Intent(MainBoysActivity.this, MainRegularActivity.class);
                 startActivity(intent); // התחלת ה-Activity החדש
             }
 
@@ -316,7 +316,7 @@ public class MainBoysActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // כפתור חזרה לדף הבית
-                Intent intent = new Intent(MainBoysActivity.this, MainGirlsActivity.class);
+                Intent intent = new Intent(MainBoysActivity.this, MainRegularActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });

@@ -5,9 +5,9 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
 android:gravity="center"
-android:padding="16dp"
+android:padding="70dp"
 android:background="@drawable/backgroundgirls"
-tools:context=".MainGirlsActivity">
+tools:context=".MainRegularActivity">
 
 
     <TextView
@@ -16,91 +16,91 @@ tools:context=".MainGirlsActivity">
         android:layout_height="wrap_content"
         android:text="time: 0"
         android:textSize="20sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textColor="#000000"/>
 
-<!-- שורה 1 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:gravity="center"
-        android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/button_1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/white"
-            android:scaleType="centerCrop" />
+        <!-- שורה 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/button_3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/white"
-            android:scaleType="centerCrop" />
-    </LinearLayout>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/white"
+                android:scaleType="centerCrop" />
 
-<!-- שורה 2 -->
+            <ImageButton
+                android:id="@+id/button_3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/white"
+                android:scaleType="centerCrop" />
+        </LinearLayout>
+
+    <!-- שורה 2 -->
 
     <!-- שורה 1 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/button_1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/white"
-            android:scaleType="centerCrop" />
+            <ImageButton
+                android:id="@+id/button_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/white"
+                android:scaleType="centerCrop" />
 
-        <ImageButton
-            android:id="@+id/button_3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/white"
-            android:scaleType="centerCrop" />
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/button_3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/white"
+                android:scaleType="centerCrop" />
+        </LinearLayout>
 
 <!-- שורה 3 -->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/button_1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/white"
-            android:scaleType="centerCrop" />
+            <ImageButton
+                android:id="@+id/button_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/white"
+                android:scaleType="centerCrop" />
 
-        <ImageButton
-            android:id="@+id/button_3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/white"
-            android:scaleType="centerCrop" />
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/button_3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/white"
+                android:scaleType="centerCrop" />
+        </LinearLayout>
 
     <!-- TextView להודעת מצב המשחק -->
     <TextView

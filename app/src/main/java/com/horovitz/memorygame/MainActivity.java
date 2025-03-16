@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     // דיפולט לעמוד הרגיל MainActivity
-                    Intent intent = new Intent(MainActivity.this, MainGirlsActivity.class);
+                    Intent intent = new Intent(MainActivity.this, MainRegularActivity.class);
                     startActivity(intent);
             }
             // יצירת AlertDialog עם שני כפתורים
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // כפתור אחד - מעבר למסך MainActivity
-                                Intent intent = new Intent(MainActivity.this, MainGirlsActivity.class);
+                                Intent intent = new Intent(MainActivity.this, MainRegularActivity.class);
                                 startActivity(intent);
                             }
                         })
