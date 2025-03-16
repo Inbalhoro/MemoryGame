@@ -29,38 +29,59 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main); ///כפתור הזזה בין מסך למסך בנים בנות
 
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-        boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true);
+        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Regular"
+        String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל: "Regular"
+        String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
+        boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
         Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
         startService(serviceIntent); // הפעלת מוזיקה ברגע ש-Activity נפתח
-
 
         navigateButton = findViewById(R.id.navigateButtonSingle);
         navigateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // יצירת AlertDialog עם שני כפתורים
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("בחר מסך")
-                        .setMessage("בחר לאן אתה רוצה לעבור:")
-                        .setPositiveButton("למסך בנות", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // כפתור אחד - מעבר למסך MainActivity
-                                Intent intent = new Intent(MainActivity.this, MainGirlsActivity.class);
-                                startActivity(intent);
-                            }
-                        })
-                        .setNegativeButton("למסך בנים", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // כפתור שני - מעבר למסך אחר
-                                Intent intent = new Intent(MainActivity.this, MainBoysActivity.class);
-                                startActivity(intent);
-                            }
-                        })
-                        .show();
+                if ("Hard".equals(difficulty)) {
+                        Intent intent = new Intent(MainActivity.this, MainHardActivity.class);
+                        startActivity(intent);
+                    }
+                    else if("Easy".equals(difficulty)){
+                        Intent intent = new Intent(MainActivity.this, MainEasyActivity.class);
+                        startActivity(intent);
+                    }
+                    // דיפולט לעמוד הרגיל MainActivity
+                    Intent intent = new Intent(MainActivity.this, MainGirlsActivity.class);
+                    startActivity(intent);
             }
+            // יצירת AlertDialog עם שני כפתורים
+//                new AlertDialog.Builder(MainActivity.this)
+//                    .setTitle("בחר מסך")
+//                        .setMessage("בחר לאן אתה רוצה לעבור:")
+//                        .setPositiveButton("למסך בנות", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    if ("Hard".equals(difficulty)) {
+//                        Intent intent = new Intent(MainActivity.this, MainHardActivity.class);
+//                        startActivity(intent);
+//                    }
+//                    else if("Easy".equals(difficulty)){
+//                        Intent intent = new Intent(MainActivity.this, MainEasyActivity.class);
+//                        startActivity(intent);
+//                    }
+//                    // דיפולט לעמוד הרגיל MainActivity
+//                    Intent intent = new Intent(MainActivity.this, MainGirlsActivity.class);
+//                    startActivity(intent);
+//                }
+//            })
+//                    .setNegativeButton("למסך בנים", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    // כפתור שני - מעבר למסך אחר
+//                    Intent intent = new Intent(MainActivity.this, MainBoysActivity.class);
+//                    startActivity(intent);
+//                }
+//            })
+//                    .show();
 
         });
 

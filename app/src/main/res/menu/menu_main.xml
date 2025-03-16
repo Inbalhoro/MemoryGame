@@ -3,34 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_firstpage"
-        android:title="Home Page"
-        android:orderInCategory="100"
-        android:fontFamily="@font/title"
-        android:icon="@drawable/baseline_home"
-        app:showAsAction="never"
-        />
-
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="200"
-        android:title="settings"
-        android:icon="@drawable/baseline_settings_24"
-        app:showAsAction="always" />
-
-        <item
-        android:id="@+id/action_start"
-        android:title="Start Over"
-        android:orderInCategory="300"
-        app:showAsAction="never"
-        />
-    <item
         android:id="@+id/action_rank"
         android:title="rank"
         android:icon="@drawable/baseline_rank"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/action_firstpage"
+        android:title="Home Page"
+        android:orderInCategory="400"
+        android:fontFamily="@font/title"
+        android:icon="@drawable/baseline_home"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/action_profile"
+        android:title="profile"
+        android:icon="@drawable/baseline_shopping_cart"
         android:orderInCategory="300"
         app:showAsAction="always"
         />
+
 <!--    <item-->
 <!--        android:id="@+id/pause"-->
 <!--        android:title="pause"-->
@@ -39,10 +33,18 @@
 <!--        app:showAsAction="always"-->
 <!--        />-->
     <item
-        android:id="@+id/action_profile"
-        android:title="profile"
-        android:icon="@drawable/baseline_account"
-        android:orderInCategory="300"
+        android:id="@+id/action_settings"
+        android:orderInCategory="400"
+        android:title="settings"
+        android:icon="@drawable/baseline_settings_24"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_start"
+        android:title="Start Over"
+        android:icon="@drawable/baseline_restart"
+        android:orderInCategory="500"
         app:showAsAction="always"
         />
+
+
 </menu>

@@ -14,7 +14,7 @@
         android:id="@+id/timerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="זמן: 0 שניות"
+        android:text="time: 0"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
@@ -220,7 +220,7 @@
         android:id="@+id/statusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="התחל לשחק!"
+        android:text="start!"
         android:textSize="18sp"
         android:layout_marginTop="20dp"
         android:gravity="center"
@@ -232,23 +232,23 @@
         android:id="@+id/resetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="משחק חדש"
+        android:text="new game"
         android:layout_gravity="center"
         android:padding="12dp"
         android:textSize="16sp"/>
-    <Button
-        android:id="@+id/navigateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="מחשק למתקדמים"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center" />
-    <Button
-        android:layout_width="wrap_content"
-        android:id="@+id/navigateToFirstPageButton"
-        android:layout_height="wrap_content"
-        android:text="חזרה לדף בית"
-        style="@style/CustomButtonStyle"/>
+<!--    <Button-->
+<!--        android:id="@+id/navigateButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="מחשק למתקדמים"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_gravity="center" />-->
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:id="@+id/navigateToFirstPageButton"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="חזרה לדף בית"-->
+<!--        style="@style/CustomButtonStyle"/>-->
 
 </LinearLayout>
 

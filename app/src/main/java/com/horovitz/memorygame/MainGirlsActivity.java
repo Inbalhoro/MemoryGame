@@ -36,7 +36,7 @@ public class MainGirlsActivity extends AppCompatActivity {
             long elapsedTime = System.currentTimeMillis() - startTime;
 
             // מעדכנים את ה-TextView עם הזמן החדש
-            timerTextView.setText("זמן: " + (elapsedTime / 1000) + " שניות");
+            timerTextView.setText("time: " + (elapsedTime / 1000) );
 
             // מריצים את הריצה הזו כל 100 מילישניות (0.1 שניה)
             if (isGameRunning) {
@@ -69,9 +69,9 @@ public class MainGirlsActivity extends AppCompatActivity {
 
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
 
-        String difficulty = sharedPreferences.getString("selectedDifficulty", "קל"); // ברירת מחדל: "קל"
-        String time = sharedPreferences.getString("selectedTime", "5 שניות"); // ברירת מחדל: "5 שניות"
+        String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל: "5 שניות"
         String theme = sharedPreferences.getString("selectedTheme", "דמויות מצוירות"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
@@ -95,15 +95,15 @@ public class MainGirlsActivity extends AppCompatActivity {
         buttons[14] = findViewById(R.id.button_15);
         buttons[15] = findViewById(R.id.button_16);
         timerTextView = findViewById(R.id.timerTextView);
-        navigateToFirstPageButton = findViewById(R.id.navigateToFirstPageButton);
-        navigateToFirstPageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // יצירת Intent כדי לעבור לדף החדש
-                Intent intent = new Intent(MainGirlsActivity.this, MainActivity.class);
-                startActivity(intent); // התחלת ה-Activity החדש
-            }
-        });
+//        navigateToFirstPageButton = findViewById(R.id.navigateToFirstPageButton);
+//        navigateToFirstPageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // יצירת Intent כדי לעבור לדף החדש
+//                Intent intent = new Intent(MainGirlsActivity.this, MainActivity.class);
+//                startActivity(intent); // התחלת ה-Activity החדש
+//            }
+//        });
         navigateButton = findViewById(R.id.navigateButton); // למצוא את הכפתור במסך
         navigateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,7 +218,7 @@ public class MainGirlsActivity extends AppCompatActivity {
         secondChoiceIndex = -1;
 
         // עדכון טקסט סטטוס
-        statusText.setText("התחל לשחק!");
+        statusText.setText("start!");
     }
 
     private void onButtonClick(int index) {
@@ -249,7 +249,7 @@ public class MainGirlsActivity extends AppCompatActivity {
 
             // אם התמונות תואמות
             if (firstChoice == secondChoice) {
-                statusText.setText("זוג נכון!");
+                statusText.setText("It's a match!");
                 isButtonMatched[firstChoiceIndex] = true; // הצבת הכפתור הראשון ככפתור תואם
                 isButtonMatched[secondChoiceIndex] = true; // הצבת הכפתור השני ככפתור תואם
                 resetChoices();
@@ -258,7 +258,7 @@ public class MainGirlsActivity extends AppCompatActivity {
 
             // אם התמונות לא תואמות
             else {
-                statusText.setText("ניסית זוג לא נכון.");
+                statusText.setText("Try again");
                 // השהה את הצגת התמונות למספר שניות, ואז החבא אותן
                 buttons[firstChoiceIndex].postDelayed(new Runnable() {
                     @Override
@@ -296,7 +296,6 @@ public class MainGirlsActivity extends AppCompatActivity {
         }
         if (id==R.id.action_start){
             Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
-
             // יצירת Intent כדי לעבור לדף החדש
             Intent intent = new Intent(MainGirlsActivity.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
@@ -331,7 +330,7 @@ public class MainGirlsActivity extends AppCompatActivity {
 
         if (allFlipped) {
             elapsedTime = System.currentTimeMillis() - startTime;  // זמן שלקח לסיים את המשחק
-            statusText.setText("המשחק הסתיים! כל הזוגות נחשפו.");
+            statusText.setText("Game over!");
             showTimeDialog();
             isGameRunning = false;  // עצור את זמן הריצה
             handler.removeCallbacks(timerRunnable);  // הסר את הריצה של עדכון הזמן
@@ -340,18 +339,33 @@ public class MainGirlsActivity extends AppCompatActivity {
 
     private void showTimeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("המשחק הסתיים!");
-        builder.setMessage("הזמן שלך: " + (elapsedTime / 1000) + " שניות");  // הצגת הזמן בשניות
-
-        builder.setPositiveButton("חזור לדף הבית", new DialogInterface.OnClickListener() {
+        builder.setTitle("Well done!");
+        builder.setTitle("You succeeded to reveal all couples!");
+        builder.setMessage("Time: " + (elapsedTime / 1000) + " s");  // הצגת הזמן בשניות
+        builder.setMessage("Score: " + (elapsedTime / 1000) );  // הצגת הניקוד/כסף שנקבל
+        builder.setPositiveButton("Home page!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // כפתור חזרה לדף הבית
-                Intent intent = new Intent(MainGirlsActivity.this, MainBoysActivity.class);
+                Intent intent = new Intent(MainGirlsActivity.this, MainActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
-
+        builder.setPositiveButton("Yeah!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // כפתור חזרה לדף הבית
+                Intent intent = new Intent(MainGirlsActivity.this, MainGirlsActivity.class);
+                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
+            }
+        });
+        builder.setPositiveButton("Record board!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(MainGirlsActivity.this, RecordBoardActivity.class);
+                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
+            }
+        });
         builder.setCancelable(false);  // אם אתה רוצה שהשחקן לא יוכל לדלג על ההודעה לפני שלחץ על כפתור
         builder.show();
     }
