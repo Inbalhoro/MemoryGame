@@ -173,13 +173,13 @@ public class MainRegularActivity extends AppCompatActivity {
 
 
         // עדכון נושא
-        if (theme.equals("חיות")) {
+        if (theme.equals("Animals")) {
             // להשתמש בתמונות של חיות
             imageResources = new int[] {R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image4, /* וכו' */};
-        } else if (theme.equals("דמויות מצוירות")) {
+        } else if (theme.equals("Food")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.image1, R.drawable.image1, R.drawable.image1, R.drawable.image1, /* וכו' */};
-        }
+        } 
 
         // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה
         if (isSoundEnabled) {

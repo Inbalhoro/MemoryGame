@@ -94,9 +94,8 @@ public class SettingsActivity extends AppCompatActivity {
         difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
-//                String selectedDifficulty = parentView.getItemAtPosition(position).toString();
-//                editor.putString("difficulty", selectedDifficulty); // שומר את הבחירה
-//                editor.apply();// שמור את הקושי שנבחר
+                String selectedDifficulty = parentView.getItemAtPosition(position).toString();
+                editor.apply();// שמור את הקושי שנבחר
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -127,11 +126,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-
 //                RadioGroup radioGroup = findViewById(R.id.spinner_difficulty);
 //                int selectedId = radioGroup.getCheckedRadioButtonId();
-
 
 
                 // שמירה של ההגדרות ב-SharedPreferences
@@ -153,7 +149,7 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putBoolean("isSoundEnabled", isSoundEnabled);
 
                 editor.apply(); // שמירה באופן אסינכרוני
-
+                    Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
 //                // מעבר לעמוד המשחק
 //                if (selectedDifficulty.equals("Hard")) {
 //                    Intent intent = new Intent(SettingsActivity.this, MainHardActivity.class);
