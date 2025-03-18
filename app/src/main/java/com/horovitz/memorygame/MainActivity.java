@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-//moshe
 
     private Button navigateButton;
     private Button navigateWithButton;
@@ -36,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל: "Regular"
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
+        //    Log.d("RINAT",selectedDifficulty);
 
         Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
         startService(serviceIntent); // הפעלת מוזיקה ברגע ש-Activity נפתח

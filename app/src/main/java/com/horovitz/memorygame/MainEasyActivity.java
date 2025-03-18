@@ -60,8 +60,8 @@ public class MainEasyActivity extends AppCompatActivity {
     private int secondChoice = -1;
     private int firstChoiceIndex = -1;
     private int secondChoiceIndex = -1;
-    private boolean[] isButtonFlipped = new boolean[16]; // מעקב אם כפתור כבר נחשף
-    private boolean[] isButtonMatched = new boolean[16]; // מעקב אם הכפתור כבר נמצא בזוג נכון
+    private boolean[] isButtonFlipped = new boolean[6]; // מעקב אם כפתור כבר נחשף
+    private boolean[] isButtonMatched = new boolean[6]; // מעקב אם הכפתור כבר נמצא בזוג נכון
 
     private TextView statusText;
     private Button resetButton; // כפתור איפוס
