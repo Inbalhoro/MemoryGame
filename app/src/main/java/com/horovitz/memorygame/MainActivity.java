@@ -1,5 +1,4 @@
 package com.horovitz.memorygame;
-// inba malka
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
+//moshe
 
     private Button navigateButton;
     private Button navigateWithButton;
