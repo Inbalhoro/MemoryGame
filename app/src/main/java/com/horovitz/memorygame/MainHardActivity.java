@@ -197,7 +197,7 @@ public class MainHardActivity extends AppCompatActivity {
         } else if(time.equals("Short")){
             timeofcards = 200;
         }else if(time.equals("Long")){
-            timeofcards = 1100;
+            timeofcards = 1200;
         }
 
         // עדכון נושא
