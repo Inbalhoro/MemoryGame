@@ -64,13 +64,12 @@ public class SettingsActivity extends AppCompatActivity {
                 // שמור את הגדרת הצלילים
                 // לדוג' SharedPreferences או כל מנגנון אחר לשמירת הגדרות
                 if (isChecked) {
-                    stopMusicService();   // עוצר את המוזיקה אם הסוויץ' לא פעיל
-                    Toast.makeText(SettingsActivity.this, "המוזיקה הופסקה", Toast.LENGTH_SHORT).show();
-
-                     }
-                else{
                     startMusicService();
                     Toast.makeText(SettingsActivity.this, "המוזיקה פועלת", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    stopMusicService();
+                    Toast.makeText(SettingsActivity.this, "המוזיקה הופסקה", Toast.LENGTH_SHORT).show();
                 }
             }
         });
