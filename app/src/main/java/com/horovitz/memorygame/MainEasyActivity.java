@@ -75,6 +75,8 @@ public class MainEasyActivity extends AppCompatActivity {
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
+        updateGameSettings(difficulty, time, theme, isSoundEnabled);
+
         // אתחול כפתורים
         buttons[0] = findViewById(R.id.button_0);
         buttons[1] = findViewById(R.id.button_1);
@@ -121,6 +123,45 @@ public class MainEasyActivity extends AppCompatActivity {
                 startNewGame(); // איפוס המשחק
             }
         });
+    }
+
+    private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
+        // עדכון נושא
+        if (theme.equals("Cartoon Characters")) {
+            // להשתמש בתמונות של חיות
+            imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+                    R.drawable.image3, R.drawable.image3};
+        } else if (theme.equals("Animals")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
+                    R.drawable.animal3, R.drawable.animal3};
+        }
+        else if (theme.equals("Food")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.food4, R.drawable.food4, R.drawable.food2, R.drawable.food2,
+                    R.drawable.food3, R.drawable.food3};
+        }else if (theme.equals("Flags")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.flag7, R.drawable.flag7, R.drawable.flag2, R.drawable.flag2,
+                    R.drawable.flag3, R.drawable.flag3};
+        }
+
+        // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה
+        if (isSoundEnabled) {
+            startMusicService();
+        } else {
+            stopMusicService();
+        }
+    }
+
+    private void stopMusicService() {
+        Intent serviceIntent = new Intent(MainEasyActivity.this, MusicService.class);
+        stopService(serviceIntent); // עוצר את המוזיקה
+    }
+
+    private void startMusicService() {
+        Intent serviceIntent = new Intent(MainEasyActivity.this, MusicService.class);
+        startService(serviceIntent); // מתחיל את המוזיקה
     }
 
     private void onButtonClick(int index) {

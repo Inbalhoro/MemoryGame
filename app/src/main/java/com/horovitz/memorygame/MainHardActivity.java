@@ -30,6 +30,7 @@ public class MainHardActivity extends AppCompatActivity {
     Button navigateToFirstPageButton;
     private long startTime;
     private long elapsedTime;
+    private int timeofcards=700; //הזמן של לפני החבאת הקלפים זמן השהייה במצב הנוכחי
     private TextView timerTextView;  // TextView להצגת הזמן הרץ
     private Handler handler = new Handler();  // Handler לעדכון הזמן
     private boolean isGameRunning = false;  // משתנה לבדוק אם המשחק רץ
@@ -191,30 +192,60 @@ public class MainHardActivity extends AppCompatActivity {
 
     //
     private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
-//        // עדכון רמת הקושי ודיפולט של דמויות מצוירות
-//        if (difficulty.equals("קל")) {
-//            // לדוגמה, משחק עם פחות זוגות
-//            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2};
-//        } else if (difficulty.equals("בינוני")) {
-//            // משחק עם יותר זוגות
-//            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
-//                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4};
-//        } else if (difficulty.equals("קשה")) {
-//            // משחק עם כל התמונות
-//            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
-//                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
-//                    R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
-//                    R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
-//        }
-
+        if (time.equals("Regular")){
+            timeofcards = 700;
+        } else if(time.equals("Short")){
+            timeofcards = 200;
+        }else if(time.equals("Long")){
+            timeofcards = 1100;
+        }
 
         // עדכון נושא
-        if (theme.equals("Animals")) {
+        if (theme.equals("Cartoon Characters")) {
             // להשתמש בתמונות של חיות
-            imageResources = new int[] {R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image4, /* וכו' */};
-        } else if (theme.equals("Food")) {
+            imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2, R.drawable.image3, R.drawable.image3,
+                    R.drawable.image4, R.drawable.image4, R.drawable.image5, R.drawable.image5,
+                    R.drawable.image6, R.drawable.image6, R.drawable.image7, R.drawable.image7,
+                    R.drawable.image8, R.drawable.image8, R.drawable.imageb1, R.drawable.imageb1,
+                    R.drawable.image10, R.drawable.image10, R.drawable.imageb2, R.drawable.imageb2,
+                    R.drawable.imageb3, R.drawable.imageb3, R.drawable.imageb4, R.drawable.imageb4,
+                    R.drawable.imageb5, R.drawable.imageb5, R.drawable.imageb6, R.drawable.imageb6,
+                    R.drawable.imageb7, R.drawable.imageb7, R.drawable.imageb8, R.drawable.imageb8,
+                    R.drawable.image9b, R.drawable.image9b  };
+        } else if (theme.equals("Animals")) {
             // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[] {R.drawable.image1, R.drawable.image1, R.drawable.image1, R.drawable.image1, /* וכו' */};
+            imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
+                    R.drawable.animal3, R.drawable.animal3, R.drawable.animal4, R.drawable.animal4,
+                    R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
+                    R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8,
+                    R.drawable.animal9, R.drawable.animal9, R.drawable.animal10, R.drawable.animal10,
+                    R.drawable.animal11, R.drawable.animal11, R.drawable.animal12, R.drawable.animal12,
+                    R.drawable.animal13, R.drawable.animal13, R.drawable.animal14, R.drawable.animal14,
+                    R.drawable.animal15, R.drawable.animal15, R.drawable.animal16, R.drawable.animal16,
+                    R.drawable.animal17, R.drawable.animal17, R.drawable.animal18, R.drawable.animal18};
+        }
+        else if (theme.equals("Food")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
+                    R.drawable.food3, R.drawable.food3, R.drawable.food4, R.drawable.food4,
+                    R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
+                    R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8,
+                    R.drawable.food9, R.drawable.food9, R.drawable.food10, R.drawable.food10,
+                    R.drawable.food11, R.drawable.food11, R.drawable.food12, R.drawable.food12,
+                    R.drawable.food13, R.drawable.food13, R.drawable.food14, R.drawable.food14,
+                    R.drawable.food15, R.drawable.food15, R.drawable.food16, R.drawable.food16,
+                    R.drawable.food17, R.drawable.food17, R.drawable.food18, R.drawable.food18};
+        }else if (theme.equals("Flags")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
+                    R.drawable.flag3, R.drawable.flag3, R.drawable.flag4, R.drawable.flag4,
+                    R.drawable.flag5, R.drawable.flag5, R.drawable.flag6, R.drawable.flag6,
+                    R.drawable.flag7, R.drawable.flag7, R.drawable.flag8, R.drawable.flag8,
+                    R.drawable.flag9, R.drawable.flag9, R.drawable.flag10, R.drawable.flag10,
+                    R.drawable.flag11, R.drawable.flag11, R.drawable.flag12, R.drawable.flag12,
+                    R.drawable.flag13, R.drawable.flag13, R.drawable.flag14, R.drawable.flag14,
+                    R.drawable.flag15, R.drawable.flag15, R.drawable.flag16, R.drawable.flag16,
+                    R.drawable.flag17, R.drawable.flag17, R.drawable.flag18, R.drawable.flag18};
         }
 
         // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה
@@ -315,7 +346,7 @@ public class MainHardActivity extends AppCompatActivity {
                         setclickable(true);
                         resetChoices(); // אתחול הבחירות
                     }
-                }, 700); // השהייה של שנייה לפני החבאת התמונות
+                }, timeofcards); // השהייה של שנייה לפני החבאת התמונות
             }
         }
     }

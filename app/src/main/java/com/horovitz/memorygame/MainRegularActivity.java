@@ -155,23 +155,6 @@ public class MainRegularActivity extends AppCompatActivity {
 
 //
     private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
-//        // עדכון רמת הקושי ודיפולט של דמויות מצוירות
-//        if (difficulty.equals("קל")) {
-//            // לדוגמה, משחק עם פחות זוגות
-//            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2};
-//        } else if (difficulty.equals("בינוני")) {
-//            // משחק עם יותר זוגות
-//            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
-//                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4};
-//        } else if (difficulty.equals("קשה")) {
-//            // משחק עם כל התמונות
-//            imageResources = new int[]{R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
-//                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
-//                    R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
-//                    R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
-//        }
-
-
         // עדכון נושא
         if (theme.equals("Cartoon Characters")) {
             // להשתמש בתמונות של חיות
