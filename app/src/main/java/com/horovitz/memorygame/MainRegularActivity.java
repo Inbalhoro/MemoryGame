@@ -173,13 +173,32 @@ public class MainRegularActivity extends AppCompatActivity {
 
 
         // עדכון נושא
-        if (theme.equals("Animals")) {
+        if (theme.equals("Cartoon Characters")) {
             // להשתמש בתמונות של חיות
-            imageResources = new int[] {R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image4, /* וכו' */};
-        } else if (theme.equals("Food")) {
+            imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
+                    R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
+                    R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
+        } else if (theme.equals("Animals")) {
             // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[] {R.drawable.image1, R.drawable.image1, R.drawable.image1, R.drawable.image1, /* וכו' */};
-        } 
+            imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
+                    R.drawable.animal3, R.drawable.animal3, R.drawable.animal4, R.drawable.animal4,
+                    R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
+                    R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8};
+        }
+        else if (theme.equals("Food")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
+                    R.drawable.food3, R.drawable.food3, R.drawable.food4, R.drawable.food4,
+                    R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
+                    R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8};
+        }else if (theme.equals("Flags")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
+                    R.drawable.flag3, R.drawable.flag3, R.drawable.flag4, R.drawable.flag4,
+                    R.drawable.flag5, R.drawable.flag5, R.drawable.flag6, R.drawable.flag6,
+                    R.drawable.flag7, R.drawable.flag7, R.drawable.flag8, R.drawable.flag8};
+        }
 
         // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה
         if (isSoundEnabled) {

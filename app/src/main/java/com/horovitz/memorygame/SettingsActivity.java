@@ -43,8 +43,25 @@ public class SettingsActivity extends AppCompatActivity {
 
         soundSwitch = findViewById(R.id.switch_sound);
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-        boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל היא true (יש צלילים)
+        boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true);
         soundSwitch.setChecked(isSoundEnabled);
+
+        // Initialize views first
+        difficultySpinner = findViewById(R.id.spinner_difficulty);
+        timeSpinner = findViewById(R.id.spinner_time);
+        themeRadioGroup = findViewById(R.id.radio_group_theme);
+
+        // Load saved difficulty
+        String savedDifficulty = sharedPreferences.getString("selectedDifficulty", "Regular");
+        difficultySpinner.setSelection(getDifficultyIndex(savedDifficulty));
+
+        // Load saved time
+        String savedTime = sharedPreferences.getString("timeSelection", "Regular");
+        timeSpinner.setSelection(getTimeIndex(savedTime));
+
+        // Load saved theme after themeRadioGroup is initialized
+        String savedTheme = sharedPreferences.getString("selectedTheme", "Cartoon Characters");
+        setThemeSelection(savedTheme);
 
         // עדכון המוזיקה על פי המצב של ה-Switch
         if (isSoundEnabled) {
@@ -74,10 +91,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        difficultySpinner = findViewById(R.id.spinner_difficulty);
-        timeSpinner = findViewById(R.id.spinner_time);
-        themeRadioGroup = findViewById(R.id.radio_group_theme);
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.difficulty_levels, android.R.layout.simple_spinner_item);
         difficultySpinner.setAdapter(adapter);
 
@@ -94,7 +107,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
                 String selectedDifficulty = parentView.getItemAtPosition(position).toString();
-                editor.apply();// שמור את הקושי שנבחר
+                editor.putString("selectedDifficulty", selectedDifficulty);
+                editor.apply();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -104,19 +118,20 @@ public class SettingsActivity extends AppCompatActivity {
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                // שמירה של זמן הצגת הקלפים
-//                String timeSelection = adapterView.getItemAtPosition(i).toString();
-//                editor.putString("timeSelection", timeSelection);  // שמור את הבחירה
-//                editor.apply();  // שמירה באופן אסינכרוני
+                String timeSelection = adapterView.getItemAtPosition(i).toString();
+                editor.putString("timeSelection", timeSelection);
+                editor.apply();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
         themeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            // שמור את הנושא שנבחר
+            RadioButton selectedRadioButton = findViewById(checkedId);
+            String selectedTheme = selectedRadioButton.getText().toString();
+            editor.putString("selectedTheme", selectedTheme);
+            editor.apply();
         });
 
 
@@ -212,5 +227,36 @@ public class SettingsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private int getDifficultyIndex(String difficulty) {
+        String[] difficulties = getResources().getStringArray(R.array.difficulty_levels);
+        for (int i = 0; i < difficulties.length; i++) {
+            if (difficulties[i].equals(difficulty)) {
+                return i;
+            }
+        }
+        return 0;
+    }
 
+    private int getTimeIndex(String time) {
+        String[] times = getResources().getStringArray(R.array.time_presentation_cards);
+        for (int i = 0; i < times.length; i++) {
+            if (times[i].equals(time)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private void setThemeSelection(String theme) {
+        String[] themes = getResources().getStringArray(R.array.themes);
+        for (int i = 0; i < themes.length; i++) {
+            if (themes[i].equals(theme)) {
+                RadioButton radioButton = (RadioButton) themeRadioGroup.getChildAt(i);
+                if (radioButton != null) {
+                    radioButton.setChecked(true);
+                }
+                break;
+            }
+        }
+    }
 }

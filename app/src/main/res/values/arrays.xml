@@ -10,4 +10,10 @@
         <item>Short</item>
         <item>Long</item>
     </string-array>
+    <string-array name="themes">
+        <item>Cartoon Characters</item>
+        <item>Animals</item>
+        <item>Food</item>
+        <item>Flags</item>
+    </string-array>
 </resources>
