@@ -18,13 +18,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +29,7 @@ public class MainEasyActivity extends AppCompatActivity {
     private long startTime;
     private long elapsedTime;
     private TextView timerTextView;  // TextView להצגת הזמן הרץ
-    private Handler handler = new Handler();  // Handler לעדכון הזמן
+    private final Handler handler = new Handler();  // Handler לעדכון הזמן
     private boolean isGameRunning = false;  // משתנה לבדוק אם המשחק רץ
     private Runnable timerRunnable = new Runnable() {
         @Override
@@ -69,7 +65,7 @@ public class MainEasyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_regular); // קישור ל-XML שלך
+        setContentView(R.layout.activity_main_easy); // קישור ל-XML שלך
 
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
@@ -80,12 +76,12 @@ public class MainEasyActivity extends AppCompatActivity {
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
         // אתחול כפתורים
-        buttons[0] = findViewById(R.id.button_1);
-        buttons[1] = findViewById(R.id.button_2);
-        buttons[2] = findViewById(R.id.button_3);
-        buttons[3] = findViewById(R.id.button_4);
-        buttons[4] = findViewById(R.id.button_5);
-        buttons[5] = findViewById(R.id.button_6);
+        buttons[0] = findViewById(R.id.button_0);
+        buttons[1] = findViewById(R.id.button_1);
+        buttons[2] = findViewById(R.id.button_2);
+        buttons[3] = findViewById(R.id.button_3);
+        buttons[4] = findViewById(R.id.button_4);
+        buttons[5] = findViewById(R.id.button_5);
 //        buttons[6] = findViewById(R.id.button_7);
 //        buttons[7] = findViewById(R.id.button_8);
 //        buttons[8] = findViewById(R.id.button_9);
