@@ -21,6 +21,7 @@
         android:gravity="center"
         android:textColor="#000000"/>
 
+
     <!-- שורה 1 -->
     <LinearLayout
         android:orientation="horizontal"
@@ -214,7 +215,6 @@
             android:scaleType="centerCrop"
             android:contentDescription="button_16" />
     </LinearLayout>
-
     <!-- TextView להודעת מצב המשחק -->
     <TextView
         android:id="@+id/statusText"
@@ -251,5 +251,4 @@
 <!--        style="@style/CustomButtonStyle"/>-->
 
 </LinearLayout>
-
 

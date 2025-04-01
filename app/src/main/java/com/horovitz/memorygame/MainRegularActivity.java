@@ -26,11 +26,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 //
 public class MainRegularActivity extends AppCompatActivity {
-    Button navigateButton; // הכפתור שיעביר אותנו לדף החדש
-    Button navigateToFirstPageButton;
-    private long startTime;
-    private long elapsedTime;
-    private TextView timerTextView;  // TextView להצגת הזמן הרץ
+    private Button navigateButton; // הכפתור שיעביר אותנו לדף החדש
+    private Button navigateToFirstPageButton;
+    private long startTime,elapsedTime;
+    private TextView timerTextView,statusText;  // TextView להצגת הזמן הרץ
     private Handler handler = new Handler();  // Handler לעדכון הזמן
     private boolean isGameRunning = false;  // משתנה לבדוק אם המשחק רץ
     private Runnable timerRunnable = new Runnable() {
@@ -49,22 +48,22 @@ public class MainRegularActivity extends AppCompatActivity {
         }
     };
 
-    private ImageButton[] buttons = new ImageButton[16]; // מערך של כפתורים
+    private ImageButton[] buttons; // מערך של כפתורים
+//     = new ImageButton[16] היה פעם
     private ArrayList<Integer> images = new ArrayList<>(); // תמונות שנמצאות במשחק
-    private int[] imageResources = {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
-            R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
-            R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
-            R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8}; // כאן תוכל להוסיף את התמונות שלך
+    private int[] imageResources;
+//    = {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+//            R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
+//            R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
+//            R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8}; // כאן תוכל להוסיף את התמונות שלך
 
-    private int firstChoice = -1;
-    private int secondChoice = -1;
-    private int firstChoiceIndex = -1;
-    private int secondChoiceIndex = -1;
-    private boolean[] isButtonFlipped = new boolean[16]; // מעקב אם כפתור כבר נחשף
-    private boolean[] isButtonMatched = new boolean[16]; // מעקב אם הכפתור כבר נמצא בזוג נכון
-
-    private TextView statusText;
+    private int firstChoice = -1, secondChoice = -1, firstChoiceIndex = -1,  secondChoiceIndex = -1;
+    private boolean[] isButtonFlipped; // מעקב אם כפתור כבר נחשף
+//     = new boolean[16]
+    private boolean[] isButtonMatched; // מעקב אם הכפתור כבר נמצא בזוג נכון
+//     = new boolean[16]
     private Button resetButton; // כפתור איפוס
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,26 +78,26 @@ public class MainRegularActivity extends AppCompatActivity {
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
-        updateGameSettings(difficulty, time, theme, isSoundEnabled);
+        updateGameSettings(difficulty,time, theme, isSoundEnabled);
+//
+//        // אתחול כפתורים
+//        buttons[0] = findViewById(R.id.button_1);
+//        buttons[1] = findViewById(R.id.button_2);
+//        buttons[2] = findViewById(R.id.button_3);
+//        buttons[3] = findViewById(R.id.button_4);
+//        buttons[4] = findViewById(R.id.button_5);
+//        buttons[5] = findViewById(R.id.button_6);
+//        buttons[6] = findViewById(R.id.button_7);
+//        buttons[7] = findViewById(R.id.button_8);
+//        buttons[8] = findViewById(R.id.button_9);
+//        buttons[9] = findViewById(R.id.button_10);
+//        buttons[10] = findViewById(R.id.button_11);
+//        buttons[11] = findViewById(R.id.button_12);
+//        buttons[12] = findViewById(R.id.button_13);
+//        buttons[13] = findViewById(R.id.button_14);
+//        buttons[14] = findViewById(R.id.button_15);
+//        buttons[15] = findViewById(R.id.button_16);
 
-        // אתחול כפתורים
-        buttons[0] = findViewById(R.id.button_1);
-        buttons[1] = findViewById(R.id.button_2);
-        buttons[2] = findViewById(R.id.button_3);
-        buttons[3] = findViewById(R.id.button_4);
-        buttons[4] = findViewById(R.id.button_5);
-        buttons[5] = findViewById(R.id.button_6);
-        buttons[6] = findViewById(R.id.button_7);
-        buttons[7] = findViewById(R.id.button_8);
-        buttons[8] = findViewById(R.id.button_9);
-        buttons[9] = findViewById(R.id.button_10);
-        buttons[10] = findViewById(R.id.button_11);
-        buttons[11] = findViewById(R.id.button_12);
-        buttons[12] = findViewById(R.id.button_13);
-        buttons[13] = findViewById(R.id.button_14);
-        buttons[14] = findViewById(R.id.button_15);
-        buttons[15] = findViewById(R.id.button_16);
-        timerTextView = findViewById(R.id.timerTextView);
 //        navigateToFirstPageButton = findViewById(R.id.navigateToFirstPageButton);
 //        navigateToFirstPageButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -123,26 +122,17 @@ public class MainRegularActivity extends AppCompatActivity {
 //
 //
 //        });
-
-        // אתחול ה-TextView
-        statusText = findViewById(R.id.statusText);
-
         // אתחול כפתור האיפוס
         resetButton = findViewById(R.id.resetButton);
+
+        timerTextView = findViewById(R.id.timerTextView);
+
+        statusText = findViewById(R.id.statusText);
+
 
         // מיקסום התמונות באופן אקראי
         startNewGame();
 
-        // מאזין ללחיצות על כפתורים
-        for (int i = 0; i < 16; i++) {
-            final int index = i;
-            buttons[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onButtonClick(index);
-                }
-            });
-        }
 
         // מאזין לכפתור איפוס
         resetButton.setOnClickListener(new View.OnClickListener() {
@@ -155,33 +145,71 @@ public class MainRegularActivity extends AppCompatActivity {
 
 //
     private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
-        // עדכון נושא
-        if (theme.equals("Cartoon Characters")) {
-            // להשתמש בתמונות של חיות
-            imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
-                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
-                    R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
-                    R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
-        } else if (theme.equals("Animals")) {
-            // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
-                    R.drawable.animal3, R.drawable.animal3, R.drawable.animal4, R.drawable.animal4,
-                    R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
-                    R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8};
+
+        int buttonCount = 16; // ברירת מחדל לכמות כפתורים (לרוב משחקים עם 16)
+        // לפי רמת הקושי, נקבע את מספר הכפתורים והקלפים
+        if (difficulty.equals("Easy")) {
+            buttonCount = 6;  // עבור רמת קושי "Easy" יהיו 6 קלפים
+        } else if (difficulty.equals("Medium")) {
+            buttonCount = 16; // עבור רמת קושי "Medium" יהיו 16 קלפים
+        } else if (difficulty.equals("Hard")) {
+            buttonCount = 36; // עבור רמת קושי "Hard" יהיו 36 קלפים
         }
-        else if (theme.equals("Food")) {
-            // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
-                    R.drawable.food3, R.drawable.food3, R.drawable.food4, R.drawable.food4,
-                    R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
-                    R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8};
-        }else if (theme.equals("Flags")) {
-            // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[] {R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
-                    R.drawable.flag3, R.drawable.flag3, R.drawable.flag4, R.drawable.flag4,
-                    R.drawable.flag5, R.drawable.flag5, R.drawable.flag6, R.drawable.flag6,
-                    R.drawable.flag7, R.drawable.flag7, R.drawable.flag8, R.drawable.flag8};
+
+        // יצירת מערך דינמי של כפתורים
+        buttons = new ImageButton[buttonCount];
+        isButtonFlipped = new boolean[buttonCount];
+        isButtonMatched = new boolean[buttonCount];
+
+        // אתחול כפתורים במסך
+        for (int i = 0; i < buttonCount; i++) {
+            int resId = getResources().getIdentifier("button_" + (i + 1), "id", getPackageName());
+            buttons[i] = findViewById(resId);
+            buttons[i].setImageResource(android.R.color.transparent);
+            final int index = i;
+            buttons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onButtonClick(time,index);
+                }
+            });
         }
+
+        images.clear();
+        // על פי מספר הכפתורים/קלפים, נוסיף תמונות בצורה דינמית
+        for (int i = 0; i < buttonCount / 2; i++) {
+            images.add(imageResources[i % imageResources.length]);
+            images.add(imageResources[i % imageResources.length]);
+        }
+        Collections.shuffle(images);  // מיקסום התמונות
+//
+//        // עדכון נושא
+//        if (theme.equals("Cartoon Characters")) {
+//            // להשתמש בתמונות של חיות
+//            imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+//                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
+//                    R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
+//                    R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
+//        } else if (theme.equals("Animals")) {
+//            // להשתמש בתמונות של דמויות מצוירות
+//            imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
+//                    R.drawable.animal3, R.drawable.animal3, R.drawable.animal4, R.drawable.animal4,
+//                    R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
+//                    R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8};
+//        }
+//        else if (theme.equals("Food")) {
+//            // להשתמש בתמונות של דמויות מצוירות
+//            imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
+//                    R.drawable.food3, R.drawable.food3, R.drawable.food4, R.drawable.food4,
+//                    R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
+//                    R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8};
+//        }else if (theme.equals("Flags")) {
+//            // להשתמש בתמונות של דמויות מצוירות
+//            imageResources = new int[] {R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
+//                    R.drawable.flag3, R.drawable.flag3, R.drawable.flag4, R.drawable.flag4,
+//                    R.drawable.flag5, R.drawable.flag5, R.drawable.flag6, R.drawable.flag6,
+//                    R.drawable.flag7, R.drawable.flag7, R.drawable.flag8, R.drawable.flag8};
+//        }
 
         // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה
         if (isSoundEnabled) {
@@ -231,14 +259,15 @@ public class MainRegularActivity extends AppCompatActivity {
         statusText.setText("start!");
     }
 
-    private void onButtonClick(int index) {
+    private void onButtonClick(int time, int index) {
         // אם הכפתור כבר נמצא בזוג נכון, אל תאפשר ללחוץ עליו
-        if (isButtonMatched[index]) {
-            return;
-        }
+        if (isButtonMatched[index]) { return; }
+
+
         if (index == firstChoiceIndex && firstChoice != -1) {
             return;  // יציאה מהפונקציה אם הכפתור שנבחר כבר נבחר קודם
         }
+
         // הצגת התמונה בלחיצה
         buttons[index].setImageResource(images.get(index));
         isButtonFlipped[index] = true;
@@ -281,7 +310,7 @@ public class MainRegularActivity extends AppCompatActivity {
                         setclickable(true);
                         resetChoices(); // אתחול הבחירות
                     }
-                }, 700); // השהייה של שנייה לפני החבאת התמונות
+                }, time); // השהייה של שנייה לפני החבאת התמונות
             }
         }
     }
