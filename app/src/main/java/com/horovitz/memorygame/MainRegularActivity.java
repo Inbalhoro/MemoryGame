@@ -19,11 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ResourceBundle;
+
 //
 public class MainRegularActivity extends AppCompatActivity {
     private Button navigateButton; // הכפתור שיעביר אותנו לדף החדש
@@ -58,17 +61,20 @@ public class MainRegularActivity extends AppCompatActivity {
 //            R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8}; // כאן תוכל להוסיף את התמונות שלך
 
     private int firstChoice = -1, secondChoice = -1, firstChoiceIndex = -1,  secondChoiceIndex = -1;
+    private int timeInNumbersS;
+
     private boolean[] isButtonFlipped; // מעקב אם כפתור כבר נחשף
 //     = new boolean[16]
     private boolean[] isButtonMatched; // מעקב אם הכפתור כבר נמצא בזוג נכון
 //     = new boolean[16]
     private Button resetButton; // כפתור איפוס
+    private ResourceBundle sharedPreferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_regular); // קישור ל-XML שלך
+        setContentView(R.layout.activity_dinamic); // קישור ל-XML שלך
 
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
@@ -77,6 +83,38 @@ public class MainRegularActivity extends AppCompatActivity {
         String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל: "5 שניות"
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
+
+//// הגדרת התמונות לפי הנושא (למשל חיות או אוכל)
+//        int[] imageResources;
+//        if (theme.equals("Animals")) {
+//            imageResources = new int[] {
+//                    R.drawable.animal1, R.drawable.animal1,
+//                    R.drawable.animal2, R.drawable.animal2,
+//                    R.drawable.animal3, R.drawable.animal3,
+//                    R.drawable.animal4, R.drawable.animal4,
+//                    R.drawable.animal5, R.drawable.animal5,
+//                    R.drawable.animal6, R.drawable.animal6,
+//                    R.drawable.animal7, R.drawable.animal7,
+//                    R.drawable.animal8, R.drawable.animal8
+//            };
+//        } else if (theme.equals("Food")) {
+//            imageResources = new int[] {
+//                    R.drawable.food1, R.drawable.food1,
+//                    R.drawable.food2, R.drawable.food2,
+//                    R.drawable.food3, R.drawable.food3,
+//                    R.drawable.food4, R.drawable.food4,
+//                    R.drawable.food5, R.drawable.food5,
+//                    R.drawable.food6, R.drawable.food6,
+//                    R.drawable.food7, R.drawable.food7,
+//                    R.drawable.food8, R.drawable.food8
+//            };
+//        } else {
+//            // תמונות ברירת מחדל אם הנושא לא תואם
+//            imageResources = new int[] {
+//                    R.drawable.default_image1, R.drawable.default_image1,
+//                    R.drawable.default_image2, R.drawable.default_image2
+//            };
+//        }
 
         updateGameSettings(difficulty,time, theme, isSoundEnabled);
 //
@@ -144,36 +182,68 @@ public class MainRegularActivity extends AppCompatActivity {
     }
 
 //
-    private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
+private void updateGameSettings(String difficulty,String time, String theme, boolean isSoundEnabled) {
 
-        int buttonCount = 16; // ברירת מחדל לכמות כפתורים (לרוב משחקים עם 16)
-        // לפי רמת הקושי, נקבע את מספר הכפתורים והקלפים
-        if (difficulty.equals("Easy")) {
-            buttonCount = 6;  // עבור רמת קושי "Easy" יהיו 6 קלפים
-        } else if (difficulty.equals("Medium")) {
-            buttonCount = 16; // עבור רמת קושי "Medium" יהיו 16 קלפים
-        } else if (difficulty.equals("Hard")) {
-            buttonCount = 36; // עבור רמת קושי "Hard" יהיו 36 קלפים
-        }
+    if (time.equals("Short")) {
+        timeInNumbersS = 300;  // זמן בשניות
+    } else if (time.equals("Regular")) {
+        timeInNumbersS = 700;
+    } else if (time.equals("Long")) {
+        timeInNumbersS = 1000;
+    }
 
-        // יצירת מערך דינמי של כפתורים
-        buttons = new ImageButton[buttonCount];
-        isButtonFlipped = new boolean[buttonCount];
-        isButtonMatched = new boolean[buttonCount];
 
-        // אתחול כפתורים במסך
-        for (int i = 0; i < buttonCount; i++) {
-            int resId = getResources().getIdentifier("button_" + (i + 1), "id", getPackageName());
-            buttons[i] = findViewById(resId);
-            buttons[i].setImageResource(android.R.color.transparent);
-            final int index = i;
-            buttons[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onButtonClick(time,index);
-                }
-            });
-        }
+    int buttonCount = 16; // ברירת מחדל לכמות כפתורים (לרוב משחקים עם 16)
+    // לפי רמת הקושי, נקבע את מספר הכפתורים והקלפים
+    if (difficulty.equals("Easy")) {
+        buttonCount = 6;  // עבור רמת קושי "Easy" יהיו 6 קלפים
+    } else if (difficulty.equals("Regular")) {
+        buttonCount = 16; // עבור רמת קושי "Medium" יהיו 16 קלפים
+    } else if (difficulty.equals("Hard")) {
+        buttonCount = 36; // עבור רמת קושי "Hard" יהיו 36 קלפים
+    }
+
+    // יצירת מערך דינמי של כפתורים
+    buttons = new ImageButton[buttonCount];
+    isButtonFlipped = new boolean[buttonCount];
+    isButtonMatched = new boolean[buttonCount];
+
+    GridLayout gridLayout = findViewById(R.id.gridLayout);
+    gridLayout.removeAllViews();  // ניקוי כל הרכיבים הקודמים
+    gridLayout.setColumnCount(4);  // הגדרת מספר העמודות
+
+
+
+    for (int i = 0; i < buttonCount; i++) {
+        final int index = i;  // הגדרת index בתוך הלולאה, כך שהוא יהיה נגיש בלמדה
+        ImageButton button = new ImageButton(this);
+        button.setLayoutParams(new GridLayout.LayoutParams());
+        button.setImageResource(android.R.color.transparent);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onButtonClick(timeInNumbersS, index);  // להעביר את ה-index כפרמטר
+            }
+        });
+        gridLayout.addView(button);  // הוספת הכפתור ל-GridLayout
+    }
+//    // אתחול כפתורים במסך
+//    for (int i = 0; i < buttonCount; i++) {
+//        int resId = getResources().getIdentifier("button_" + (i + 1), "id", getPackageName());
+//        buttons[i] = findViewById(resId);
+//        buttons[i].setImageResource(android.R.color.transparent);
+//        final int index = i;
+//
+//        // עדכון לחיצה על הכפתור, בה מעבירים את ה- time כפרמטר
+//        buttons[i].setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onButtonClick(timeInNumbersS, index);  // כאן time ו-index מועברים יחד
+//            }
+//        });
+//    }
+
+
 
         images.clear();
         // על פי מספר הכפתורים/קלפים, נוסיף תמונות בצורה דינמית

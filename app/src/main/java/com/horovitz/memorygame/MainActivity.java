@@ -45,16 +45,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("SelectedDifficulty", "SelectedDifficulty = " + selectedDifficulty);
-                if ("Hard".equals(selectedDifficulty)) {
-                    Intent intent = new Intent(MainActivity.this, MainHardActivity.class);
-                    startActivity(intent);
-                } else if ("Easy".equals(selectedDifficulty)) {
-                    Intent intent = new Intent(MainActivity.this, MainEasyActivity.class);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(MainActivity.this, MainRegularActivity.class);
-                    startActivity(intent);
-                }
+//                if ("Hard".equals(selectedDifficulty)) {
+//                    Intent intent = new Intent(MainActivity.this, MainHardActivity.class);
+//                    startActivity(intent);
+//                } else if ("Easy".equals(selectedDifficulty)) {
+//                    Intent intent = new Intent(MainActivity.this, MainEasyActivity.class);
+//                    startActivity(intent);
+//                } else {
+                Intent intent = new Intent(MainActivity.this, MainRegularActivity.class);
+                startActivity(intent);
+            }
+
                 // יצירת AlertDialog עם שני כפתורים
 //                new AlertDialog.Builder(MainActivity.this)
 //                    .setTitle("בחר מסך")
@@ -84,7 +85,13 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            })
 //                    .show();
-            }
+
+
+
+
+
+
+
         });
 
         navigateWithButton = findViewById(R.id.navigateWithFriendButton);
