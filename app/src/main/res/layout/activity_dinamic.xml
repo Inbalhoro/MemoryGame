@@ -19,14 +19,12 @@
         android:gravity="center"
         android:textColor="#000000"/>
 
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="4"
-        android:orientation="horizontal"
-         android:gravity="center">
-</GridLayout>
+<LinearLayout
+    android:id="@+id/llDynamic"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" />
+
     <!-- TextView עבור מצב המשחק -->
     <TextView
         android:id="@+id/statusText"

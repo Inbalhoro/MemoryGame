@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -70,11 +71,14 @@ public class MainRegularActivity extends AppCompatActivity {
     private Button resetButton; // כפתור איפוס
     private ResourceBundle sharedPreferences;
 
+    private LinearLayout llDynamic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dinamic); // קישור ל-XML שלך
+
+        llDynamic = findViewById(R.id.llDynamic);
 
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
@@ -196,37 +200,85 @@ private void updateGameSettings(String difficulty,String time, String theme, boo
     int buttonCount = 16; // ברירת מחדל לכמות כפתורים (לרוב משחקים עם 16)
     // לפי רמת הקושי, נקבע את מספר הכפתורים והקלפים
     if (difficulty.equals("Easy")) {
-        buttonCount = 6;  // עבור רמת קושי "Easy" יהיו 6 קלפים
+        buttonCount = 4;  // עבור רמת קושי "Easy" יהיו 6 קלפים
     } else if (difficulty.equals("Regular")) {
         buttonCount = 16; // עבור רמת קושי "Medium" יהיו 16 קלפים
     } else if (difficulty.equals("Hard")) {
         buttonCount = 36; // עבור רמת קושי "Hard" יהיו 36 קלפים
     }
 
+    images.clear();
+    // על פי מספר הכפתורים/קלפים, נוסיף תמונות בצורה דינמית
+    for (int i = 0; i < buttonCount / 2; i++) {
+        int image_key = getResources().getIdentifier("image"+(i+1),"drawable",getPackageName());
+        images.add(image_key);
+        images.add(image_key);
+    }
+    Collections.shuffle(images);  // מיקסום התמונות
+
     // יצירת מערך דינמי של כפתורים
     buttons = new ImageButton[buttonCount];
     isButtonFlipped = new boolean[buttonCount];
     isButtonMatched = new boolean[buttonCount];
 
-    GridLayout gridLayout = findViewById(R.id.gridLayout);
-    gridLayout.removeAllViews();  // ניקוי כל הרכיבים הקודמים
-    gridLayout.setColumnCount(4);  // הגדרת מספר העמודות
+    // 1. Get a reference to your LinearLayout (llDynamic)
+    LinearLayout llDynamic = findViewById(R.id.llDynamic);
 
+// 2. Calculate the number of rows and columns for a square grid
+    ////////////////////int buttonCount = 16; // For example, you want 16 buttons (4x4 grid)
+    int gridSize = (int) Math.ceil(Math.sqrt(buttonCount));  // Calculate the square root and round up
 
+// 3. Create a new GridLayout dynamically
+    GridLayout gridLayout = new GridLayout(this);
 
+// 4. Set the number of columns and rows for the GridLayout
+    gridLayout.setColumnCount(gridSize);  // Set the number of columns
+    gridLayout.setRowCount(gridSize);  // Set the number of rows
+
+// Optional: Set other properties like padding or layout params for the GridLayout
+    GridLayout.LayoutParams gridLayoutParams = new GridLayout.LayoutParams();
+    gridLayoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+    gridLayoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+    gridLayout.setLayoutParams(gridLayoutParams);
+
+// 5. Add buttons dynamically to the GridLayout
     for (int i = 0; i < buttonCount; i++) {
-        final int index = i;  // הגדרת index בתוך הלולאה, כך שהוא יהיה נגיש בלמדה
+
         ImageButton button = new ImageButton(this);
-        button.setLayoutParams(new GridLayout.LayoutParams());
-        button.setImageResource(android.R.color.transparent);
+
+        // Set the white background (you can replace 'white' with the actual drawable resource name)
+        button.setBackgroundResource(R.drawable.white); // Set the background to white
+
+        // Set the size of the button (optional, to make sure they are big enough to see)
+        GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+        params.width = 0;  // Set width as 0 to make it fill the available space
+        params.height = 0; // Set height as 0 to make it fill the available space
+        params.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f); // Allow row to fill available space
+        params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f); // Allow column to fill available space
+        button.setLayoutParams(params);  // Set the params to the button
+
+        button.setContentDescription("Button " + (i + 1));
+        isButtonFlipped[i] = false;  // Button not flipped yet
+        isButtonMatched[i] = false;  // Button not matched yet
+
+
+        // Optional: Set an OnClickListener to each button
+        final int index = i;
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onButtonClick(timeInNumbersS, index);  // להעביר את ה-index כפרמטר
+                // Handle button click event
+                // For example: onButtonClick(timeInNumbersS, index);
             }
         });
-        gridLayout.addView(button);  // הוספת הכפתור ל-GridLayout
+
+        // 6. Add the button to the GridLayout
+        gridLayout.addView(button);
     }
+
+// 7. Add the GridLayout to the LinearLayout (llDynamic)
+    llDynamic.addView(gridLayout);
+
 //    // אתחול כפתורים במסך
 //    for (int i = 0; i < buttonCount; i++) {
 //        int resId = getResources().getIdentifier("button_" + (i + 1), "id", getPackageName());
@@ -245,13 +297,7 @@ private void updateGameSettings(String difficulty,String time, String theme, boo
 
 
 
-        images.clear();
-        // על פי מספר הכפתורים/קלפים, נוסיף תמונות בצורה דינמית
-        for (int i = 0; i < buttonCount / 2; i++) {
-            images.add(imageResources[i % imageResources.length]);
-            images.add(imageResources[i % imageResources.length]);
-        }
-        Collections.shuffle(images);  // מיקסום התמונות
+
 //
 //        // עדכון נושא
 //        if (theme.equals("Cartoon Characters")) {
@@ -300,24 +346,12 @@ private void updateGameSettings(String difficulty,String time, String theme, boo
     }
 
     private void startNewGame() {
-        // אתחול מחדש של כפתורים (מסתיר את התמונות)
-        for (int i = 0; i < 16; i++) {
-            buttons[i].setImageResource(android.R.color.transparent);
-            isButtonFlipped[i] = false; // לא נחשף
-            isButtonMatched[i] = false; // כפתור לא נמצא בזוג נכון
-        }
 
         startTime = System.currentTimeMillis();  // אתחול זמן ההתחלה (במילישניות)
         isGameRunning = true;  // המשחק רץ
 
         handler.postDelayed(timerRunnable, 100);  // כל 100 מילישניות
 
-        // אקראי מחדש את התמונות על פי הגדרות
-        images.clear();
-        for (int i = 0; i < imageResources.length; i++) {
-            images.add(imageResources[i]);
-        }
-        Collections.shuffle(images);
 
         // איפוס משתנים
         firstChoice = -1;
@@ -328,6 +362,11 @@ private void updateGameSettings(String difficulty,String time, String theme, boo
         // עדכון טקסט סטטוס
         statusText.setText("start!");
     }
+
+
+
+
+
 
     private void onButtonClick(int time, int index) {
         // אם הכפתור כבר נמצא בזוג נכון, אל תאפשר ללחוץ עליו
