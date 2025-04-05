@@ -359,6 +359,7 @@ public class MainPlayWithFriends extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        //CCHCJ
         if (id==R.id.action_firstpage){
             Intent intent = new Intent(MainPlayWithFriends.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
