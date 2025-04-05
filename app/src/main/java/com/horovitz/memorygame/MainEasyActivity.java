@@ -260,7 +260,18 @@ public class MainEasyActivity extends AppCompatActivity {
 
         // הצגת הזמן והניקוד בשתי שורות
         String message = "Time: " + (elapsedTime / 1000) + " s\n";  // זמן בשניות
-        message += "Score: " ;  // הניקוד
+
+        long elapsedTimeInSeconds = (elapsedTime / 1000);
+
+        // חישוב הניקוד - נניח ניקוד התחלתי של 1000 נקודות, ונפחית 1 נקודה לכל שנייה
+        int baseScore = 500;
+        int timePenalty = (int) elapsedTimeInSeconds;
+        int score = baseScore - timePenalty; // 100 נקודות לכל זוג שנמצא
+
+        message += "Score: " +score;  // הניקוד
+
+
+
 
 // יצירת TextView עם טקסט מותאם אישית
         TextView messageTextView = new TextView(this);
@@ -360,7 +371,7 @@ public class MainEasyActivity extends AppCompatActivity {
         if (id==R.id.action_start){
             Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
             // יצירת Intent כדי לעבור לדף החדש
-            Intent intent = new Intent(MainEasyActivity.this, MainActivity.class);
+            Intent intent = new Intent(MainEasyActivity.this, MainStart.class);
             startActivity(intent); // התחלת ה-Activity החדש
 
 

@@ -45,7 +45,7 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
-            android:name=".MainBoysActivity"
+            android:name=".MainPlayWithFriends"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity

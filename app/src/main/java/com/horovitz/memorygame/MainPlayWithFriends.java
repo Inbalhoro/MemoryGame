@@ -6,25 +6,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MainBoysActivity extends AppCompatActivity {
+public class MainPlayWithFriends extends AppCompatActivity {
     Button navigateButton; // הכפתור שיעביר אותנו לדף החדש
     private long startTime;
     private long elapsedTime;
@@ -49,10 +47,11 @@ public class MainBoysActivity extends AppCompatActivity {
 
     private ImageButton[] buttons = new ImageButton[16]; // מערך של כפתורים
     private ArrayList<Integer> images = new ArrayList<>(); // תמונות שנמצאות במשחק
-    private int[] imageResources = {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
-            R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
-            R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
-            R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8}; // כאן תוכל להוסיף את התמונות שלך
+    private int[] imageResources;
+//            = {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+//            R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
+//            R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
+//            R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8}; // כאן תוכל להוסיף את התמונות שלך
 
     private int firstChoice = -1;
     private int secondChoice = -1;
@@ -63,13 +62,53 @@ public class MainBoysActivity extends AppCompatActivity {
 
     private TextView statusText;
     private Button resetButton; // כפתור איפוס
+    private int player1Matches = 0;  // מספר הזוגות שנחשפו על ידי שחקן 1
+    private int player2Matches = 0;  // מספר הזוגות שנחשפו על ידי שחקן 2
 
     private int currentPlayer = 1;  // 1 עבור שחקן 1, 2 עבור שחקן 2
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activityforboys); // קישור ל-XML שלך
+        setContentView(R.layout.activity_playwithafriends); // קישור ל-XML שלך
+
+        // קבלת הערכים שהועברו מהדיאלוג
+        Intent intent = getIntent();
+        String selectedImage = intent.getStringExtra("selectedImage"); // התמונה שנבחרה
+        String player1Name = intent.getStringExtra("player1Name"); // שם השחקן הראשון
+        String player2Name = intent.getStringExtra("player2Name"); // שם השחקן השני
+
+        if (selectedImage.equals("1")) {
+            // להשתמש בתמונות של חיות
+            imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
+                    R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
+                    R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
+        }
+        else if (selectedImage.equals("2")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
+                    R.drawable.animal3, R.drawable.animal3, R.drawable.animal4, R.drawable.animal4,
+                    R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
+                    R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8};
+        }
+        else if (selectedImage.equals("3")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[]{R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
+                    R.drawable.flag3, R.drawable.flag3, R.drawable.flag4, R.drawable.flag4,
+                    R.drawable.flag5, R.drawable.flag5, R.drawable.flag6, R.drawable.flag6,
+                    R.drawable.flag7, R.drawable.flag7, R.drawable.flag8, R.drawable.flag8};
+        }
+        else if (selectedImage.equals("4")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
+                    R.drawable.food3, R.drawable.food3, R.drawable.food4, R.drawable.food4,
+                    R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
+                    R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8};
+        }
+        // הצגת שמות השחקנים במסך המשחק
+        TextView playerNamesTextView = findViewById(R.id.playerNamesTextView); // TextView להציג את השמות
+        playerNamesTextView.setText(player1Name + " VS " + player2Name); // הצגת השמות
 
         // אתחול כפתורים
         buttons[0] = findViewById(R.id.button_1);
@@ -97,7 +136,7 @@ public class MainBoysActivity extends AppCompatActivity {
         resetButton = findViewById(R.id.resetButton);
 
         // מיקסום התמונות באופן אקראי
-        startNewGame();
+        startNewGame(player1Name);
 
         // מאזין ללחיצות על כפתורים
         for (int i = 0; i < 16; i++) {
@@ -105,7 +144,7 @@ public class MainBoysActivity extends AppCompatActivity {
             buttons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onButtonClick(index);
+                    onButtonClick(index,player1Name,player2Name);
                 }
             });
         }
@@ -114,12 +153,12 @@ public class MainBoysActivity extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startNewGame(); // איפוס המשחק
+                startNewGame(player1Name); // איפוס המשחק
             }
         });
     }
 
-    private void startNewGame() {
+    private void startNewGame(String player1Name) {
         // אתחול מחדש של כפתורים (מסתיר את התמונות)
         for (int i = 0; i < 16; i++) {
             buttons[i].setImageResource(android.R.color.transparent);
@@ -146,10 +185,10 @@ public class MainBoysActivity extends AppCompatActivity {
         secondChoiceIndex = -1;
 
         // עדכון טקסט סטטוס
-        statusText.setText("Player 1's turn!");
+        statusText.setText(player1Name+ " turn!");
     }
 
-    private void onButtonClick(int index) {
+    private void onButtonClick(int index,String player1Name,String player2Name) {
         // אם הכפתור כבר נמצא בזוג נכון, אל תאפשר ללחוץ עליו
         if (isButtonMatched[index]) {
             return;
@@ -174,12 +213,24 @@ public class MainBoysActivity extends AppCompatActivity {
 
             // אם התמונות תואמות
             if (firstChoice == secondChoice) {
-                statusText.setText("Player " + currentPlayer + " found a match!");
-                isButtonMatched[firstChoiceIndex] = true; // הצבת הכפתור הראשון ככפתור תואם
-                isButtonMatched[secondChoiceIndex] = true; // הצבת הכפתור השני ככפתור תואם
-                resetChoices();
-                switchPlayer();
-                setclickable(true);
+                if (currentPlayer == 1) {
+                    player1Matches++;  // עדכון מספר הזוגות שנחשפו על ידי שחקן 1
+                    statusText.setText(player1Name + " found a match!");
+                    isButtonMatched[firstChoiceIndex] = true; // הצבת הכפתור הראשון ככפתור תואם
+                    isButtonMatched[secondChoiceIndex] = true; // הצבת הכפתור השני ככפתור תואם
+                    resetChoices(player1Name,player2Name);
+                    switchPlayer(player1Name,player2Name);
+                    setclickable(true);
+                }
+                else{
+                    player2Matches++;  // עדכון מספר הזוגות שנחשפו על ידי שחקן 2
+                    statusText.setText(player2Name + " found a match!");
+                    isButtonMatched[firstChoiceIndex] = true; // הצבת הכפתור הראשון ככפתור תואם
+                    isButtonMatched[secondChoiceIndex] = true; // הצבת הכפתור השני ככפתור תואם
+                    resetChoices(player1Name,player2Name);
+                    switchPlayer(player1Name,player2Name);
+                    setclickable(true);
+                }
             }
 
             // אם התמונות לא תואמות
@@ -194,15 +245,15 @@ public class MainBoysActivity extends AppCompatActivity {
                         // החבא את התמונה השנייה אם לא תואמת
                         buttons[secondChoiceIndex].setImageResource(android.R.color.transparent);
                         setclickable(true);
-                        resetChoices(); // אתחול הבחירות
-                        switchPlayer();
+                        resetChoices(player1Name,player2Name); // אתחול הבחירות
+                        switchPlayer(player1Name,player2Name);
                     }
                 }, 700); // השהייה של שנייה לפני החבאת התמונות
             }
         }
     }
 
-    private void resetChoices() {
+    private void resetChoices(String player1Name,String player2Name) {
         firstChoice = -1;
         secondChoice = -1;
         firstChoiceIndex = -1;
@@ -220,25 +271,49 @@ public class MainBoysActivity extends AppCompatActivity {
         if (allFlipped) {
             elapsedTime = System.currentTimeMillis() - startTime;  // זמן שלקח לסיים את המשחק
             statusText.setText("Game over!");
-            showTimeDialog();
+            showTimeDialog(player1Name,player2Name);
             isGameRunning = false;  // עצור את זמן הריצה
             handler.removeCallbacks(timerRunnable);  // הסר את הריצה של עדכון הזמן
         }
     }
 
-    private void showTimeDialog() {
+    private void showTimeDialog(String player1Name,String player2Name) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         SpannableString title = new SpannableString("Game over - Well done!");
         title.setSpan(new AbsoluteSizeSpan(24, true), 0, title.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת הראשונה ל-36sp
         builder.setTitle(title);
 
-        SpannableString subTitle = new SpannableString("You succeeded to reveal all couples");
-        subTitle.setSpan(new AbsoluteSizeSpan(16, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת המשנה ל-24sp
-        builder.setMessage(subTitle);
+        if (player1Matches<player2Matches){
+            SpannableString subTitle = new SpannableString( player2Name +" Wons!!");
+            subTitle.setSpan(new AbsoluteSizeSpan(16, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת המשנה ל-24sp
+            builder.setMessage(subTitle);
+
+        }
+        else if (player2Matches<player1Matches){
+            SpannableString subTitle = new SpannableString(player1Name +" Wons!!");
+            subTitle.setSpan(new AbsoluteSizeSpan(16, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת המשנה ל-24sp
+            builder.setMessage(subTitle);
+        }
+        else{
+            SpannableString subTitle = new SpannableString("You BOTH won - you succeeded to reveal the same amount of couples");
+            subTitle.setSpan(new AbsoluteSizeSpan(16, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת המשנה ל-24sp
+            builder.setMessage(subTitle);
+        }
 
         String message = "Time: " + (elapsedTime / 1000) + " s\n";  // זמן בשניות
-        message += "Score: ";  // הניקוד
+
+        // זמן משחק (בשניות)
+        long elapsedTimeInSeconds = (elapsedTime / 1000);
+
+        // חישוב הניקוד - נניח ניקוד התחלתי של 1000 נקודות, ונפחית 1 נקודה לכל שנייה
+        int baseScore = 1000;
+        int timePenalty = (int) elapsedTimeInSeconds;
+        int score = baseScore - timePenalty ; // 100 נקודות לכל זוג שנמצא
+
+        message += "Score: " + score;  // הניקוד
+
+
 
         TextView messageTextView = new TextView(this);
         messageTextView.setText(message);
@@ -250,30 +325,54 @@ public class MainBoysActivity extends AppCompatActivity {
         builder.setPositiveButton("Home page", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(MainBoysActivity.this, MainActivity.class);
+                Intent intent = new Intent(MainPlayWithFriends.this, MainActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
 
-        builder.setNegativeButton("Yeah!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(MainBoysActivity.this, MainRegularActivity.class);
-                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
-            }
-        });
+//        builder.setNegativeButton("Yeah!", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Intent intent = new Intent(MainPlayWithFriends.this, MainPlayWithFriends.class);
+//                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
+//            }
+//        });
         builder.setCancelable(false);  // אם אתה רוצה שהשחקן לא יוכל לדלג על ההודעה לפני שלחץ על כפתור
         builder.show();
     }
 
-    private void switchPlayer() {
-        currentPlayer = (currentPlayer == 1) ? 2 : 1;  // החלפת תור בין שחקן 1 לשחקן 2
-        statusText.setText("Player " + currentPlayer + "'s turn!");
+    private void switchPlayer(String player1Name,String player2Name) {
+        if (currentPlayer == 1) {
+            currentPlayer = 2;  // אם השחקן הנוכחי הוא 1, תעבור לשחקן 2
+            statusText.setText(player2Name + "'s turn!");
+        } else {
+            currentPlayer = 1;  // אם השחקן הנוכחי הוא לא 1 (אז הוא 2), תעבור לשחקן 1
+            statusText.setText(player1Name + "'s turn!");
+        }
     }
 
     private void setclickable(boolean b) {
         for (int i = 0; i < 16; i++) {
             buttons[i].setEnabled(b);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.action_firstpage){
+            Intent intent = new Intent(MainPlayWithFriends.this, MainActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+//        if (id==R.id.action_settings) {
+//            Intent intent = new Intent(MainPlayWithFriends.this, SettingsActivity.class);
+//            startActivity(intent); // התחלת ה-Activity החדש
+//        }
+        if (id==R.id.action_start){
+            Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
+            // יצירת Intent כדי לעבור לדף החדש
+            Intent intent = new Intent(MainPlayWithFriends.this, MainStart.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

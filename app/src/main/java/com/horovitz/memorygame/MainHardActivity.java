@@ -426,7 +426,15 @@ public class MainHardActivity extends AppCompatActivity {
 
         // הצגת הזמן והניקוד בשתי שורות
         String message = "Time: " + (elapsedTime / 1000) + " s\n";  // זמן בשניות
-        message += "Score: " ;  // הניקוד
+
+        long elapsedTimeInSeconds = (elapsedTime / 1000);
+
+        // חישוב הניקוד - נניח ניקוד התחלתי של 1000 נקודות, ונפחית 1 נקודה לכל שנייה
+        int baseScore = 1800;
+        int timePenalty = (int) elapsedTimeInSeconds;
+        int score = baseScore - timePenalty; // 100 נקודות לכל זוג שנמצא
+
+        message += "Score: " +score;  // הניקוד
 
 // יצירת TextView עם טקסט מותאם אישית
         TextView messageTextView = new TextView(this);
@@ -469,4 +477,27 @@ public class MainHardActivity extends AppCompatActivity {
         builder.setCancelable(false);  // אם אתה רוצה שהשחקן לא יוכל לדלג על ההודעה לפני שלחץ על כפתור
         builder.show();
     }
+
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        this.item = item;
+//        int id = item.getItemId();
+//        if (id==R.id.action_firstpage){
+//            Intent intent = new Intent(MainHardActivity.this, MainActivity.class);
+//            startActivity(intent); // התחלת ה-Activity החדש
+//        }
+//        if (id==R.id.action_settings) {
+//            Intent intent = new Intent(MainHardActivity.this, SettingsActivity.class);
+//            startActivity(intent); // התחלת ה-Activity החדש
+//        }
+//        if (id==R.id.action_start){
+//            Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
+//            // יצירת Intent כדי לעבור לדף החדש
+//            Intent intent = new Intent(MainHardActivity.this, MainStart.class);
+//            startActivity(intent); // התחלת ה-Activity החדש
+//
+//
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 }
