@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.SpannableString;
@@ -312,7 +313,10 @@ public class MainPlayWithFriends extends AppCompatActivity {
         int score = baseScore - timePenalty ; // 100 נקודות לכל זוג שנמצא
 
         message += "Score: " + score;  // הניקוד
-
+        SharedPreferences sharedPreferences = getSharedPreferences("ScoreToMoney", MODE_PRIVATE); // שמירת המידע
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("score", 0);  // שמירת הציון
+        editor.apply();  // שמירת השינויים
 
 
         TextView messageTextView = new TextView(this);
@@ -359,7 +363,6 @@ public class MainPlayWithFriends extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        //CCHCJ
         if (id==R.id.action_firstpage){
             Intent intent = new Intent(MainPlayWithFriends.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש

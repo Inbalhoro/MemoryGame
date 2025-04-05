@@ -41,35 +41,27 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        soundSwitch = findViewById(R.id.switch_sound);
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-        boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true);
-        soundSwitch.setChecked(isSoundEnabled);
-
-        // Initialize views first
+        soundSwitch = findViewById(R.id.switch_sound);
         difficultySpinner = findViewById(R.id.spinner_difficulty);
         timeSpinner = findViewById(R.id.spinner_time);
         themeRadioGroup = findViewById(R.id.radio_group_theme);
 
-        // Load saved difficulty
+        boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true);
+        soundSwitch.setChecked(isSoundEnabled);
+
         String savedDifficulty = sharedPreferences.getString("selectedDifficulty", "Regular");
         difficultySpinner.setSelection(getDifficultyIndex(savedDifficulty));
 
-        // Load saved time
         String savedTime = sharedPreferences.getString("timeSelection", "Regular");
         timeSpinner.setSelection(getTimeIndex(savedTime));
 
-        // Load saved theme after themeRadioGroup is initialized
         String savedTheme = sharedPreferences.getString("selectedTheme", "Cartoon Characters");
         setThemeSelection(savedTheme);
 
         // עדכון המוזיקה על פי המצב של ה-Switch
-        if (isSoundEnabled) {
-            startMusicService();
-             } else {
-            stopMusicService();
-              }
-
+        if (isSoundEnabled) {startMusicService();}
+        else {stopMusicService();}
 
         // שמירה של ההגדרות כאשר המשתמש משנה אותם
         soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -139,20 +131,12 @@ public class SettingsActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-//                RadioGroup radioGroup = findViewById(R.id.spinner_difficulty);
-//                int selectedId = radioGroup.getCheckedRadioButtonId();
-
-
-                // שמירה של ההגדרות ב-SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                // שמירה של רמת הקושי
                 String selectedDifficulty = difficultySpinner.getSelectedItem().toString();
                 editor.putString("selectedDifficulty", selectedDifficulty);
 
-                // שמירה של נושא המשחק
                 int selectedThemeId = themeRadioGroup.getCheckedRadioButtonId();
                 RadioButton selectedRadioButton = findViewById(selectedThemeId);
                 String selectedTheme = selectedRadioButton.getText().toString();
@@ -163,19 +147,7 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putBoolean("isSoundEnabled", isSoundEnabled);
 
                 editor.apply(); // שמירה באופן אסינכרוני
-                    Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
-//                // מעבר לעמוד המשחק
-//                if (selectedDifficulty.equals("Hard")) {
-//                    Intent intent = new Intent(SettingsActivity.this, MainHardActivity.class);
-//                    startActivity(intent); // התחלת ה-Activity החדש
-//                } else if (selectedDifficulty.equals("Easy")) {
-//                    Intent intent = new Intent(SettingsActivity.this, MainEasyActivity.class);
-//                    startActivity(intent); // התחלת ה-Activity החדש
-//                } else {
-//                    Intent intent = new Intent(SettingsActivity.this, MainGirlsActivity.class);
-//                    startActivity(intent); // התחלת ה-Activity החדש
-//                    Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
-//                }
+                Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -184,6 +156,7 @@ public class SettingsActivity extends AppCompatActivity {
         Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
         stopService(serviceIntent); // עוצר את המוזיקה
     }
+
 
     private void startMusicService() {
         Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);

@@ -56,6 +56,11 @@ public class MainEasyActivity extends AppCompatActivity {
     private int secondChoice = -1;
     private int firstChoiceIndex = -1;
     private int secondChoiceIndex = -1;
+    private int timeInNumbersS;
+    private TextView currentMoneyTextView;
+    private int currentMoney = 0;
+
+
     private boolean[] isButtonFlipped = new boolean[6]; // מעקב אם כפתור כבר נחשף
     private boolean[] isButtonMatched = new boolean[6]; // מעקב אם הכפתור כבר נמצא בזוג נכון
 
@@ -111,7 +116,7 @@ public class MainEasyActivity extends AppCompatActivity {
             buttons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onButtonClick(index);
+                    onButtonClick(index,timeInNumbersS);
                 }
             });
         }
@@ -126,6 +131,13 @@ public class MainEasyActivity extends AppCompatActivity {
     }
 
     private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
+        if (time.equals("Short")) {
+            timeInNumbersS = 300;  // זמן בשניות
+        } else if (time.equals("Regular")) {
+            timeInNumbersS = 700;
+        } else if (time.equals("Long")) {
+            timeInNumbersS = 1000;
+        }
         // עדכון נושא
         if (theme.equals("Cartoon Characters")) {
             // להשתמש בתמונות של חיות
@@ -164,7 +176,7 @@ public class MainEasyActivity extends AppCompatActivity {
         startService(serviceIntent); // מתחיל את המוזיקה
     }
 
-    private void onButtonClick(int index) {
+    private void onButtonClick(int index,int timeInNumbersS) {
         // אם הכפתור כבר נמצא בזוג נכון, אל תאפשר ללחוץ עליו
         if (isButtonMatched[index]) {
             return;
@@ -214,7 +226,7 @@ public class MainEasyActivity extends AppCompatActivity {
                         setclickable(true);
                         resetChoices(); // אתחול הבחירות
                     }
-                }, 700); // השהייה של שנייה לפני החבאת התמונות
+                }, timeInNumbersS); // השהייה של שנייה לפני החבאת התמונות
             }
         }
     }
@@ -264,13 +276,13 @@ public class MainEasyActivity extends AppCompatActivity {
         long elapsedTimeInSeconds = (elapsedTime / 1000);
 
         // חישוב הניקוד - נניח ניקוד התחלתי של 1000 נקודות, ונפחית 1 נקודה לכל שנייה
-        int baseScore = 500;
+        int baseScore = 200;
         int timePenalty = (int) elapsedTimeInSeconds;
         int score = baseScore - timePenalty; // 100 נקודות לכל זוג שנמצא
 
         message += "Score: " +score;  // הניקוד
 
-
+        Log.d("Rinat", "score " + score);
 
 
 // יצירת TextView עם טקסט מותאם אישית
@@ -291,16 +303,29 @@ public class MainEasyActivity extends AppCompatActivity {
         builder.setPositiveButton("Home page", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // כפתור חזרה לדף הבית
+                // כאן תוכל להגדיל את הציון או לשנות אותו לפי מה שקרה במשחק
+                currentMoney = currentMoney+ score; // להוסיף את הניקוד למשחק הנוכחי
+                Log.d("Rinat", "scoreShowD " + score);
+                Log.d("Rinat", "currentM " + currentMoney);
+
                 Intent intent = new Intent(MainEasyActivity.this, MainActivity.class);
-                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
+                intent.putExtra("score", currentMoney);  // מעביר את הציון המעודכן
+                startActivity(intent);  // פתיחת הפעילות החדשה
+                // להעביר את הערך המעודכן חזרה ל- MainActivity
+//                Intent returnIntent = new Intent();
+//                returnIntent.putExtra("score", currentMoney); // שולחים את הציון המעודכן
+//                setResult(RESULT_OK, returnIntent); // שולחים את התוצאה חזרה ל-MainActivity
+//                finish(); // סגירת הפעילות וחזרה לעמוד הראשי
             }
         });
         builder.setNegativeButton("Yeah!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                currentMoney += score; // לדוגמה, להוסיף 10 אחרי כל משחק
+
                 // כפתור חזרה לדף הבית
                 Intent intent = new Intent(MainEasyActivity.this, MainEasyActivity.class);
+                intent.putExtra("score", currentMoney);  // העברת מידע (במקרה הזה ציון)
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });

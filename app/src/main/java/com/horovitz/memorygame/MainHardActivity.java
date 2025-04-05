@@ -77,6 +77,8 @@ public class MainHardActivity extends AppCompatActivity {
     private int secondChoice = -1;
     private int firstChoiceIndex = -1;
     private int secondChoiceIndex = -1;
+    private int timeInNumbersS;
+
     private boolean[] isButtonFlipped = new boolean[36]; // מעקב אם כפתור כבר נחשף
     private boolean[] isButtonMatched = new boolean[36]; // מעקב אם הכפתור כבר נמצא בזוג נכון
 
@@ -176,7 +178,7 @@ public class MainHardActivity extends AppCompatActivity {
             buttons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onButtonClick(index);
+                    onButtonClick(index,timeInNumbersS);
                 }
             });
         }
@@ -296,7 +298,7 @@ public class MainHardActivity extends AppCompatActivity {
         statusText.setText("start!");
     }
 
-    private void onButtonClick(int index) {
+    private void onButtonClick(int index,int timeInNumbersS) {
         // אם הכפתור כבר נמצא בזוג נכון, אל תאפשר ללחוץ עליו
         if (isButtonMatched[index]) {
             return;
@@ -346,7 +348,7 @@ public class MainHardActivity extends AppCompatActivity {
                         setclickable(true);
                         resetChoices(); // אתחול הבחירות
                     }
-                }, timeofcards); // השהייה של שנייה לפני החבאת התמונות
+                }, timeInNumbersS); // השהייה של שנייה לפני החבאת התמונות
             }
         }
     }
@@ -435,6 +437,12 @@ public class MainHardActivity extends AppCompatActivity {
         int score = baseScore - timePenalty; // 100 נקודות לכל זוג שנמצא
 
         message += "Score: " +score;  // הניקוד
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("GameFinalScore", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("score", score);  // שומר את הציון תחת המפתח "score"
+        editor.apply();
 
 // יצירת TextView עם טקסט מותאם אישית
         TextView messageTextView = new TextView(this);

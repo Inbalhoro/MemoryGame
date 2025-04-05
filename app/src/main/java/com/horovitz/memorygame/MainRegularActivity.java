@@ -294,6 +294,11 @@ public class MainRegularActivity extends AppCompatActivity {
 
         message += "Score: " +score;  // הניקוד
 
+        SharedPreferences sharedPreferences = getSharedPreferences("GameFinalScore", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("score", score);  // שומר את הציון תחת המפתח "score"
+        editor.apply();
+
 
 // יצירת TextView עם טקסט מותאם אישית
         TextView messageTextView = new TextView(this);
@@ -395,7 +400,6 @@ public class MainRegularActivity extends AppCompatActivity {
             // יצירת Intent כדי לעבור לדף החדש
             Intent intent = new Intent(MainRegularActivity.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
-
 
         }
         return super.onOptionsItemSelected(item);

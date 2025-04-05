@@ -50,8 +50,7 @@
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".MainStart"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

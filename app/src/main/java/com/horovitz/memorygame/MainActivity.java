@@ -27,19 +27,30 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String selectedDifficulty;
     private String selectedImage = ""; // משתנה לשמירת התמונה שנבחרה
-
+    private TextView gameMoneyInDis;
+    private int currentgameMoney = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); ///כפתור הזזה בין מסך למסך בנים בנות
 
+        gameMoneyInDis = findViewById(R.id.gameMoneyFromScores);
+
+//        // קריאת הציון שנשמר ב-SharedPreferences
+//        SharedPreferences sharedPreferencesM = getSharedPreferences("ScoreToMoney", MODE_PRIVATE);
+//        currentgameMoney = sharedPreferencesM.getInt("currentMoney", 0); // ברירת מחדל 0 אם אין ציון
+//
+//        // עדכון ה-TextView עם הציון
+//        gameMoneyInDis.setText("" + currentgameMoney);
+
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+
+
 
         String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל: "Regular"
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
-        //    Log.d("RINAT",selectedDifficulty);
 
         Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
         startService(serviceIntent); // הפעלת מוזיקה ברגע ש-Activity נפתח
@@ -49,53 +60,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("SelectedDifficulty", "SelectedDifficulty = " + selectedDifficulty);
-//                if ("Hard".equals(selectedDifficulty)) {
-//                    Intent intent = new Intent(MainActivity.this, MainHardActivity.class);
-//                    startActivity(intent);
-//                } else if ("Easy".equals(selectedDifficulty)) {
-//                    Intent intent = new Intent(MainActivity.this, MainEasyActivity.class);
-//                    startActivity(intent);
-//                } else {
-                Intent intent = new Intent(MainActivity.this, MainRegularActivity.class);
-                startActivity(intent);
+                if ("Hard".equals(selectedDifficulty)) {
+                    Intent intent = new Intent(MainActivity.this, MainHardActivity.class);
+                    startActivity(intent);
+                } else if ("Easy".equals(selectedDifficulty)) {
+                    Intent intent = new Intent(MainActivity.this, MainEasyActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, MainRegularActivity.class);
+                    startActivity(intent);
+                }
             }
-
-                // יצירת AlertDialog עם שני כפתורים
-//                new AlertDialog.Builder(MainActivity.this)
-//                    .setTitle("בחר מסך")
-//                        .setMessage("בחר לאן אתה רוצה לעבור:")
-//                        .setPositiveButton("למסך בנות", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    if ("Hard".equals(difficulty)) {
-//                        Intent intent = new Intent(MainActivity.this, MainHardActivity.class);
-//                        startActivity(intent);
-//                    }
-//                    else if("Easy".equals(difficulty)){
-//                        Intent intent = new Intent(MainActivity.this, MainEasyActivity.class);
-//                        startActivity(intent);
-//                    }
-//                    // דיפולט לעמוד הרגיל MainActivity
-//                    Intent intent = new Intent(MainActivity.this, MainGirlsActivity.class);
-//                    startActivity(intent);
-//                }
-//            })
-//                    .setNegativeButton("למסך בנים", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    // כפתור שני - מעבר למסך אחר
-//                    Intent intent = new Intent(MainActivity.this, MainBoysActivity.class);
-//                    startActivity(intent);
-//                }
-//            })
-//                    .show();
-
-
-
-
-
-
-
         });
 
         navigateWithButton = findViewById(R.id.navigateWithFriendButton);
@@ -189,6 +164,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // קבלת הציון המתקבל אם יש
+        Intent intent = getIntent();
+        int newScore = intent.getIntExtra("score", 0);  // אם לא נשלח ציון, ברירת מחדל = 0
+
+        // עדכון currentgameMoney עם הציון החדש
+        currentgameMoney += newScore;  // הוספת הציון החדש לציון הקודם
+
+        // שמירה ב- SharedPreferences
+        SharedPreferences sharedPreferencesM = getSharedPreferences("ScoreToMoney", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferencesM.edit();
+        editor.putInt("currentMoney", currentgameMoney);  // שמירה של הציון המעודכן
+        editor.apply();  // שמירה
+
+        // עדכון ה-TextView עם הציון החדש
+        gameMoneyInDis.setText("" + currentgameMoney);
+
+        // לוגים לעקוב אחרי המידע
+        Log.d("INBA", "NEWmoney " + newScore);
+        Log.d("INBA", "Updated money " + currentgameMoney);
+    }
+
     private ImageView createImageView(final String imageName, int imageRes) {
         ImageView imageView = new ImageView(this);
         imageView.setImageResource(imageRes);
@@ -217,13 +217,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        // עצירת המוזיקה בעת סגירת ה-Activity
-//        Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
-//        stopService(serviceIntent);
-//    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // עצירת המוזיקה בעת סגירת ה-Activity
+        Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
+        stopService(serviceIntent);
+    }
 
 
     @Override
@@ -241,6 +241,14 @@ public class MainActivity extends AppCompatActivity {
         startService(serviceIntent); // הפעלת מוזיקה ברגע ש-Activity נפתח
 
     }
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // עצור את שירות המוזיקה כשעוזבים את המסך או האפליקציה
+        stopService(new Intent(MainActivity.this, MusicService.class)); // עצירת שירות המוזיקה
+    }
+
 
 
     @Override
