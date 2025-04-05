@@ -271,6 +271,13 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id==R.id.action_start){
             Intent intent = new Intent(MainActivity.this, MainStart.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+            Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
+
+        }
+        if (id==R.id.action_shop){
+            Intent intent = new Intent(MainActivity.this, MainShop.class);
+            startActivity(intent); // התחלת ה-Activity החדש
             Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
 
         }
