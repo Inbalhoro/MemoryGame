@@ -17,7 +17,7 @@ public class MainShop extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_shop);  // ודא שה-XML שלך נקרא נכון
-
+//GJIJG
     }
 //        // איפוס המידע
 //        layout = findViewById(R.id.layout);  // מתחבר ל-LinearLayout הפנימי ב-ScrollView
