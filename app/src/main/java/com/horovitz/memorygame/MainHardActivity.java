@@ -268,35 +268,6 @@ public class MainHardActivity extends AppCompatActivity {
         startService(serviceIntent); // מתחיל את המוזיקה
     }
 
-    private void startNewGame() {
-        // אתחול מחדש של כפתורים (מסתיר את התמונות)
-        for (int i = 0; i < 36; i++) {
-            buttons[i].setImageResource(android.R.color.transparent);
-            isButtonFlipped[i] = false; // לא נחשף
-            isButtonMatched[i] = false; // כפתור לא נמצא בזוג נכון
-        }
-
-        startTime = System.currentTimeMillis();  // אתחול זמן ההתחלה (במילישניות)
-        isGameRunning = true;  // המשחק רץ
-
-        handler.postDelayed(timerRunnable, 100);  // כל 100 מילישניות
-
-        // אקראי מחדש את התמונות על פי הגדרות
-        images.clear();
-        for (int i = 0; i < imageResources.length; i++) {
-            images.add(imageResources[i]);
-        }
-        Collections.shuffle(images);
-
-        // איפוס משתנים
-        firstChoice = -1;
-        secondChoice = -1;
-        firstChoiceIndex = -1;
-        secondChoiceIndex = -1;
-
-        // עדכון טקסט סטטוס
-        statusText.setText("start!");
-    }
 
     private void onButtonClick(int index,int timeInNumbersS) {
         // אם הכפתור כבר נמצא בזוג נכון, אל תאפשר ללחוץ עליו
@@ -353,40 +324,6 @@ public class MainHardActivity extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id==R.id.action_firstpage){
-            Intent intent = new Intent(MainHardActivity.this, MainActivity.class);
-            startActivity(intent); // התחלת ה-Activity החדש
-        }
-        if (id==R.id.action_settings) {
-            Intent intent = new Intent(MainHardActivity.this, SettingsActivity.class);
-            startActivity(intent); // התחלת ה-Activity החדש
-        }
-        if (id==R.id.action_start){
-            Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
-            // יצירת Intent כדי לעבור לדף החדש
-            Intent intent = new Intent(MainHardActivity.this, MainActivity.class);
-            startActivity(intent); // התחלת ה-Activity החדש
-
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    private void setclickable(boolean b) {
-        for (int i = 0; i < 36; i++) {
-            buttons[i].setEnabled(b);
-        }
-    }
-
     private void resetChoices() {
         Log.d("Rinat","resetChoices firstChoice = -1");
         firstChoice = -1;
@@ -432,17 +369,13 @@ public class MainHardActivity extends AppCompatActivity {
         long elapsedTimeInSeconds = (elapsedTime / 1000);
 
         // חישוב הניקוד - נניח ניקוד התחלתי של 1000 נקודות, ונפחית 1 נקודה לכל שנייה
-        int baseScore = 1800;
+        int baseScore = 700;
         int timePenalty = (int) elapsedTimeInSeconds;
         int score = baseScore - timePenalty; // 100 נקודות לכל זוג שנמצא
 
         message += "Score: " +score;  // הניקוד
 
 
-        SharedPreferences sharedPreferences = getSharedPreferences("GameFinalScore", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("score", score);  // שומר את הציון תחת המפתח "score"
-        editor.apply();
 
 // יצירת TextView עם טקסט מותאם אישית
         TextView messageTextView = new TextView(this);
@@ -453,15 +386,19 @@ public class MainHardActivity extends AppCompatActivity {
         builder.setView(messageTextView);  // הגדרת TextView כצפייה בהודעה
 
 
-
-//        builder.setTitle("Well done!");
-//        builder.setTitle("You succeeded to reveal all couples");
-//
-//        builder.setMessage("Time: " + (elapsedTime / 1000) + " s");  // הצגת הזמן בשניות
-//        builder.setMessage("Score: "  );  // הצגת הניקוד/כסף שנקבל
         builder.setPositiveButton("Home page", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                // Save the score using SharedPreferences
+                saveScoreToSharedPreferences(score);
+
+                // Log for debugging
+                Log.d("Rinat", "scoreShowD " + score);
+
+                // Get the updated total score
+                int updatedTotalScore = getTotalScore();
+                Log.d("Rinat", "currentM " + updatedTotalScore);
+
                 // כפתור חזרה לדף הבית
                 Intent intent = new Intent(MainHardActivity.this, MainActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
@@ -470,6 +407,8 @@ public class MainHardActivity extends AppCompatActivity {
         builder.setNegativeButton("Yeah!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                saveScoreToSharedPreferences(score);
+
                 // כפתור חזרה לדף הבית
                 Intent intent = new Intent(MainHardActivity.this, MainRegularActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
@@ -478,34 +417,102 @@ public class MainHardActivity extends AppCompatActivity {
         builder.setNeutralButton("Record board", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                saveScoreToSharedPreferences(score);
+
                 Intent intent = new Intent(MainHardActivity.this, RecordBoardActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
         builder.setCancelable(false);  // אם אתה רוצה שהשחקן לא יוכל לדלג על ההודעה לפני שלחץ על כפתור
-        builder.show();
+        builder.create().show();
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        this.item = item;
-//        int id = item.getItemId();
-//        if (id==R.id.action_firstpage){
-//            Intent intent = new Intent(MainHardActivity.this, MainActivity.class);
-//            startActivity(intent); // התחלת ה-Activity החדש
-//        }
-//        if (id==R.id.action_settings) {
-//            Intent intent = new Intent(MainHardActivity.this, SettingsActivity.class);
-//            startActivity(intent); // התחלת ה-Activity החדש
-//        }
-//        if (id==R.id.action_start){
-//            Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
-//            // יצירת Intent כדי לעבור לדף החדש
-//            Intent intent = new Intent(MainHardActivity.this, MainStart.class);
-//            startActivity(intent); // התחלת ה-Activity החדש
-//
-//
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+
+    private int getTotalScore() {
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+        return prefs.getInt("totalScore", 0);
+    }
+
+    private void saveScoreToSharedPreferences(int newScore) {
+        // Get SharedPreferences instance
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+
+        // Get the current total score
+        int currentTotalScore = prefs.getInt("totalScore", 0);
+
+        // Add the new score to the total
+        int updatedTotalScore = currentTotalScore + newScore;
+
+        // Save the updated score
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("totalScore", updatedTotalScore);
+        editor.putInt("lastGameScore", newScore); // Also save the last game score
+        editor.apply();
+    }
+
+    private void setclickable(boolean b) {
+        for (int i = 0; i < 36; i++) {
+            buttons[i].setEnabled(b);
+        }
+    }
+
+    private void startNewGame() {
+        // אתחול מחדש של כפתורים (מסתיר את התמונות)
+        for (int i = 0; i < 36; i++) {
+            buttons[i].setImageResource(android.R.color.transparent);
+            isButtonFlipped[i] = false; // לא נחשף
+            isButtonMatched[i] = false; // כפתור לא נמצא בזוג נכון
+        }
+
+        startTime = System.currentTimeMillis();  // אתחול זמן ההתחלה (במילישניות)
+        isGameRunning = true;  // המשחק רץ
+
+        handler.postDelayed(timerRunnable, 100);  // כל 100 מילישניות
+
+        // אקראי מחדש את התמונות על פי הגדרות
+        images.clear();
+        for (int i = 0; i < imageResources.length; i++) {
+            images.add(imageResources[i]);
+        }
+        Collections.shuffle(images);
+
+        // איפוס משתנים
+        firstChoice = -1;
+        secondChoice = -1;
+        firstChoiceIndex = -1;
+        secondChoiceIndex = -1;
+
+        // עדכון טקסט סטטוס
+        statusText.setText("start!");
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.action_firstpage){
+            Intent intent = new Intent(MainHardActivity.this, MainActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_settings) {
+            Intent intent = new Intent(MainHardActivity.this, SettingsActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_start){
+            Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
+            // יצירת Intent כדי לעבור לדף החדש
+            Intent intent = new Intent(MainHardActivity.this, MainStart.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

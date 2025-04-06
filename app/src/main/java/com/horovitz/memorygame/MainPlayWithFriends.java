@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -308,16 +309,14 @@ public class MainPlayWithFriends extends AppCompatActivity {
         long elapsedTimeInSeconds = (elapsedTime / 1000);
 
         // חישוב הניקוד - נניח ניקוד התחלתי של 1000 נקודות, ונפחית 1 נקודה לכל שנייה
-        int baseScore = 1000;
+        int baseScore = 400;
         int timePenalty = (int) elapsedTimeInSeconds;
         int score = baseScore - timePenalty ; // 100 נקודות לכל זוג שנמצא
 
-        message += "Score: " + score;  // הניקוד
-        SharedPreferences sharedPreferences = getSharedPreferences("ScoreToMoney", MODE_PRIVATE); // שמירת המידע
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("score", 0);  // שמירת הציון
-        editor.apply();  // שמירת השינויים
 
+        message += "Score: " +score;  // הניקוד
+
+        Log.d("Rinat", "score " + score);
 
         TextView messageTextView = new TextView(this);
         messageTextView.setText(message);
@@ -329,6 +328,17 @@ public class MainPlayWithFriends extends AppCompatActivity {
         builder.setPositiveButton("Home page", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                // Save the score using SharedPreferences
+                saveScoreToSharedPreferences(score);
+
+                // Log for debugging
+                Log.d("Rinat", "scoreShowD " + score);
+
+                // Get the updated total score
+                int updatedTotalScore = getTotalScore();
+                Log.d("Rinat", "currentM " + updatedTotalScore);
+
+                // Return to MainActivity
                 Intent intent = new Intent(MainPlayWithFriends.this, MainActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
@@ -342,7 +352,29 @@ public class MainPlayWithFriends extends AppCompatActivity {
 //            }
 //        });
         builder.setCancelable(false);  // אם אתה רוצה שהשחקן לא יוכל לדלג על ההודעה לפני שלחץ על כפתור
-        builder.show();
+        builder.create().show();
+    }
+
+    private int getTotalScore() {
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+        return prefs.getInt("totalScore", 0);
+    }
+
+    private void saveScoreToSharedPreferences(int newScore) {
+        // Get SharedPreferences instance
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+
+        // Get the current total score
+        int currentTotalScore = prefs.getInt("totalScore", 0);
+
+        // Add the new score to the total
+        int updatedTotalScore = currentTotalScore + newScore;
+
+        // Save the updated score
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("totalScore", updatedTotalScore);
+        editor.putInt("lastGameScore", newScore); // Also save the last game score
+        editor.apply();
     }
 
     private void switchPlayer(String player1Name,String player2Name) {

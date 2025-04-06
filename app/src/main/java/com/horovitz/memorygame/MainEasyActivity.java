@@ -89,16 +89,6 @@ public class MainEasyActivity extends AppCompatActivity {
         buttons[3] = findViewById(R.id.button_3);
         buttons[4] = findViewById(R.id.button_4);
         buttons[5] = findViewById(R.id.button_5);
-//        buttons[6] = findViewById(R.id.button_7);
-//        buttons[7] = findViewById(R.id.button_8);
-//        buttons[8] = findViewById(R.id.button_9);
-//        buttons[9] = findViewById(R.id.button_10);
-//        buttons[10] = findViewById(R.id.button_11);
-//        buttons[11] = findViewById(R.id.button_12);
-//        buttons[12] = findViewById(R.id.button_13);
-//        buttons[13] = findViewById(R.id.button_14);
-//        buttons[14] = findViewById(R.id.button_15);
-//        buttons[15] = findViewById(R.id.button_16);
         timerTextView = findViewById(R.id.timerTextView);
 
         // אתחול ה-TextView
@@ -275,7 +265,7 @@ public class MainEasyActivity extends AppCompatActivity {
 
         long elapsedTimeInSeconds = (elapsedTime / 1000);
 
-        // חישוב הניקוד - נניח ניקוד התחלתי של 1000 נקודות, ונפחית 1 נקודה לכל שנייה
+        // חישוב הניקוד - נניח ניקוד התחלתי של 200 נקודות, ונפחית 1 נקודה לכל שנייה
         int baseScore = 200;
         int timePenalty = (int) elapsedTimeInSeconds;
         int score = baseScore - timePenalty; // 100 נקודות לכל זוג שנמצא
@@ -294,50 +284,74 @@ public class MainEasyActivity extends AppCompatActivity {
         builder.setView(messageTextView);  // הגדרת TextView כצפייה בהודעה
 
 
-
-//        builder.setTitle("Well done!");
-//        builder.setTitle("You succeeded to reveal all couples");
-//
-//        builder.setMessage("Time: " + (elapsedTime / 1000) + " s");  // הצגת הזמן בשניות
-//        builder.setMessage("Score: "  );  // הצגת הניקוד/כסף שנקבל
         builder.setPositiveButton("Home page", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // כאן תוכל להגדיל את הציון או לשנות אותו לפי מה שקרה במשחק
-                currentMoney = currentMoney+ score; // להוסיף את הניקוד למשחק הנוכחי
-                Log.d("Rinat", "scoreShowD " + score);
-                Log.d("Rinat", "currentM " + currentMoney);
+                // Save the score using SharedPreferences
+                saveScoreToSharedPreferences(score);
 
+                // Log for debugging
+                Log.d("Rinat", "scoreShowD " + score);
+
+                // Get the updated total score
+                int updatedTotalScore = getTotalScore();
+                Log.d("Rinat", "currentM " + updatedTotalScore);
+
+                // Return to MainActivity
                 Intent intent = new Intent(MainEasyActivity.this, MainActivity.class);
-                intent.putExtra("score", currentMoney);  // מעביר את הציון המעודכן
-                startActivity(intent);  // פתיחת הפעילות החדשה
-                // להעביר את הערך המעודכן חזרה ל- MainActivity
-//                Intent returnIntent = new Intent();
-//                returnIntent.putExtra("score", currentMoney); // שולחים את הציון המעודכן
-//                setResult(RESULT_OK, returnIntent); // שולחים את התוצאה חזרה ל-MainActivity
-//                finish(); // סגירת הפעילות וחזרה לעמוד הראשי
+                startActivity(intent);
+
             }
         });
         builder.setNegativeButton("Yeah!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                currentMoney += score; // לדוגמה, להוסיף 10 אחרי כל משחק
 
-                // כפתור חזרה לדף הבית
+
+                saveScoreToSharedPreferences(score);
+
+                // Restart the game activity
                 Intent intent = new Intent(MainEasyActivity.this, MainEasyActivity.class);
-                intent.putExtra("score", currentMoney);  // העברת מידע (במקרה הזה ציון)
-                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
+                startActivity(intent);
             }
         });
         builder.setNeutralButton("Record board", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                saveScoreToSharedPreferences(score);
+
                 Intent intent = new Intent(MainEasyActivity.this, RecordBoardActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
         builder.setCancelable(false);  // אם אתה רוצה שהשחקן לא יוכל לדלג על ההודעה לפני שלחץ על כפתור
-        builder.show();
+//        builder.show();
+
+        builder.create().show();
+
+    }
+
+    private int getTotalScore() {
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+        return prefs.getInt("totalScore", 0);
+    }
+
+    private void saveScoreToSharedPreferences(int newScore) {
+        // Get SharedPreferences instance
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+
+        // Get the current total score
+        int currentTotalScore = prefs.getInt("totalScore", 0);
+
+        // Add the new score to the total
+        int updatedTotalScore = currentTotalScore + newScore;
+
+        // Save the updated score
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("totalScore", updatedTotalScore);
+        editor.putInt("lastGameScore", newScore); // Also save the last game score
+        editor.apply();
     }
 
     private void setclickable(boolean b) {

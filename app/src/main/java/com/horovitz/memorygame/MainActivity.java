@@ -33,11 +33,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); ///כפתור הזזה בין מסך למסך בנים בנות
+        setContentView(R.layout.activity_main);
 
         gameMoneyInDis = findViewById(R.id.gameMoneyFromScores);
+        updateScoreDisplay(gameMoneyInDis, currentgameMoney);
 
-//        // קריאת הציון שנשמר ב-SharedPreferences
+//// קבלת הציון המתקבל אם יש
+//        Intent intent = getIntent();
+//        int newScore = intent.getIntExtra("score", 0);  // אם לא נשלח ציון, ברירת מחדל = 0
+//        Log.d("INBA", "NEWmoney " + newScore);
+//        Log.d("INBA", "Updated money " + currentgameMoney);
+//        // עדכון currentgameMoney עם הציון החדש
+//        currentgameMoney += newScore;  // הוספת הציון החדש לציון הקודם
+//        Log.d("INBA", "AFTER money " + currentgameMoney);
+//
+//        // שמירה ב- SharedPreferences
+//        SharedPreferences sharedPreferencesM = getSharedPreferences("ScoreToMoney", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferencesM.edit();
+//        editor.putInt("currentMoney", currentgameMoney);  // שמירה של הציון המעודכן
+//        editor.apply();  // שמירה
+//
+//        // עדכון ה-TextView עם הציון החדש
+//        gameMoneyInDis.setText("" + currentgameMoney);
+
+
+
+
+        // לוגים לעקוב אחרי המידע//        // קריאת הציון שנשמר ב-SharedPreferences
 //        SharedPreferences sharedPreferencesM = getSharedPreferences("ScoreToMoney", MODE_PRIVATE);
 //        currentgameMoney = sharedPreferencesM.getInt("currentMoney", 0); // ברירת מחדל 0 אם אין ציון
 //
@@ -164,29 +186,49 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void updateScoreDisplay(TextView gameMoneyInDis, int currentgameMoney) {
+        // Get SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+
+        // Get the total score and last game score
+        int totalScore = prefs.getInt("totalScore", 0);
+        int lastGameScore = prefs.getInt("lastGameScore", 0);
+
+        // Update the UI
+        gameMoneyInDis.setText("" + totalScore);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        // קבלת הציון המתקבל אם יש
-        Intent intent = getIntent();
-        int newScore = intent.getIntExtra("score", 0);  // אם לא נשלח ציון, ברירת מחדל = 0
 
-        // עדכון currentgameMoney עם הציון החדש
-        currentgameMoney += newScore;  // הוספת הציון החדש לציון הקודם
+        // Update the displayed score whenever returning to this activity
+        gameMoneyInDis = findViewById(R.id.gameMoneyFromScores);
+        updateScoreDisplay(gameMoneyInDis, currentgameMoney);
 
-        // שמירה ב- SharedPreferences
-        SharedPreferences sharedPreferencesM = getSharedPreferences("ScoreToMoney", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferencesM.edit();
-        editor.putInt("currentMoney", currentgameMoney);  // שמירה של הציון המעודכן
-        editor.apply();  // שמירה
 
-        // עדכון ה-TextView עם הציון החדש
-        gameMoneyInDis.setText("" + currentgameMoney);
 
-        // לוגים לעקוב אחרי המידע
-        Log.d("INBA", "NEWmoney " + newScore);
-        Log.d("INBA", "Updated money " + currentgameMoney);
+//        // קבלת הציון המתקבל אם יש
+//        Intent intent = getIntent();
+//        int newScore = intent.getIntExtra("score", 0);  // אם לא נשלח ציון, ברירת מחדל = 0
+//        Log.d("INBA", "NEWmoney " + newScore);
+//        Log.d("INBA", "Updated money " + currentgameMoney);
+//        // עדכון currentgameMoney עם הציון החדש
+//        currentgameMoney += newScore;  // הוספת הציון החדש לציון הקודם
+//        Log.d("INBA", "AFTER money " + currentgameMoney);
+//
+//        // שמירה ב- SharedPreferences
+//        SharedPreferences sharedPreferencesM = getSharedPreferences("ScoreToMoney", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferencesM.edit();
+//        editor.putInt("currentMoney", currentgameMoney);  // שמירה של הציון המעודכן
+//        editor.apply();  // שמירה
+//
+//        // עדכון ה-TextView עם הציון החדש
+//        gameMoneyInDis.setText("" + currentgameMoney);
+//
+//        // לוגים לעקוב אחרי המידע
+
     }
 
     private ImageView createImageView(final String imageName, int imageRes) {
