@@ -3,12 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
     android:background="@drawable/backsh"
     android:orientation="vertical"
     tools:context=".MainShop">
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+            android:padding="16dp">
 
-    <!-- Header or title area (optional) -->
+            <Button
+                android:id="@+id/button1000"
+                android:layout_width="0dp"
+
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_button"
+                android:text="2.90 ₪"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/button3500"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_button"
+                android:text="9.90 ₪"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
     <TextView
         android:id="@+id/shopTitle"
         android:layout_width="match_parent"
@@ -27,7 +58,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@android:color/darker_gray"
+        android:scrollbarThumbVertical="@color/black"
         android:scrollbarSize="5dp"
         android:fadeScrollbars="false">
 
@@ -39,7 +70,9 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-                <LinearLayout
+
+
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -51,50 +84,98 @@
                         android:src="@drawable/imageb8"
                         android:contentDescription="Product image" />
 
-                    <TextView
+                    <Button
+                        android:id="@+id/button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
+                        android:gravity="center"
                         android:background="@color/white"
-                        android:text="Product Name"
-                        android:textSize="18sp"
-
+                        android:text="1200"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
 
-                    <TextView
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/imageb8"
+                        android:contentDescription="Product image" />
+
+                    <Button
+                        android:id="@+id/buttonP2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="Product Price" />
-                </LinearLayout>
+                        android:padding="8dp"
+                        android:gravity="center"
+                        android:background="@color/white"
+                        android:text="1200"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:contentDescription="Product image"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/imageb8" />
+
+                        <Button
+                            android:id="@+id/buttonP3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="1200"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+
         </LinearLayout>
+
     </ScrollView>
 
-    <!-- Optional bottom navigation or actions bar -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:background="#33000000">
+<!--    &lt;!&ndash; Optional bottom navigation or actions bar &ndash;&gt;-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:padding="8dp"-->
+<!--        android:background="#33000000">-->
 
-        <Button
-            android:id="@+id/btnCart"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cart"
-            android:layout_marginEnd="4dp" />
+<!--        <Button-->
+<!--            android:id="@+id/btnCart"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Cart"-->
+<!--            android:layout_marginEnd="4dp" />-->
 
-        <Button
-            android:id="@+id/btnProfile"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Profile"
-            android:layout_marginStart="4dp" />
-    </LinearLayout>
+<!--        <Button-->
+<!--            android:id="@+id/btnProfile"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Profile"-->
+<!--            android:layout_marginStart="4dp" />-->
+<!--    </LinearLayout>-->
 
 </LinearLayout>

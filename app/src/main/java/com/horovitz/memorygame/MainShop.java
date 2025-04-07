@@ -9,17 +9,17 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainShop extends AppCompatActivity {
-    private String selectedImage = ""; // משתנה לשמירת התמונה שנבחרה
-
-    private LinearLayout layout; // ליניאר לייאוט בו נכניס את התמונות
+//    private String selectedImage = ""; // משתנה לשמירת התמונה שנבחרה
+//
+//    private LinearLayout layout; // ליניאר לייאוט בו נכניס את התמונות
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_shop);  // ודא שה-XML שלך נקרא נכון
-//GJIJGj
     }
-//        // איפוס המידע
+}
+    //        // איפוס המידע
 //        layout = findViewById(R.id.layout);  // מתחבר ל-LinearLayout הפנימי ב-ScrollView
 //
 //        // יצירת שני LinearLayouts אופקיים עבור כל שורה
@@ -73,4 +73,4 @@ public class MainShop extends AppCompatActivity {
 //
 //        return imageView;
 //    }
-}
+
