@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="________________________________________________"
+            android:text="____________________________________________"
             android:textColor="#56221F"
             android:textSize="18dp"
             />
@@ -45,7 +45,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="________________________________________________"
+            android:text="____________________________________________"
             android:textColor="#56221F"
             android:textSize="18dp"
             />
@@ -91,7 +91,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="________________________________________________"
+            android:text="____________________________________________"
             android:textColor="#56221F"
             android:textSize="18dp"
             />
@@ -152,14 +152,14 @@
         android:layout_width="170dp"
         android:layout_height="63dp"
         android:layout_gravity="center"
-        android:layout_marginTop="25dp"
-        android:background="@color/white"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#00FEFEFE"
         android:elevation="0dp"
         android:fontFamily="@font/title"
         android:outlineProvider="none"
         android:text="Save"
         android:textColor="#56221F"
-        android:textSize="39dp">
+        android:textSize="35dp">
     </Button>
     </LinearLayout>
 

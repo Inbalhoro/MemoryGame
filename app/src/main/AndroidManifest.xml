@@ -28,6 +28,10 @@
             android:name=".MainHardActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light"/>
+        <activity
+            android:name=".MainComputerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light"/>
         <service
             android:name=".MusicService"
             android:enabled="true"
@@ -38,22 +42,20 @@
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".SettingsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:exported="false" />
         <activity
             android:name=".MainRegularActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".MainPlayWithFriends"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".MainStart"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

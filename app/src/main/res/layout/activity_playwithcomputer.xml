@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundboys"
+    android:background="@drawable/backcom"
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
     tools:context=".MainPlayWithFriends">
 
     <TextView
-        android:id="@+id/playerNamesTextView"
+        android:text="Yourself VS Computer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:layout_marginTop="2dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
@@ -241,12 +241,13 @@
     <Button
         android:id="@+id/resetButton"
         android:text="new game"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#00FEFEFE"
         android:layout_gravity="center"
         android:padding="12dp"
-        android:textSize="16sp"/>
+        android:textColor="#9D537F"/>
 
 </LinearLayout>
 

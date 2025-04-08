@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button navigateButton;
     private Button navigateWithButton;
+    private Button navigateWithCom;
 
     SharedPreferences sharedPreferences;
     String selectedDifficulty;
@@ -182,6 +183,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+        navigateWithCom = findViewById(R.id.navigateWithCom);
+        navigateWithCom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, MainComputerActivity.class);
+                    startActivity(intent);
+                }
+            });
 
 
     }
@@ -314,13 +323,13 @@ public class MainActivity extends AppCompatActivity {
         if (id==R.id.action_start){
             Intent intent = new Intent(MainActivity.this, MainStart.class);
             startActivity(intent); // התחלת ה-Activity החדש
-            Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You selected MainStart", Toast.LENGTH_SHORT).show();
 
         }
         if (id==R.id.action_shop){
             Intent intent = new Intent(MainActivity.this, MainShop.class);
             startActivity(intent); // התחלת ה-Activity החדש
-            Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You selected MainShop", Toast.LENGTH_SHORT).show();
 
         }
         return super.onOptionsItemSelected(item);
