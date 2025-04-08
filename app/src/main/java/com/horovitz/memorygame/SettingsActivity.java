@@ -148,6 +148,8 @@ public class SettingsActivity extends AppCompatActivity {
 
                 editor.apply(); // שמירה באופן אסינכרוני
                 Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
