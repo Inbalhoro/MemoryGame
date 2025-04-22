@@ -9,9 +9,6 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainShop extends AppCompatActivity {
-//    private String selectedImage = ""; // משתנה לשמירת התמונה שנבחרה
-//
-//    private LinearLayout layout; // ליניאר לייאוט בו נכניס את התמונות
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -27,14 +27,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="____________________________________________"
+            android:text="______________________"
             android:textColor="#56221F"
             android:textSize="18dp"
             />
         <!-- אופציה להשתקת צלילים -->
         <Switch
             android:fontFamily="@font/title"
-            android:textSize="50dp"
+            android:textSize="45dp"
             android:id="@+id/switch_sound"
             android:textColor="#56221F"
             android:layout_width="match_parent"
@@ -42,10 +42,11 @@
             android:text="Sounds"
             android:padding="5dp"
             android:checked="false"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="____________________________________________"
+            android:text="______________________"
             android:textColor="#56221F"
             android:textSize="18dp"
             />
@@ -91,7 +92,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="____________________________________________"
+            android:text="______________________"
             android:textColor="#56221F"
             android:textSize="18dp"
             />
@@ -147,20 +148,18 @@
                 android:text="Flags"/>
         </RadioGroup>
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="170dp"
-        android:layout_height="63dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#00FEFEFE"
-        android:elevation="0dp"
-        android:fontFamily="@font/title"
-        android:outlineProvider="none"
-        android:text="Save"
-        android:textColor="#56221F"
-        android:textSize="35dp">
-    </Button>
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="63dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#00FEFEFE"
+            android:elevation="0dp"
+            android:fontFamily="@font/title"
+            android:outlineProvider="none"
+            android:text="Save"
+            android:textColor="#56221F"
+            android:textSize="35dp"></Button>
     </LinearLayout>
 
     </LinearLayout>

@@ -274,6 +274,9 @@ public class MainEasyActivity extends AppCompatActivity {
 
         Log.d("Rinat", "score " + score);
 
+        GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
+        dbHelper.insertGame("The easy game",score, (int) elapsedTime / 1000);
+
 
 // יצירת TextView עם טקסט מותאם אישית
         TextView messageTextView = new TextView(this);

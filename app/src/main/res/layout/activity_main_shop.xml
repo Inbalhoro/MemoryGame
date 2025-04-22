@@ -3,41 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-    android:background="@drawable/backsh"
+    android:background="@drawable/backsettings"
     android:orientation="vertical"
     tools:context=".MainShop">
-        <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-            android:padding="16dp">
+<!--        <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:gravity="center"-->
+<!--            android:padding="16dp">-->
 
-            <Button
-                android:id="@+id/button1000"
-                android:layout_width="0dp"
+<!--            <Button-->
+<!--                android:id="@+id/button1000"-->
+<!--                android:layout_width="0dp"-->
 
-                android:layout_weight="1"
-                android:layout_height="60dp"
-                android:text="2.90"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_marginEnd="8dp" />
+<!--                android:layout_weight="1"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:text="2.90"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="16sp"-->
+<!--                android:layout_marginEnd="8dp" />-->
 
-            <Button
-                android:id="@+id/button3500"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="60dp"
-                android:text="9.90"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
+<!--            <Button-->
+<!--                android:id="@+id/button3500"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:text="9.90"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="16sp"-->
+<!--                android:layout_marginStart="8dp" />-->
+<!--        </LinearLayout>-->
     <TextView
         android:id="@+id/shopTitle"
         android:layout_width="match_parent"
@@ -55,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@color/black"
+        android:scrollbarThumbVertical="@android:color/holo_green_dark"
         android:scrollbarSize="5dp"
         android:fadeScrollbars="false">
 

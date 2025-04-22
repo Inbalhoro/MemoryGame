@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Button navigateWithButton;
     private Button navigateWithCom;
 
+
     SharedPreferences sharedPreferences;
     String selectedDifficulty;
     private String selectedImage = ""; // משתנה לשמירת התמונה שנבחרה
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+
         navigateWithCom = findViewById(R.id.navigateWithCom);
         navigateWithCom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,10 +318,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_settings){
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intent); // התחלת ה-Activity החדש
-        }
+
         if (id==R.id.action_start){
             Intent intent = new Intent(MainActivity.this, MainStart.class);
             startActivity(intent); // התחלת ה-Activity החדש

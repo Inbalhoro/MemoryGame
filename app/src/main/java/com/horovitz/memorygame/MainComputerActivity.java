@@ -5,8 +5,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -134,7 +140,7 @@ public class MainComputerActivity extends AppCompatActivity {
     }
 
     private void onButtonClick(int index) {
-        if (isButtonMatched[index] || isComputerTurn) {
+        if (isButtonMatched[index] || isComputerTurn || index == firstChoiceIndex) {
             return;
         }
 
@@ -179,10 +185,122 @@ public class MainComputerActivity extends AppCompatActivity {
     }
 
     private void resetChoices() {
+
         firstChoice = -1;
         secondChoice = -1;
         firstChoiceIndex = -1;
         secondChoiceIndex = -1;
+
+        // בדוק אם כל הכפתורים נחשפו
+        boolean allFlipped = true;
+        for (boolean matched : isButtonMatched) {
+            if (!matched) {
+                allFlipped = false;
+                break;
+            }
+        }
+
+        if (allFlipped) {
+            elapsedTime = System.currentTimeMillis() - startTime;  // זמן שלקח לסיים את המשחק
+            statusText.setText("Game over!");
+            showTimeDialog();
+            isGameRunning = false;  // עצור את זמן הריצה
+            handler.removeCallbacks(timerRunnable);  // הסר את הריצה של עדכון הזמן
+        }
+    }
+
+    private void showTimeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        SpannableString title = new SpannableString("Game over - Well done!");
+        title.setSpan(new AbsoluteSizeSpan(24, true), 0, title.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת הראשונה ל-36sp
+        builder.setTitle(title);
+
+        if (computerMatches<playerMatches){
+            SpannableString subTitle = new SpannableString( playerMatches +"You Won!!");
+            subTitle.setSpan(new AbsoluteSizeSpan(16, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת המשנה ל-24sp
+            builder.setMessage(subTitle);
+
+        }
+        else if (playerMatches<computerMatches){
+            SpannableString subTitle = new SpannableString(computerMatches +" The computer Wons!");
+            subTitle.setSpan(new AbsoluteSizeSpan(16, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת המשנה ל-24sp
+            builder.setMessage(subTitle);
+        }
+        else{
+            SpannableString subTitle = new SpannableString("You BOTH won - you succeeded to reveal the same amount of couples");
+            subTitle.setSpan(new AbsoluteSizeSpan(16, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת המשנה ל-24sp
+            builder.setMessage(subTitle);
+        }
+
+        String message = "Time: " + (elapsedTime / 1000) + " s\n";  // זמן בשניות
+
+        // זמן משחק (בשניות)
+        long elapsedTimeInSeconds = (elapsedTime / 1000);
+
+        // חישוב הניקוד - נניח ניקוד התחלתי של 1000 נקודות, ונפחית 1 נקודה לכל שנייה
+        int baseScore = 400;
+        int timePenalty = (int) elapsedTimeInSeconds;
+        int score = baseScore - timePenalty ; // 100 נקודות לכל זוג שנמצא
+
+
+        message += "Score: " +score;  // הניקוד
+
+        Log.d("Rinat", "score " + score);
+
+        GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
+        dbHelper.insertGame("playing with the computer game",score, (int) elapsedTime / 1000);
+
+
+        TextView messageTextView = new TextView(this);
+        messageTextView.setText(message);
+        messageTextView.setGravity(Gravity.CENTER);  // יישור טקסט למרכז
+        messageTextView.setTextSize(20);  // שינוי גודל טקסט לניקוד ולזמן
+
+        builder.setView(messageTextView);  // הגדרת TextView כצפייה בהודעה
+
+        builder.setPositiveButton("Home page", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Save the score using SharedPreferences
+                saveScoreToSharedPreferences(score);
+
+                // Log for debugging
+                Log.d("Rinat", "scoreShowD " + score);
+
+                // Get the updated total score
+                int updatedTotalScore = getTotalScore();
+                Log.d("Rinat", "currentM " + updatedTotalScore);
+
+                // Return to MainActivity
+                Intent intent = new Intent(MainComputerActivity.this, MainActivity.class);
+                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
+            }
+        });
+        builder.setCancelable(false);  // אם אתה רוצה שהשחקן לא יוכל לדלג על ההודעה לפני שלחץ על כפתור
+        builder.create().show();
+    }
+
+    private void saveScoreToSharedPreferences(int newScore) {
+        // Get SharedPreferences instance
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+
+        // Get the current total score
+        int currentTotalScore = prefs.getInt("totalScore", 0);
+
+        // Add the new score to the total
+        int updatedTotalScore = currentTotalScore + newScore;
+
+        // Save the updated score
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("totalScore", updatedTotalScore);
+        editor.putInt("lastGameScore", newScore); // Also save the last game score
+        editor.apply();
+    }
+
+    private int getTotalScore() {
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+        return prefs.getInt("totalScore", 0);
     }
 
     private void switchPlayer() {

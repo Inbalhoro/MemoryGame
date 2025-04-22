@@ -376,6 +376,8 @@ public class MainHardActivity extends AppCompatActivity {
         message += "Score: " +score;  // הניקוד
 
 
+        GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
+        dbHelper.insertGame("The hard game",score, (int) elapsedTime / 1000);
 
 // יצירת TextView עם טקסט מותאם אישית
         TextView messageTextView = new TextView(this);

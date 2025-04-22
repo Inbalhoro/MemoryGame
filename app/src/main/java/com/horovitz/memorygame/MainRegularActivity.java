@@ -64,6 +64,7 @@ public class MainRegularActivity extends AppCompatActivity {
     private int firstChoiceIndex = -1;
     private int secondChoiceIndex = -1;
     private int timeInNumbersS;
+    private Button settingsButtonOnlyHere;
 
     private boolean[] isButtonFlipped = new boolean[16]; // מעקב אם כפתור כבר נחשף
     private boolean[] isButtonMatched = new boolean[16]; // מעקב אם הכפתור כבר נמצא בזוג נכון
@@ -93,7 +94,7 @@ public class MainRegularActivity extends AppCompatActivity {
         buttons[3] = findViewById(R.id.button_4);
         buttons[4] = findViewById(R.id.button_5);
         buttons[5] = findViewById(R.id.button_6);
-       buttons[6] = findViewById(R.id.button_7);
+        buttons[6] = findViewById(R.id.button_7);
         buttons[7] = findViewById(R.id.button_8);
         buttons[8] = findViewById(R.id.button_9);
         buttons[9] = findViewById(R.id.button_10);
@@ -110,9 +111,12 @@ public class MainRegularActivity extends AppCompatActivity {
 
         // אתחול כפתור האיפוס
         resetButton = findViewById(R.id.resetButton);
+        settingsButtonOnlyHere = findViewById(R.id.settingsButton);
+
 
         // מיקסום התמונות באופן אקראי
         startNewGame();
+
 
         // מאזין ללחיצות על כפתורים
         for (int i = 0; i < 16; i++) {
@@ -124,7 +128,13 @@ public class MainRegularActivity extends AppCompatActivity {
                 }
             });
         }
-
+        settingsButtonOnlyHere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainRegularActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
         // מאזין לכפתור איפוס
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,6 +304,9 @@ public class MainRegularActivity extends AppCompatActivity {
 
         message += "Score: " +score;  // הניקוד
         Log.d("Rinat", "score " + score);
+
+        GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
+        dbHelper.insertGame("The regular game",score, (int) elapsedTime / 1000);
 
 
 // יצירת TextView עם טקסט מותאם אישית

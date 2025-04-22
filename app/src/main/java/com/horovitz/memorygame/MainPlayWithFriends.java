@@ -318,6 +318,10 @@ public class MainPlayWithFriends extends AppCompatActivity {
 
         Log.d("Rinat", "score " + score);
 
+        GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
+        dbHelper.insertGame("playing with a friend game",score, (int) elapsedTime / 1000);
+
+
         TextView messageTextView = new TextView(this);
         messageTextView.setText(message);
         messageTextView.setGravity(Gravity.CENTER);  // יישור טקסט למרכז
@@ -343,14 +347,6 @@ public class MainPlayWithFriends extends AppCompatActivity {
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
-
-//        builder.setNegativeButton("Yeah!", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Intent intent = new Intent(MainPlayWithFriends.this, MainPlayWithFriends.class);
-//                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
-//            }
-//        });
         builder.setCancelable(false);  // אם אתה רוצה שהשחקן לא יוכל לדלג על ההודעה לפני שלחץ על כפתור
         builder.create().show();
     }
