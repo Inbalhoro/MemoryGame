@@ -69,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isSoundEnabled", isChecked); // שמירת מצב הסוויץ'
-                editor.apply();
+                editor.commit();
                 // שמור את הגדרת הצלילים
                 // לדוג' SharedPreferences או כל מנגנון אחר לשמירת הגדרות
                 if (isChecked) {
@@ -176,31 +176,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id==R.id.action_firstpage){
-            Toast.makeText(this, "You selected login", LENGTH_SHORT).show();
-            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-            startActivity(intent); // התחלת ה-Activity החדש
-        }
-        if (id==R.id.action_settings){
-            Intent intent = new Intent(SettingsActivity.this, SettingsActivity.class);
-            startActivity(intent); // התחלת ה-Activity החדש
-        }
-        if (id==R.id.action_start){
-            Intent intent = new Intent(SettingsActivity.this, MainStart.class);
-            Toast.makeText(this, "You selected start", LENGTH_SHORT).show();
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private int getDifficultyIndex(String difficulty) {
         String[] difficulties = getResources().getStringArray(R.array.difficulty_levels);
@@ -233,5 +209,28 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.action_firstpage){
+            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_settings) {
+            Toast.makeText(this, "You are at the settings page", Toast.LENGTH_SHORT).show();
+        }
+        if (id==R.id.action_start){
+            Toast.makeText(this, "You selected restart - Please wait a few seconds", Toast.LENGTH_SHORT).show();
+            // יצירת Intent כדי לעבור לדף החדש
+            Intent intent = new Intent(SettingsActivity.this, MainStart.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

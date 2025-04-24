@@ -3,9 +3,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,23 +28,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
+
+    private SensorManager sensorManager;
+    private Sensor lightSensor;
 
     private Button navigateButton;
     private Button navigateWithButton;
     private Button navigateWithCom;
-
-
     SharedPreferences sharedPreferences;
     String selectedDifficulty;
     private String selectedImage = ""; // משתנה לשמירת התמונה שנבחרה
     private TextView gameMoneyInDis;
     private int currentgameMoney = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         gameMoneyInDis = findViewById(R.id.gameMoneyFromScores);
         updateScoreDisplay(gameMoneyInDis, currentgameMoney);
@@ -76,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
-        Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
-        startService(serviceIntent); // הפעלת מוזיקה ברגע ש-Activity נפתח
+        Intent serviceIntentMusic = new Intent(MainActivity.this, MusicService.class);
+        startService(serviceIntentMusic); // הפעלת מוזיקה ברגע ש-Activity נפתח
 
         navigateButton = findViewById(R.id.navigateButtonSingle);
         navigateButton.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +208,18 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
+        // Connect to the sensor service
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        if (sensorManager != null) {
+            lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+            if (lightSensor != null) {
+                // Start listening to the light sensor
+                sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            }
+        }
     }
+
 
     private void updateScoreDisplay(TextView gameMoneyInDis, int currentgameMoney) {
         // Get SharedPreferences
@@ -273,10 +297,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // עצירת המוזיקה בעת סגירת ה-Activity
-        Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
-        stopService(serviceIntent);
+        unregisterLightSensorListener(); //של הLIGHTS
+        stopMusicService(); //של הMUSICERVICE
     }
+
+    private void stopMusicService() {
+        // עצירת המוזיקה בעת סגירת ה-Activity
+        Intent serviceIntentMusic = new Intent(MainActivity.this, MusicService.class);
+        stopService(serviceIntentMusic);
+    }
+
+    /**
+     * Unregisters the light sensor listener.
+     * Should be called when the activity or service is destroyed to save resources.
+     */
+    private void unregisterLightSensorListener() {
+        if (sensorManager != null) {
+            sensorManager.unregisterListener(this); // ✅ Stop receiving light sensor updates
+        }
+    }
+
 
 
     @Override
@@ -290,8 +330,8 @@ public class MainActivity extends AppCompatActivity {
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
-        Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
-        startService(serviceIntent); // הפעלת מוזיקה ברגע ש-Activity נפתח
+        Intent serviceIntentMusic = new Intent(MainActivity.this, MusicService.class);
+        startService(serviceIntentMusic); // הפעלת מוזיקה ברגע ש-Activity נפתח
 
     }
     @Override
@@ -333,4 +373,15 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
        }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        // 💡 Use the helper to update UI based on light level
+        LightSensorHelper.getInstance().handleLightChange(event, this);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Not needed for light sensor, but required method
+    }
 }

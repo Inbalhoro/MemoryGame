@@ -1,11 +1,15 @@
 package com.horovitz.memorygame;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainShop extends AppCompatActivity {
@@ -14,6 +18,25 @@ public class MainShop extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_shop);  // ודא שה-XML שלך נקרא נכון
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.action_firstpage){
+            Intent intent = new Intent(MainShop.this, MainActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_settings) {
+            Toast.makeText(this, "You can change the settings only when you are at a single game player", Toast.LENGTH_SHORT).show();
+        }
+        if (id==R.id.action_start){
+            Toast.makeText(this, "You selected restart - Please wait a few seconds", Toast.LENGTH_SHORT).show();
+            // יצירת Intent כדי לעבור לדף החדש
+            Intent intent = new Intent(MainShop.this, MainStart.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
     //        // איפוס המידע
@@ -70,4 +93,5 @@ public class MainShop extends AppCompatActivity {
 //
 //        return imageView;
 //    }
+
 

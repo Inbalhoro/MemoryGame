@@ -395,12 +395,11 @@ public class MainPlayWithFriends extends AppCompatActivity {
             Intent intent = new Intent(MainPlayWithFriends.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-//        if (id==R.id.action_settings) {
-//            Intent intent = new Intent(MainPlayWithFriends.this, SettingsActivity.class);
-//            startActivity(intent); // התחלת ה-Activity החדש
-//        }
+        if (id==R.id.action_settings) {
+            Toast.makeText(this, "You can change the settings only when you are at a single game player", Toast.LENGTH_SHORT).show();
+        }
         if (id==R.id.action_start){
-            Toast.makeText(this, "You selected start", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You selected restart - Please wait a few seconds", Toast.LENGTH_SHORT).show();
             // יצירת Intent כדי לעבור לדף החדש
             Intent intent = new Intent(MainPlayWithFriends.this, MainStart.class);
             startActivity(intent); // התחלת ה-Activity החדש

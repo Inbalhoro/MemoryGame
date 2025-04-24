@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -362,9 +364,18 @@ public class MainComputerActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_firstpage) {
+        if (id==R.id.action_firstpage){
             Intent intent = new Intent(MainComputerActivity.this, MainActivity.class);
-            startActivity(intent);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_settings) {
+            Toast.makeText(this, "You can change the settings only when you are at a single game player", Toast.LENGTH_SHORT).show();
+        }
+        if (id==R.id.action_start){
+            Toast.makeText(this, "You selected restart - Please wait a few seconds", Toast.LENGTH_SHORT).show();
+            // יצירת Intent כדי לעבור לדף החדש
+            Intent intent = new Intent(MainComputerActivity.this, MainStart.class);
+            startActivity(intent); // התחלת ה-Activity החדש
         }
         return super.onOptionsItemSelected(item);
     }

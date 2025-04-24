@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="Sounds"
             android:padding="5dp"
-            android:checked="false"/>
+            android:checked="true"/>
 
         <TextView
             android:layout_width="match_parent"

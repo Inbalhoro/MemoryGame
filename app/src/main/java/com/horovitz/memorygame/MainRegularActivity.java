@@ -111,7 +111,7 @@ public class MainRegularActivity extends AppCompatActivity {
 
         // אתחול כפתור האיפוס
         resetButton = findViewById(R.id.resetButton);
-        settingsButtonOnlyHere = findViewById(R.id.settingsButton);
+//        settingsButtonOnlyHere = findViewById(R.id.settingsButton);
 
 
         // מיקסום התמונות באופן אקראי
@@ -128,13 +128,13 @@ public class MainRegularActivity extends AppCompatActivity {
                 }
             });
         }
-        settingsButtonOnlyHere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainRegularActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
+//        settingsButtonOnlyHere.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainRegularActivity.this, SettingsActivity.class);
+//                startActivity(intent);
+//            }
+//        });
         // מאזין לכפתור איפוס
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
