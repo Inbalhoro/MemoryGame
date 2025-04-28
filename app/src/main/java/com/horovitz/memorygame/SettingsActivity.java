@@ -210,6 +210,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -222,14 +224,21 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_settings) {
-            Toast.makeText(this, "You are at the settings page", Toast.LENGTH_SHORT).show();
+        if (id==R.id.action_settings){
+            Toast.makeText(this, "You are already here", Toast.LENGTH_SHORT).show();
+        }
+        if (id==R.id.action_rank){
+            Intent intent = new Intent(SettingsActivity.this, RecordBoardActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_shop){
+            Intent intent = new Intent(SettingsActivity.this, MainShop.class);
+            startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_start){
-            Toast.makeText(this, "You selected restart - Please wait a few seconds", Toast.LENGTH_SHORT).show();
-            // יצירת Intent כדי לעבור לדף החדש
             Intent intent = new Intent(SettingsActivity.this, MainStart.class);
             startActivity(intent); // התחלת ה-Activity החדש
+            Toast.makeText(this, "You pressed RESTART - Please wait a few seconds", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -7,36 +7,6 @@
     android:background="@drawable/backsettings"
     android:orientation="vertical"
     tools:context=".MainShop">
-<!--        <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:gravity="center"-->
-<!--            android:padding="16dp">-->
-
-<!--            <Button-->
-<!--                android:id="@+id/button1000"-->
-<!--                android:layout_width="0dp"-->
-
-<!--                android:layout_weight="1"-->
-<!--                android:layout_height="60dp"-->
-<!--                android:text="2.90"-->
-<!--                android:textColor="#FFFFFF"-->
-<!--                android:textStyle="bold"-->
-<!--                android:textSize="16sp"-->
-<!--                android:layout_marginEnd="8dp" />-->
-
-<!--            <Button-->
-<!--                android:id="@+id/button3500"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_height="60dp"-->
-<!--                android:text="9.90"-->
-<!--                android:textColor="#FFFFFF"-->
-<!--                android:textStyle="bold"-->
-<!--                android:textSize="16sp"-->
-<!--                android:layout_marginStart="8dp" />-->
-<!--        </LinearLayout>-->
     <TextView
         android:id="@+id/shopTitle"
         android:layout_width="match_parent"
@@ -145,36 +115,6 @@
                             android:textSize="24sp"
                             android:textStyle="bold" />
                     </LinearLayout>
-
-
-
         </LinearLayout>
-
     </ScrollView>
-
-<!--    &lt;!&ndash; Optional bottom navigation or actions bar &ndash;&gt;-->
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:padding="8dp"-->
-<!--        android:background="#33000000">-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btnCart"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="Cart"-->
-<!--            android:layout_marginEnd="4dp" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btnProfile"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="Profile"-->
-<!--            android:layout_marginStart="4dp" />-->
-<!--    </LinearLayout>-->
-
 </LinearLayout>

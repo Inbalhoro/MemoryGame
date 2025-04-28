@@ -1,8 +1,14 @@
 package com.horovitz.memorygame;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,7 +43,7 @@ public class RecordBoardActivity extends AppCompatActivity {
     private List<String> getGameTitles(List<GameResult> games) {
         List<String> titles = new ArrayList<>();
         for (GameResult game : games) {
-            titles.add("GAME #" + game.getId() + " (" + game.getGameType() + ")");
+            titles.add("GAME #" + game.getId());
         }
         return titles;
     }
@@ -52,5 +58,36 @@ public class RecordBoardActivity extends AppCompatActivity {
                 .setMessage(message)
                 .setPositiveButton("close", null)
                 .show();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.action_firstpage){
+            Intent intent = new Intent(RecordBoardActivity.this, MainActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_settings){
+            Intent intent = new Intent(RecordBoardActivity.this, SettingsActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_rank){
+            Toast.makeText(this, "You are already here", Toast.LENGTH_SHORT).show();
+        }
+        if (id==R.id.action_shop) {
+            Intent intent = new Intent(RecordBoardActivity.this, MainShop.class);
+            startActivity(intent); // התחלת ה-Activity החדש        }
+        }
+        if (id==R.id.action_start){
+            Intent intent = new Intent(RecordBoardActivity.this, MainStart.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+            Toast.makeText(this, "You pressed RESTART -  Please wait a few seconds", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

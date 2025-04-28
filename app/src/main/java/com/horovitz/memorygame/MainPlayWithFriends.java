@@ -14,6 +14,7 @@ import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -389,20 +390,33 @@ public class MainPlayWithFriends extends AppCompatActivity {
         }
     }
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id==R.id.action_firstpage){
             Intent intent = new Intent(MainPlayWithFriends.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_settings) {
-            Toast.makeText(this, "You can change the settings only when you are at a single game player", Toast.LENGTH_SHORT).show();
+        if (id==R.id.action_settings){
+            Toast.makeText(this, "You can change the settings ONLY from the single player game!", Toast.LENGTH_SHORT).show();
+        }
+        if (id==R.id.action_rank){
+            Intent intent = new Intent(MainPlayWithFriends.this, RecordBoardActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_shop) {
+            Intent intent = new Intent(MainPlayWithFriends.this, MainShop.class);
+            startActivity(intent); // התחלת ה-Activity החדש        }
         }
         if (id==R.id.action_start){
-            Toast.makeText(this, "You selected restart - Please wait a few seconds", Toast.LENGTH_SHORT).show();
-            // יצירת Intent כדי לעבור לדף החדש
             Intent intent = new Intent(MainPlayWithFriends.this, MainStart.class);
             startActivity(intent); // התחלת ה-Activity החדש
+            Toast.makeText(this, "You pressed RESTART -  Please wait a few seconds", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
