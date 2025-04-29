@@ -1,7 +1,5 @@
 package com.horovitz.memorygame;
 
-import static android.widget.Toast.LENGTH_SHORT;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,13 +16,8 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -50,8 +43,19 @@ public class SettingsActivity extends AppCompatActivity {
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true);
         soundSwitch.setChecked(isSoundEnabled);
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.difficulty_levels, android.R.layout.simple_spinner_item);
+        difficultySpinner.setAdapter(adapter);
+
+
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.time_presentation_cards, android.R.layout.simple_spinner_item);
+        timeSpinner.setAdapter(adapter1);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         String savedDifficulty = sharedPreferences.getString("selectedDifficulty", "Regular");
-        difficultySpinner.setSelection(getDifficultyIndex(savedDifficulty));
+        int x = getDifficultyIndex(savedDifficulty);
+        difficultySpinner.setSelection(x);
 
         String savedTime = sharedPreferences.getString("timeSelection", "Regular");
         timeSpinner.setSelection(getTimeIndex(savedTime));
@@ -83,15 +87,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.difficulty_levels, android.R.layout.simple_spinner_item);
-        difficultySpinner.setAdapter(adapter);
 
-
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.time_presentation_cards, android.R.layout.simple_spinner_item);
-        timeSpinner.setAdapter(adapter1);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -100,7 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
                 String selectedDifficulty = parentView.getItemAtPosition(position).toString();
                 editor.putString("selectedDifficulty", selectedDifficulty);
-                editor.apply();
+                editor.commit();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -112,7 +108,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String timeSelection = adapterView.getItemAtPosition(i).toString();
                 editor.putString("timeSelection", timeSelection);
-                editor.apply();
+                editor.commit();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -123,7 +119,7 @@ public class SettingsActivity extends AppCompatActivity {
             RadioButton selectedRadioButton = findViewById(checkedId);
             String selectedTheme = selectedRadioButton.getText().toString();
             editor.putString("selectedTheme", selectedTheme);
-            editor.apply();
+            editor.commit();
         });
 
 
@@ -146,7 +142,7 @@ public class SettingsActivity extends AppCompatActivity {
                 boolean isSoundEnabled = soundSwitch.isChecked();
                 editor.putBoolean("isSoundEnabled", isSoundEnabled);
 
-                editor.apply(); // שמירה באופן אסינכרוני
+                editor.commit(); // שמירה באופן אסינכרוני
                 Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -173,7 +169,7 @@ public class SettingsActivity extends AppCompatActivity {
         boolean isSoundEnabled = soundSwitch.isChecked();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isSoundEnabled",  soundSwitch.isChecked());
-        editor.apply();
+        editor.commit();
     }
 
 
@@ -213,7 +209,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.popupmenu_main, menu);
         return true;
     }
 

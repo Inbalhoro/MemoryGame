@@ -252,9 +252,9 @@ public class MainHardActivity extends AppCompatActivity {
 
         // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה
         if (isSoundEnabled) {
-            startMusicService();
-        } else {
             stopMusicService();
+        } else {
+            startMusicService();
         }
     }
 
@@ -412,7 +412,7 @@ public class MainHardActivity extends AppCompatActivity {
                 saveScoreToSharedPreferences(score);
 
                 // כפתור חזרה לדף הבית
-                Intent intent = new Intent(MainHardActivity.this, MainRegularActivity.class);
+                Intent intent = new Intent(MainHardActivity.this, MainHardActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
@@ -492,7 +492,7 @@ public class MainHardActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.popupmenu_main, menu);
         return true;
     }
 

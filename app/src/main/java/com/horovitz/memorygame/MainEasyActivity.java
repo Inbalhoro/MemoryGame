@@ -28,6 +28,7 @@ import java.util.Collections;
 public class MainEasyActivity extends AppCompatActivity {
     private long startTime;
     private long elapsedTime;
+
     private TextView timerTextView;  // TextView להצגת הזמן הרץ
     private final Handler handler = new Handler();  // Handler לעדכון הזמן
     private boolean isGameRunning = false;  // משתנה לבדוק אם המשחק רץ
@@ -72,6 +73,7 @@ public class MainEasyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_easy); // קישור ל-XML שלך
 
+//        popupmenu();
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
         String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
@@ -119,6 +121,7 @@ public class MainEasyActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
         if (time.equals("Short")) {
@@ -395,10 +398,15 @@ public class MainEasyActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        getMenuInflater().inflate(R.menu.popupmenu_main, menu);
         return true;
     }
 
+//
+//    private void popupmenu() {
+//        popupmenu = popupmenu()
+//    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();

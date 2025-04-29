@@ -3,42 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_firstpage"
-        android:title="Home Page"
-        android:orderInCategory="100"
-        android:fontFamily="@font/title"
         android:icon="@drawable/baseline_home"
-        app:showAsAction="never"
-        />  <!-- הוספת actionLayout -->
+        android:orderInCategory="100"
+        android:title="Home Page" />  <!-- הוספת actionLayout -->
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="200"
         android:title="Settings"
         android:icon="@drawable/baseline_settings_24"
-        android:actionLayout="@layout/menu_item_with_icon"
-        app:showAsAction="never" />  <!-- הוספת actionLayout -->
+         />  <!-- הוספת actionLayout -->
 
     <item
         android:id="@+id/action_rank"
         android:title="Rank"
         android:icon="@drawable/baseline_rank"
         android:orderInCategory="300"
-        app:showAsAction="never"
-        android:actionLayout="@layout/menu_item_with_icon" />  <!-- הוספת actionLayout -->
+         />  <!-- הוספת actionLayout -->
 
     <item
         android:id="@+id/action_shop"
         android:title="Shop"
         android:icon="@drawable/baseline_shopping_cart"
-        android:orderInCategory="300"
-        app:showAsAction="never"
-        android:actionLayout="@layout/menu_item_with_icon" />  <!-- הוספת actionLayout -->
+        android:orderInCategory="400"
+       />  <!-- הוספת actionLayout -->
 
     <item
         android:id="@+id/action_start"
         android:title="Restart"
         android:icon="@drawable/baseline_restart"
         android:orderInCategory="500"
-        android:actionLayout="@layout/menu_item_with_icon"
-        app:showAsAction="never" />  <!-- הוספת actionLayout -->
+        />  <!-- הוספת actionLayout -->
 
 </menu>

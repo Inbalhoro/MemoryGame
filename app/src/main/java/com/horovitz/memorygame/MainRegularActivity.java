@@ -341,7 +341,7 @@ public class MainRegularActivity extends AppCompatActivity {
                 saveScoreToSharedPreferences(score);
 
                 // כפתור חזרה לדף הבית
-                Intent intent = new Intent(MainRegularActivity.this, MainEasyActivity.class);
+                Intent intent = new Intent(MainRegularActivity.this, MainRegularActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
@@ -417,7 +417,7 @@ public class MainRegularActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.popupmenu_main, menu);
         return true;
     }
 
