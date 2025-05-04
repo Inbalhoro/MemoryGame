@@ -25,13 +25,14 @@
         android:title="Shop"
         android:icon="@drawable/baseline_shopping_cart"
         android:orderInCategory="400"
-       />  <!-- הוספת actionLayout -->
+       />
 
     <item
         android:id="@+id/action_start"
         android:title="Restart"
         android:icon="@drawable/baseline_restart"
         android:orderInCategory="500"
+        app:showAsAction="always"
         />  <!-- הוספת actionLayout -->
 
 </menu>
