@@ -29,12 +29,12 @@
         android:backgroundTint="#00FEFEFE"
         android:elevation="0dp"
         android:outlineProvider="none"
-        app:layout_constraintBottom_toBottomOf="@+id/navigateWithFriendButton"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.955"
         app:layout_constraintStart_toEndOf="@+id/navigateButtonSingle"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.473" />
 
     <Button
         android:id="@+id/navigateButtonSingle"
@@ -66,24 +66,28 @@
         tools:ignore="MissingConstraints" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="234dp"
-        android:background="@color/white"
+        android:background="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/gameMoneyFromScores"
+        app:layout_constraintHorizontal_bias="0.621"
+        app:layout_constraintStart_toStartOf="@+id/gameMoneyFromScores"
+        app:layout_constraintTop_toBottomOf="@+id/gameMoneyFromScores"
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/bottom_nev" />
+
+    <fragment
+        android:id="@+id/fragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameMoneyFromScores"
-        app:menu="@menu/bottom_nev">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerView"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/navigation_file" />
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        app:navGraph="@navigation/navigation_file" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

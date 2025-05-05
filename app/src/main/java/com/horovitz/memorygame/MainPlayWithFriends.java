@@ -217,25 +217,18 @@ public class MainPlayWithFriends extends AppCompatActivity {
             // אם התמונות תואמות
             if (firstChoice == secondChoice) {
                 if (currentPlayer == 1) {
-                    player1Matches++;  // עדכון מספר הזוגות שנחשפו על ידי שחקן 1
+                    player1Matches++;
                     statusText.setText(player1Name + " found a match!");
-                    isButtonMatched[firstChoiceIndex] = true; // הצבת הכפתור הראשון ככפתור תואם
-                    isButtonMatched[secondChoiceIndex] = true; // הצבת הכפתור השני ככפתור תואם
-                    resetChoices(player1Name,player2Name);
-                    switchPlayer(player1Name,player2Name);
-                    setclickable(true);
                 }
                 else{
-                    player2Matches++;  // עדכון מספר הזוגות שנחשפו על ידי שחקן 2
+                    player2Matches++;
                     statusText.setText(player2Name + " found a match!");
-                    isButtonMatched[firstChoiceIndex] = true; // הצבת הכפתור הראשון ככפתור תואם
-                    isButtonMatched[secondChoiceIndex] = true; // הצבת הכפתור השני ככפתור תואם
-                    resetChoices(player1Name,player2Name);
-                    switchPlayer(player1Name,player2Name);
-                    setclickable(true);
                 }
+                isButtonMatched[firstChoiceIndex] = true;
+                isButtonMatched[secondChoiceIndex] = true;
+                resetChoices(player1Name, player2Name);
+                setclickable(true);  // שחקן מקבל תור נוסף, לא מחליפים שחקן
             }
-
             // אם התמונות לא תואמות
             else {
                 statusText.setText("Try again");

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    app:itemIconTint="@color/black"
+    app:itemTextColor="@color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item android:id="@+id/shopFragment" app:showAsAction="always" android:title="Shop" android:icon="@drawable/baseline_account"/>
-    <item android:id="@+id/homeFragment" app:showAsAction="always" android:title="Home" android:icon="@drawable/baseline_home"/>
-    <item android:id="@+id/rankFragment" app:showAsAction="always" android:title="Rank" android:icon="@drawable/baseline_rank"/>
+    <item android:id="@+id/shopFragmentwww"  android:title="Shop" android:icon="@drawable/baseline_app_settings_alt_24"/>
+    <item android:id="@+id/shopFragment"  android:title="Shop" android:icon="@drawable/baseline_add_shopping_cart_24"/>
+    <item android:id="@+id/homeFragment"  android:title="Home" android:icon="@drawable/baseline_home"/>
+    <item android:id="@+id/rankFragment"  android:title="Rank" android:icon="@drawable/baseline_rank"/>
 </menu>
