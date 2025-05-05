@@ -21,6 +21,10 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light"/>
         <activity
+            android:name=".helpActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity
             android:name=".MainEasyActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light"/>
