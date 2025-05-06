@@ -12,7 +12,12 @@
         android:title="Settings"
         android:icon="@drawable/baseline_settings_24"
          />  <!-- הוספת actionLayout -->
-
+    <item
+        android:id="@+id/action_help"
+        android:orderInCategory="200"
+        android:title="help"
+        android:icon="@drawable/baseline_settings_24"
+        />
     <item
         android:id="@+id/action_rank"
         android:title="Rank"

@@ -363,8 +363,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_rank){
-            Intent intent = new Intent(MainActivity.this, RecordBoardActivity.class);
+        if (id==R.id.action_help){
+            Intent intent = new Intent(MainActivity.this, helpActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_shop){
