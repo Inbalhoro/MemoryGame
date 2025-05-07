@@ -507,18 +507,22 @@ public class MainHardActivity extends AppCompatActivity {
             Intent intent = new Intent(MainHardActivity.this, SettingsActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_rank){
+        if (id==R.id.action_recordBoard){
             Intent intent = new Intent(MainHardActivity.this, RecordBoardActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_shop) {
+        if (id==R.id.action_help){
+            Intent intent = new Intent(MainHardActivity.this, helpActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_shop){
             Intent intent = new Intent(MainHardActivity.this, MainShop.class);
-            startActivity(intent); // התחלת ה-Activity החדש        }
+            startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_start){
             Intent intent = new Intent(MainHardActivity.this, MainStart.class);
             startActivity(intent); // התחלת ה-Activity החדש
-            Toast.makeText(this, "You pressed RESTART -  Please wait a few seconds", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You pressed RESTART - Please wait a few seconds", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

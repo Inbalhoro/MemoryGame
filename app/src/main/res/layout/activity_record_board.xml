@@ -3,11 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backsh"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Record Board"
+    android:textSize="65dp"
+    android:fontFamily="@font/title"
+    android:layout_marginTop="20dp"
+    android:textStyle="bold"
+    android:gravity="center"
+    android:textColor="#75312D"/>
 
     <ListView
         android:id="@+id/gameListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:padding="16dp" />
+
 </LinearLayout>

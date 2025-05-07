@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -24,6 +26,7 @@ public class RecordBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_board);
+
 
         gameListView = findViewById(R.id.gameListView);
         dbHelper = new GameDatabaseHelper(this);
@@ -76,12 +79,16 @@ public class RecordBoardActivity extends AppCompatActivity {
             Intent intent = new Intent(RecordBoardActivity.this, SettingsActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_rank){
+        if (id==R.id.action_recordBoard){
             Toast.makeText(this, "You are already here", Toast.LENGTH_SHORT).show();
         }
         if (id==R.id.action_shop) {
             Intent intent = new Intent(RecordBoardActivity.this, MainShop.class);
             startActivity(intent); // התחלת ה-Activity החדש        }
+        }
+        if (id==R.id.action_help){
+            Intent intent = new Intent(RecordBoardActivity.this, helpActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_start){
             Intent intent = new Intent(RecordBoardActivity.this, MainStart.class);

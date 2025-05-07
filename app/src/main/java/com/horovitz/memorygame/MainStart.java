@@ -26,7 +26,6 @@ public class MainStart extends AppCompatActivity {
         setContentView(R.layout.activity_main_start);
 
         progressBar = findViewById(R.id.progressBar);
-//        timeLeftText = findViewById(R.id.timeLeftText);
 
         new CountDownTimer(5000, 1000) {
             @Override

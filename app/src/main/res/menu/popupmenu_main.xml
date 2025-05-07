@@ -9,29 +9,28 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="200"
-        android:title="Settings"
+        android:title="Sett"
         android:icon="@drawable/baseline_settings_24"
          />  <!-- הוספת actionLayout -->
-    <item
-        android:id="@+id/action_help"
-        android:orderInCategory="200"
-        android:title="help"
-        android:icon="@drawable/baseline_settings_24"
-        />
-    <item
-        android:id="@+id/action_rank"
-        android:title="Rank"
-        android:icon="@drawable/baseline_rank"
-        android:orderInCategory="300"
-         />  <!-- הוספת actionLayout -->
-
     <item
         android:id="@+id/action_shop"
         android:title="Shop"
         android:icon="@drawable/baseline_shopping_cart"
+        android:orderInCategory="300"
+        />
+    <item
+        android:id="@+id/action_recordBoard"
+        android:title="Record board"
+        android:icon="@drawable/baseline_record"
         android:orderInCategory="400"
-       />
+         />  <!-- הוספת actionLayout -->
 
+    <item
+        android:id="@+id/action_help"
+        android:orderInCategory="500"
+        android:title="help"
+        android:icon="@drawable/baseline_settings_24"
+        />
     <item
         android:id="@+id/action_start"
         android:title="Restart"

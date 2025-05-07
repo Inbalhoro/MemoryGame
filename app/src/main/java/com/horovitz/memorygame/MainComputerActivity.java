@@ -378,13 +378,17 @@ public class MainComputerActivity extends AppCompatActivity {
         if (id==R.id.action_settings){
             Toast.makeText(this, "You can change the settings ONLY from the single player game!", Toast.LENGTH_SHORT).show();
         }
-        if (id==R.id.action_rank){
+        if (id==R.id.action_recordBoard){
             Intent intent = new Intent(MainComputerActivity.this, RecordBoardActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_shop) {
             Intent intent = new Intent(MainComputerActivity.this, MainShop.class);
             startActivity(intent); // התחלת ה-Activity החדש        }
+        }
+        if (id==R.id.action_help){
+            Intent intent = new Intent(MainComputerActivity.this, helpActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_start){
             Intent intent = new Intent(MainComputerActivity.this, MainStart.class);

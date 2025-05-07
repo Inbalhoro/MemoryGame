@@ -1,8 +1,10 @@
 package com.horovitz.memorygame;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,16 +18,20 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.text.style.ImageSpan;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
-import java.lang.reflect.Method;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -33,14 +39,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor lightSensor;
 
-    private Button navigateButton;
+    private Button navigateButton,bottomNevigationView;
+
     private Button navigateWithButton;
     private Button navigateWithCom;
     SharedPreferences sharedPreferences;
     String selectedDifficulty;
+    View navController;
     private String selectedImage = ""; // משתנה לשמירת התמונה שנבחרה
     private TextView gameMoneyInDis;
     private int currentgameMoney = 0;
+
 
 
     @Override
@@ -220,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 
+
     private void updateScoreDisplay(TextView gameMoneyInDis, int currentgameMoney) {
         // Get SharedPreferences
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
@@ -342,11 +352,36 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 
-
+    private void setIconInMenu (Menu menu, int menuItemId, int labelId, int iconId){
+        MenuItem item = menu.findItem(menuItemId);
+        SpannableStringBuilder builder = new SpannableStringBuilder("   "+ getResources().getString(labelId));
+        builder.setSpan(new ImageSpan(this,iconId),0,1,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        item.setTitle(builder);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //super.onCreateOptionsMenu(menu);  // קריאה למתודה הבסיסית
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
+        setIconInMenu(menu
+                ,R.id.action_firstpage
+                ,R.string.firstpage
+                ,R.drawable.baseline_home);
+        setIconInMenu(menu
+                ,R.id.action_settings
+                ,R.string.setting
+                ,R.drawable.baseline_settings_24);
+        setIconInMenu(menu
+                ,R.id.action_shop
+                ,R.string.shop
+                ,R.drawable.baseline_shopping_cart);
+        setIconInMenu(menu
+                ,R.id.action_recordBoard
+                ,R.string.recordBoard
+                ,R.drawable.baseline_record);
+        setIconInMenu(menu
+                ,R.id.action_help
+                ,R.string.help
+                ,R.drawable.baseline_help);
         return true;
     }
 
@@ -361,6 +396,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         if (id==R.id.action_settings){
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_recordBoard){
+            Intent intent = new Intent(MainActivity.this, RecordBoardActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_help){

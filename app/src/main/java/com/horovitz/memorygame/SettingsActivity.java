@@ -223,12 +223,16 @@ public class SettingsActivity extends AppCompatActivity {
         if (id==R.id.action_settings){
             Toast.makeText(this, "You are already here", Toast.LENGTH_SHORT).show();
         }
-        if (id==R.id.action_rank){
+        if (id==R.id.action_recordBoard){
             Intent intent = new Intent(SettingsActivity.this, RecordBoardActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_shop){
             Intent intent = new Intent(SettingsActivity.this, MainShop.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_help){
+            Intent intent = new Intent(SettingsActivity.this, helpActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_start){

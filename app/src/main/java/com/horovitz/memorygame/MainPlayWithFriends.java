@@ -391,6 +391,7 @@ public class MainPlayWithFriends extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+
         if (id==R.id.action_firstpage){
             Intent intent = new Intent(MainPlayWithFriends.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
@@ -398,12 +399,16 @@ public class MainPlayWithFriends extends AppCompatActivity {
         if (id==R.id.action_settings){
             Toast.makeText(this, "You can change the settings ONLY from the single player game!", Toast.LENGTH_SHORT).show();
         }
-        if (id==R.id.action_rank){
+        if (id==R.id.action_recordBoard){
             Intent intent = new Intent(MainPlayWithFriends.this, RecordBoardActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_shop) {
             Intent intent = new Intent(MainPlayWithFriends.this, MainShop.class);
+            startActivity(intent); // התחלת ה-Activity החדש        }
+        }
+        if (id==R.id.action_help) {
+            Intent intent = new Intent(MainPlayWithFriends.this, helpActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש        }
         }
         if (id==R.id.action_start){

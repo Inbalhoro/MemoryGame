@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,17 +8,16 @@
     tools:context=".MainShop">
 
     <TextView
-        android:layout_marginTop="20dp"
-
         android:id="@+id/shopTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Shop"
         android:textSize="65dp"
         android:fontFamily="@font/title"
         android:textStyle="bold"
         android:gravity="center"
-        android:textColor="#C17873" />
+        android:textColor="#C33767" />
 
     <TextView
         android:id="@+id/gameMoneyFromScores"
@@ -28,110 +26,115 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/title"
         android:gravity="center"
-        android:textSize="30dp" />
+        android:textSize="36dp" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@android:color/holo_green_dark"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="10dp"
+        android:fadeScrollbars="false"
         android:scrollbarSize="5dp"
-        android:fadeScrollbars="false">
+        android:scrollbarThumbVertical="@android:color/holo_green_dark"
+        android:scrollbars="vertical">
 
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Product 1 -->
         <LinearLayout
-            android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="8dp">
 
-            <!-- Product 1 -->
-            <LinearLayout
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:contentDescription="Product image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/imageb8" />
+
+            <Button
+                android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:contentDescription="Product image"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/imageb8" />
-
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="@color/white"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="1200"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Product 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:contentDescription="Product image"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/imageb8" />
-
-                <Button
-                    android:id="@+id/buttonP2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="@color/white"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="1200"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Product 3 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:contentDescription="Product image"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/imageb8" />
-
-                <Button
-                    android:id="@+id/buttonP3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="@color/white"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="1200"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="1200"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
-    </ScrollView>
+
+        <!-- Product 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:contentDescription="Product image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/imageb8" />
+
+            <Button
+                android:id="@+id/buttonP2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="1200"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Product 3 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:contentDescription="Product image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/imageb8" />
+
+            <Button
+                android:id="@+id/buttonP3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="1200"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

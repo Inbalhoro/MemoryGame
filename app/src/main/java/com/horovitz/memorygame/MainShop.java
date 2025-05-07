@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class MainShop extends AppCompatActivity {
     private TextView gameMoneyInDis;
     private int currentgameMoney = 0;
@@ -56,8 +58,12 @@ public class MainShop extends AppCompatActivity {
             Intent intent = new Intent(MainShop.this, SettingsActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_rank){
+        if (id==R.id.action_recordBoard){
             Intent intent = new Intent(MainShop.this, RecordBoardActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_help){
+            Intent intent = new Intent(MainShop.this, helpActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_shop){
