@@ -8,7 +8,7 @@
     tools:context=".MainShop">
 
     <TextView
-        android:id="@+id/shopTitle"/>
+        android:id="@+id/shopTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -35,8 +35,8 @@
         android:layout_weight="1"
         android:layout_marginBottom="10dp"
         android:fadeScrollbars="false"
-        android:scrollbarSize="5dp"
-        android:scrollbarThumbVertical="@android:color/holo_green_dark"
+        android:scrollbarSize="20dp"
+        android:scrollbarThumbVertical="@color/black"
         android:scrollbars="vertical">
 
     </ScrollView>
