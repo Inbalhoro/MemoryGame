@@ -46,7 +46,7 @@ public class helpActivity extends AppCompatActivity {
     private Button sendButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {//8787jryjgjtלמחוק
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_activity);
 
