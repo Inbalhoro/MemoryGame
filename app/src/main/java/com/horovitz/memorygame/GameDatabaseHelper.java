@@ -43,7 +43,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GAMES);
-        onCreate(db);
+        onCreate(db);//חקור
     }
 
     // פונקציה להוספת משחק חדש
