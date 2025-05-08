@@ -1,10 +1,16 @@
 package com.horovitz.memorygame;
 
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +56,12 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_GAMES, null, values);
         db.close();
     }
-
+    public static void setIconInMenu(Context context, Menu menu, int menuItemId, int labelId, int iconId) {
+        MenuItem item = menu.findItem(menuItemId);
+        SpannableStringBuilder builder = new SpannableStringBuilder("   " + context.getResources().getString(labelId));
+        builder.setSpan(new ImageSpan(context, iconId), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        item.setTitle(builder);
+    }
     // פונקציה להחזיר את כל המשחקים שנשמרו
     public List<GameResult> getAllGames() {
         List<GameResult> results = new ArrayList<>();

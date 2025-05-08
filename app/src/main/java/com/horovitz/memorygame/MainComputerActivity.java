@@ -164,15 +164,20 @@ public class MainComputerActivity extends AppCompatActivity {
         if (firstChoice == secondChoice) {
             if (currentPlayer == 1) {
                 playerMatches++;
-                statusText.setText("You found a match!");
+                statusText.setText("You found a match! Play again.");
             } else {
                 computerMatches++;
-                statusText.setText("Computer found a match!");
+                statusText.setText("Computer found a match! Playing again...");
             }
             isButtonMatched[firstChoiceIndex] = true;
             isButtonMatched[secondChoiceIndex] = true;
             resetChoices();
-            switchPlayer();
+
+            // שחקן ממשיך – אם זה המחשב, קורא לעצמו שוב
+            if (currentPlayer == 2) {
+                new Handler().postDelayed(() -> computerMove(), 1000);
+            }
+
         } else {
             statusText.setText("Try again later,");
             buttons[firstChoiceIndex].postDelayed(new Runnable() {
@@ -181,11 +186,12 @@ public class MainComputerActivity extends AppCompatActivity {
                     buttons[firstChoiceIndex].setImageResource(android.R.color.transparent);
                     buttons[secondChoiceIndex].setImageResource(android.R.color.transparent);
                     resetChoices();
-                    switchPlayer();
+                    switchPlayer(); //  רק כאן יש החלפת תור
                 }
             }, 700);
         }
     }
+
 
     private void resetChoices() {
 
@@ -365,6 +371,35 @@ public class MainComputerActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_settings
+                ,R.string.setting
+                ,R.drawable.baseline_settings_24);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_firstpage
+                ,R.string.firstpage
+                ,R.drawable.baseline_home);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_settings
+                ,R.string.setting
+                ,R.drawable.baseline_settings_24);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_shop
+                ,R.string.shop
+                ,R.drawable.baseline_shopping_cart);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_recordBoard
+                ,R.string.recordBoard
+                ,R.drawable.baseline_record);
+        GameDatabaseHelper.setIconInMenu(this,menu
+                ,R.id.action_help
+                ,R.string.help
+                ,R.drawable.baseline_help);
         return true;
     }
 

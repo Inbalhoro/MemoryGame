@@ -351,34 +351,36 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         stopService(new Intent(MainActivity.this, MusicService.class)); // עצירת שירות המוזיקה
     }
 
-
-    private void setIconInMenu (Menu menu, int menuItemId, int labelId, int iconId){
-        MenuItem item = menu.findItem(menuItemId);
-        SpannableStringBuilder builder = new SpannableStringBuilder("   "+ getResources().getString(labelId));
-        builder.setSpan(new ImageSpan(this,iconId),0,1,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        item.setTitle(builder);
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //super.onCreateOptionsMenu(menu);  // קריאה למתודה הבסיסית
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
-        setIconInMenu(menu
-                ,R.id.action_firstpage
-                ,R.string.firstpage
-                ,R.drawable.baseline_home);
-        setIconInMenu(menu
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
                 ,R.id.action_settings
                 ,R.string.setting
                 ,R.drawable.baseline_settings_24);
-        setIconInMenu(menu
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_firstpage
+                ,R.string.firstpage
+                ,R.drawable.baseline_home);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_settings
+                ,R.string.setting
+                ,R.drawable.baseline_settings_24);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
                 ,R.id.action_shop
                 ,R.string.shop
                 ,R.drawable.baseline_shopping_cart);
-        setIconInMenu(menu
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
                 ,R.id.action_recordBoard
                 ,R.string.recordBoard
                 ,R.drawable.baseline_record);
-        setIconInMenu(menu
+        GameDatabaseHelper.setIconInMenu(this,menu
                 ,R.id.action_help
                 ,R.string.help
                 ,R.drawable.baseline_help);
@@ -428,11 +430,4 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Not needed for light sensor, but required method
     }
-
-
-
-
-
-
-
 }
