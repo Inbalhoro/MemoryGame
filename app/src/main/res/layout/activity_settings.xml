@@ -1,166 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:orientation="vertical"
+    android:background="@drawable/backsettings">
 
-    <LinearLayout
+    <!-- Title Section - Fixed at top -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutDirection="ltr"
-        android:layout_margin="10dp"
-        android:background="@drawable/backsettings"
-        android:orientation="vertical"
-        tools:context=".SettingsActivity">
+        android:text="Settings"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:textColor="#56221F"
+        android:fontFamily="@font/title"
+        android:textSize="69dp" />
 
-        <!-- task: לעשות פונטים לעברית  -->
-        <TextView
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:fillViewport="true">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Settings"
-            android:layout_marginTop="10dp"
-            android:textColor="#56221F"
-            android:fontFamily="@font/title"
-            android:textSize="69dp" />
+            android:orientation="vertical"
+            android:layout_marginHorizontal="10dp"
+            android:paddingBottom="16dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="______________________"
-            android:textColor="#56221F"
-            android:textSize="18dp" />
+            <!-- Sound Switch -->
+            <Switch
+                android:fontFamily="@font/title"
+                android:textSize="45dp"
+                android:id="@+id/switch_sound"
+                android:textColor="#56221F"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sounds"
+                android:padding="5dp"
+                android:checked="true" />
 
-        <!-- אופציה להשתקת צלילים -->
-        <Switch
-            android:fontFamily="@font/title"
-            android:textSize="45dp"
-            android:id="@+id/switch_sound"
-            android:textColor="#56221F"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sounds"
-            android:padding="5dp"
-            android:checked="true" />
+            <!-- Difficulty Level -->
+            <TextView
+                android:fontFamily="@font/title"
+                android:textSize="45dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Difficulty Level:"
+                android:textColor="#56221F" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="______________________"
-            android:textColor="#56221F"
-            android:textSize="18dp" />
-
-        <TextView
-            android:fontFamily="@font/title"
-            android:textSize="45dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Difficulty Level:"
-            android:textColor="#56221F" />
-
-        <!-- בחירת סוג קושי -->
-        <Spinner
-            android:fontFamily="@font/title"
-            android:textSize="35dp"
-            android:id="@+id/spinner_difficulty"
-            android:textColor="#56221F"
-            android:layout_marginBottom="6dp"
-            android:layout_width="match_parent"
-            android:padding="6dp"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:fontFamily="@font/title"
-            android:textSize="45dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Time Of Disply:"
-            android:textColor="#56221F" />
-
-        <Spinner
-            android:fontFamily="@font/title"
-            android:textSize="35dp"
-            android:id="@+id/spinner_time"
-            android:layout_marginBottom="6dp"
-            android:padding="6dp"
-            android:textColor="#56221F"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="______________________"
-            android:textColor="#56221F"
-            android:textSize="18dp" />
-
-        <TextView
-            android:fontFamily="@font/title"
-            android:textSize="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Images:"
-            android:textColor="#56221F" />
-
-        <!-- בחירת נושא המשחק -->
-        <RadioGroup
-            android:id="@+id/radio_group_theme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RadioButton
+            <Spinner
                 android:fontFamily="@font/title"
                 android:textSize="35dp"
+                android:id="@+id/spinner_difficulty"
                 android:textColor="#56221F"
-                android:checked="true"
-                android:id="@+id/radio_button_theme2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cartoon Characters" />
+                android:layout_marginBottom="6dp"
+                android:layout_width="match_parent"
+                android:padding="6dp"
+                android:layout_height="wrap_content" />
 
-            <RadioButton
+            <!-- Time Display -->
+            <TextView
+                android:fontFamily="@font/title"
+                android:textSize="45dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Time Of Disply:"
+                android:textColor="#56221F" />
+
+            <Spinner
                 android:fontFamily="@font/title"
                 android:textSize="35dp"
+                android:id="@+id/spinner_time"
+                android:layout_marginBottom="6dp"
+                android:padding="6dp"
                 android:textColor="#56221F"
-                android:id="@+id/radio_button_theme1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Animals" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <RadioButton
+            <!-- Images Section -->
+            <TextView
                 android:fontFamily="@font/title"
-                android:textSize="35dp"
-                android:textColor="#56221F"
-                android:id="@+id/radio_button_theme3"
-                android:layout_width="wrap_content"
+                android:textSize="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Food" />
+                android:text=" Images:"
+                android:textColor="#56221F" />
 
-            <RadioButton
-                android:fontFamily="@font/title"
-                android:textSize="35dp"
-                android:textColor="#56221F"
-                android:id="@+id/radio_button_theme4"
-                android:layout_width="wrap_content"
+            <RadioGroup
+                android:id="@+id/radio_group_theme"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Flags" />
-        </RadioGroup>
+                android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="63dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="#00FEFEFE"
-            android:elevation="0dp"
-            android:fontFamily="@font/title"
-            android:outlineProvider="none"
-            android:text="Save"
-            android:textColor="#56221F"
-            android:textSize="35dp" />
+                <RadioButton
+                    android:fontFamily="@font/title"
+                    android:textSize="35dp"
+                    android:textColor="#56221F"
+                    android:checked="true"
+                    android:id="@+id/radio_button_theme2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cartoon Characters" />
 
-    </LinearLayout>
-</ScrollView>
+                <RadioButton
+                    android:fontFamily="@font/title"
+                    android:textSize="35dp"
+                    android:textColor="#56221F"
+                    android:id="@+id/radio_button_theme1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Animals" />
+
+                <RadioButton
+                    android:fontFamily="@font/title"
+                    android:textSize="35dp"
+                    android:textColor="#56221F"
+                    android:id="@+id/radio_button_theme3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Food" />
+
+                <RadioButton
+                    android:fontFamily="@font/title"
+                    android:textSize="35dp"
+                    android:textColor="#56221F"
+                    android:id="@+id/radio_button_theme4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Flags" />
+            </RadioGroup>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Save Button - Fixed at bottom -->
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="63dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#00FEFEFE"
+        android:elevation="0dp"
+        android:fontFamily="@font/title"
+        android:outlineProvider="none"
+        android:text="Save"
+        android:textColor="#56221F"
+        android:textSize="35dp" />
+
+</LinearLayout>
