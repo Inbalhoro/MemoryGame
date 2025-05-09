@@ -1,10 +1,13 @@
 package com.horovitz.memorygame;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.hardware.SensorEvent;
 import android.util.Log;
 import android.view.View;
+import android.content.SharedPreferences;
 
 /**
  * Singleton helper class for handling light sensor changes.
@@ -30,16 +33,21 @@ public class LightSensorHelper {
      * @param activity The current activity whose background will be changed.
      */
     public void handleLightChange(SensorEvent event, Activity activity) {
-        float light = event.values[0]; //  Light level from sensor
-        View root = activity.findViewById(android.R.id.content); // 🧱 Root view of the screen
-
-        //  Update music based on light intensity
-        if (light < 100) { // כשחשוך ויש פחות אור המוזיקה תעצור כי כבר לילה וזה תקף גם בחוץ וגם בפנים בבית
-            MusicService.pauseMusic();
-            Log.d("LIGHT",light+"pauseMusic");
-        } else {
-            MusicService.resumeMusic();
-            Log.d("LIGHT",light+"resumeMusic");
+        float light = event.values[0];
+        View root = activity.findViewById(android.R.id.content);
+        
+        // Only control music if it's enabled in settings
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("GameSettings", MODE_PRIVATE);
+        boolean isMusicEnabled = sharedPreferences.getBoolean("isSoundEnabled", true);
+        
+        if (isMusicEnabled) {
+            if (light < 100) {
+                MusicService.pauseMusic();
+                Log.d("LIGHT", light + " pauseMusic");
+            } else {
+                MusicService.resumeMusic();
+                Log.d("LIGHT", light + " resumeMusic");
+            }
         }
     }
 }

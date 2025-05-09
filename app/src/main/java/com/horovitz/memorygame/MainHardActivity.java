@@ -1,4 +1,3 @@
-
 package com.horovitz.memorygame;
 
 import androidx.annotation.NonNull;
@@ -88,9 +87,13 @@ public class MainHardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_hard); // קישור ל-XML שלך
+        setContentView(R.layout.activity_main_hard);
+        
+        // Start the music service if it's not already running
+        Intent serviceIntent = new Intent(MainHardActivity.this, MusicService.class);
+        startService(serviceIntent);
 
-// קריאת ההגדרות מ-SharedPreferences
+        // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
         String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
 
@@ -252,22 +255,11 @@ public class MainHardActivity extends AppCompatActivity {
 
         // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה
         if (isSoundEnabled) {
-            stopMusicService();
+            // No need to call stopMusicService() as it's handled by MusicService
         } else {
-            startMusicService();
+            // No need to call startMusicService() as it's handled by MusicService
         }
     }
-
-    private void stopMusicService() {
-        Intent serviceIntent = new Intent(MainHardActivity.this, MusicService.class);
-        stopService(serviceIntent); // עוצר את המוזיקה
-    }
-
-    private void startMusicService() {
-        Intent serviceIntent = new Intent(MainHardActivity.this, MusicService.class);
-        startService(serviceIntent); // מתחיל את המוזיקה
-    }
-
 
     private void onButtonClick(int index,int timeInNumbersS) {
         // אם הכפתור כבר נמצא בזוג נכון, אל תאפשר ללחוץ עליו
@@ -292,8 +284,6 @@ public class MainHardActivity extends AppCompatActivity {
             setclickable(false);
             secondChoice = images.get(index);
             secondChoiceIndex = index;
-
-            //stop
 
             // אם התמונות תואמות
             if (firstChoice == secondChoice) {
@@ -331,8 +321,6 @@ public class MainHardActivity extends AppCompatActivity {
         secondChoice = -1;
         firstChoiceIndex = -1;
         secondChoiceIndex = -1;
-
-        //start
 
         // בדוק אם כל הכפתורים נחשפו
         boolean allFlipped = true;
@@ -552,3 +540,4 @@ public class MainHardActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+

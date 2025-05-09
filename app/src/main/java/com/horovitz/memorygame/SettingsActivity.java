@@ -71,18 +71,20 @@ public class SettingsActivity extends AppCompatActivity {
         soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Save the state immediately
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("isSoundEnabled", isChecked); // שמירת מצב הסוויץ'
-                editor.commit();
-                // שמור את הגדרת הצלילים
-                // לדוג' SharedPreferences או כל מנגנון אחר לשמירת הגדרות
+                editor.putBoolean("isSoundEnabled", isChecked);
+                editor.apply();
+                
+                // Update the music service
                 if (isChecked) {
-                    startMusicService();
-                    Toast.makeText(SettingsActivity.this, "המוזיקה פועלת", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    stopMusicService();
-                    Toast.makeText(SettingsActivity.this, "המוזיקה הופסקה", Toast.LENGTH_SHORT).show();
+                    Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
+                    startService(serviceIntent);
+                    MusicService.setMusicEnabled(true);
+                    Toast.makeText(SettingsActivity.this, "Music is now playing", Toast.LENGTH_SHORT).show();
+                } else {
+                    MusicService.setMusicEnabled(false);
+                    Toast.makeText(SettingsActivity.this, "Music is now stopped", Toast.LENGTH_SHORT).show();
                 }
             }
         });

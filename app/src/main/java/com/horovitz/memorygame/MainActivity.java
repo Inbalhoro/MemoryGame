@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Start the music service if it's not already running
+        Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
+        startService(serviceIntent);
 
         gameMoneyInDis = findViewById(R.id.gameMoneyFromScores);
         updateScoreDisplay(gameMoneyInDis, currentgameMoney);
@@ -95,9 +98,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל: "Regular"
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
-
-        Intent serviceIntentMusic = new Intent(MainActivity.this, MusicService.class);
-        startService(serviceIntentMusic); // הפעלת מוזיקה ברגע ש-Activity נפתח
 
         navigateButton = findViewById(R.id.navigateButtonSingle);
         navigateButton.setOnClickListener(new View.OnClickListener() {
@@ -305,27 +305,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterLightSensorListener(); //של הLIGHTS
-        stopMusicService(); //של הMUSICERVICE
+        //unregisterLightSensorListener(); //של הLIGHTS
     }
-
-    private void stopMusicService() {
-        // עצירת המוזיקה בעת סגירת ה-Activity
-        Intent serviceIntentMusic = new Intent(MainActivity.this, MusicService.class);
-        stopService(serviceIntentMusic);
-    }
-
-    /**
-     * Unregisters the light sensor listener.
-     * Should be called when the activity or service is destroyed to save resources.
-     */
-    private void unregisterLightSensorListener() {
-        if (sensorManager != null) {
-            sensorManager.unregisterListener(this); // ✅ Stop receiving light sensor updates
-        }
-    }
-
-
 
     @Override
     protected void onStart() {
@@ -338,16 +319,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
-        Intent serviceIntentMusic = new Intent(MainActivity.this, MusicService.class);
-        startService(serviceIntentMusic); // הפעלת מוזיקה ברגע ש-Activity נפתח
-
     }
     @Override
     protected void onStop() {
         super.onStop();
-
-        // עצור את שירות המוזיקה כשעוזבים את המסך או האפליקציה
-        stopService(new Intent(MainActivity.this, MusicService.class)); // עצירת שירות המוזיקה
     }
 
     @Override
