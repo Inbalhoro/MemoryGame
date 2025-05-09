@@ -181,7 +181,6 @@ public class MainEasyActivity extends AppCompatActivity {
         buttons[index].setImageResource(images.get(index));
         isButtonFlipped[index] = true;
 
-        Log.d("Rinat", "onButtonClick firstChoice = " + firstChoice);
         // אם זו הבחירה הראשונה
         if (firstChoice == -1) {
             firstChoice = images.get(index);
@@ -211,7 +210,6 @@ public class MainEasyActivity extends AppCompatActivity {
                 buttons[firstChoiceIndex].postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("Rinat", "run firstChoice = " + firstChoice);
                         // החבא את התמונה הראשונה אם לא תואמת
                         buttons[firstChoiceIndex].setImageResource(android.R.color.transparent);
                         // החבא את התמונה השנייה אם לא תואמת
