@@ -16,7 +16,7 @@
         android:layout_marginHorizontal="10dp"
         android:textColor="#56221F"
         android:fontFamily="@font/title"
-        android:textSize="69dp" />
+        android:textSize="70dp" />
 
     <!-- Scrollable Content -->
     <ScrollView

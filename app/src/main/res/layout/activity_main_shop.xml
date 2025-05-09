@@ -81,8 +81,8 @@
         android:layout_weight="1"
         android:layout_marginBottom="10dp"
         android:fadeScrollbars="false"
-        android:scrollbarSize="20dp"
-        android:scrollbarThumbVertical="@color/black"
+        android:scrollbarSize="10dp"
+        android:scrollbarThumbVertical="@color/white"
         android:scrollbars="vertical">
 
         <LinearLayout
@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="10dp">
 
             <!-- Product 1 -->
             <LinearLayout
