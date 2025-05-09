@@ -19,6 +19,52 @@
         android:gravity="center"
         android:textColor="#C33767" />
 
+    <!-- Background Selector Section -->
+    <LinearLayout
+        android:id="@+id/backgroundSelectorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Background"
+            android:textSize="24dp"
+            android:fontFamily="@font/title"
+            android:gravity="center"
+            android:textColor="#C33767"
+            android:layout_marginBottom="8dp"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/backgroundOptionsLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <!-- Default background option -->
+                <ImageView
+                    android:id="@+id/bg_default"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/shopback"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/border"
+                    android:onClick="onBackgroundSelected"/>
+
+                <!-- Purchased backgrounds will be added here dynamically -->
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/gameMoneyFromScores"
         android:layout_width="match_parent"
@@ -57,9 +103,9 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:contentDescription="Product image"
+                    android:contentDescription="Background 1"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/imageb8" />
+                    android:src="@drawable/backinshop1" />
 
                 <Button
                     android:id="@+id/buy_button1"
@@ -88,7 +134,7 @@
                     android:layout_height="200dp"
                     android:contentDescription="Product image"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/imageb8" />
+                    android:src="@drawable/backinshop2" />
 
                 <Button
                     android:id="@+id/buy_button2"
@@ -117,7 +163,7 @@
                     android:layout_height="200dp"
                     android:contentDescription="Product image"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/imageb8" />
+                    android:src="@drawable/backinshop3" />
 
                 <Button
                     android:id="@+id/buy_button3"
@@ -127,7 +173,7 @@
                     android:backgroundTint="@color/white"
                     android:gravity="center"
                     android:padding="12dp"
-                    android:text="1200"
+                    android:text="500"
                     android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />

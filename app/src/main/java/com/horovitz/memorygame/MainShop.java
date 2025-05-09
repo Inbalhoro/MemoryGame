@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,80 +18,136 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class MainShop extends AppCompatActivity {
     private TextView gameMoneyInDis;
     private int currentgameMoney = 0;
-    Button buyButton1, buyButton2, buyButton3;
+    private Button buyButton1, buyButton2, buyButton3;
+    private LinearLayout backgroundSelectorLayout;
+    private LinearLayout backgroundOptionsLayout;
+    private static final String[] BACKGROUND_KEYS = {"bg1", "bg2", "bg3"};
+    private static final int[] BACKGROUND_RESOURCES = {
+        R.drawable.backinshop1,
+        R.drawable.backinshop2,
+        R.drawable.backinshop3
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_shop);
 
+        // Initialize views
         gameMoneyInDis = findViewById(R.id.gameMoneyFromScores);
         buyButton1 = findViewById(R.id.buy_button1);
         buyButton2 = findViewById(R.id.buy_button2);
         buyButton3 = findViewById(R.id.buy_button3);
+        backgroundSelectorLayout = findViewById(R.id.backgroundSelectorLayout);
+        backgroundOptionsLayout = findViewById(R.id.backgroundOptionsLayout);
 
         updateScoreDisplay(gameMoneyInDis, currentgameMoney);
+        setupBackgroundSelector();
+        loadButtonState();
+        checkAndShowBackgroundSelector();
 
         // Set onClick listeners for buttons
-        buyButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handlePurchase(buyButton1);
-            }
-        });
-        buyButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handlePurchase(buyButton2);
-            }
-        });
-        buyButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handlePurchase(buyButton3);
-            }
-        });
-
-        // Load button states from SharedPreferences
-        loadButtonState();
+        buyButton1.setOnClickListener(v -> handlePurchase(buyButton1, BACKGROUND_KEYS[0], BACKGROUND_RESOURCES[0]));
+        buyButton2.setOnClickListener(v -> handlePurchase(buyButton2, BACKGROUND_KEYS[1], BACKGROUND_RESOURCES[1]));
+        buyButton3.setOnClickListener(v -> handlePurchase(buyButton3, BACKGROUND_KEYS[2], BACKGROUND_RESOURCES[2]));
     }
 
-    private void handlePurchase(Button button) {
-        // Retrieve the price from the button's text
-        int itemPrice = Integer.parseInt(button.getText().toString().trim());
+    private void setupBackgroundSelector() {
+        // Add default background option
+        ImageView defaultBg = findViewById(R.id.bg_default);
+        defaultBg.setOnClickListener(v -> onBackgroundSelected(v));
 
+        // Add purchased backgrounds
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+        for (int i = 0; i < BACKGROUND_KEYS.length; i++) {
+            if (prefs.getBoolean(BACKGROUND_KEYS[i], false)) {
+                addBackgroundOption(BACKGROUND_RESOURCES[i]);
+            }
+        }
+    }
+
+    private void addBackgroundOption(int backgroundRes) {
+        ImageView bgOption = new ImageView(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+            dpToPx(100), dpToPx(100));
+        params.setMargins(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4));
+        bgOption.setLayoutParams(params);
+        bgOption.setImageResource(backgroundRes);
+        bgOption.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        bgOption.setBackgroundResource(R.drawable.border);
+        bgOption.setOnClickListener(v -> onBackgroundSelected(v));
+        backgroundOptionsLayout.addView(bgOption);
+    }
+
+    private void checkAndShowBackgroundSelector() {
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+        boolean hasPurchasedBackgrounds = false;
+        for (String key : BACKGROUND_KEYS) {
+            if (prefs.getBoolean(key, false)) {
+                hasPurchasedBackgrounds = true;
+                break;
+            }
+        }
+        backgroundSelectorLayout.setVisibility(hasPurchasedBackgrounds ? View.VISIBLE : View.GONE);
+    }
+
+    private void handlePurchase(Button button, String backgroundKey, int backgroundRes) {
+        int itemPrice = Integer.parseInt(button.getText().toString().trim());
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
         int totalScore = prefs.getInt("totalScore", 0);
 
         if (totalScore >= itemPrice) {
-            // Sufficient funds – Update total score
             int newTotal = totalScore - itemPrice;
-
-            // Save new score to SharedPreferences
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("totalScore", newTotal);
+            editor.putBoolean(backgroundKey, true);
             editor.apply();
 
-            // Update the display
             gameMoneyInDis.setText(String.valueOf(newTotal));
-
-            // Mark the item as bought and update the button state
             button.setText("You bought it");
             button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.blue));
             button.setEnabled(false);
 
-            // Save the state of the button
-            SharedPreferences.Editor stateEditor = prefs.edit();
-            stateEditor.putBoolean("button" + button.getId(), true);
-            stateEditor.apply();
+            // Add the new background option
+            addBackgroundOption(backgroundRes);
+            checkAndShowBackgroundSelector();
         } else {
-            // Not enough money
             Toast.makeText(this, "Not enough money!", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "But keep playing, you can do it", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void onBackgroundSelected(View view) {
+        int backgroundRes = 0;
+        if (view.getId() == R.id.bg_default) {
+            backgroundRes = R.drawable.shopback;
+        } else {
+            ImageView selectedView = (ImageView) view;
+            backgroundRes = (int) selectedView.getTag();
+        }
+
+        // Save the selected background
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("selectedBackground", backgroundRes);
+        editor.apply();
+
+        // Highlight the selected background
+        for (int i = 0; i < backgroundOptionsLayout.getChildCount(); i++) {
+            View child = backgroundOptionsLayout.getChildAt(i);
+            child.setBackgroundResource(R.drawable.border);
+        }
+        view.setBackgroundResource(R.drawable.selected_border);
+
+        Toast.makeText(this, "Background selected!", Toast.LENGTH_SHORT).show();
+    }
+
+    private int dpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
     private void loadButtonState() {

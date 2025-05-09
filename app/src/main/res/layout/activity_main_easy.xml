@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="75dp"
+    android:padding="45dp"
     android:background="@drawable/backgroundgirls"
     tools:context=".MainRegularActivity">
 
@@ -14,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="time: 0"
-        android:layout_marginTop="30dp"
         android:textSize="20sp"
         android:gravity="center"
         android:textColor="#000000"/>
@@ -104,7 +103,7 @@
         android:layout_height="wrap_content"
         android:text="Start!"
         android:textSize="18sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:layout_marginBottom="16dp"
         android:layout_alignParentBottom="true"
@@ -113,6 +112,7 @@
 
     <Button
         android:id="@+id/resetButton"
+        android:background="#E6B3A4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
