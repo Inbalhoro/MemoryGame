@@ -318,8 +318,9 @@ public class MainHardActivity extends AppCompatActivity {
                         buttons[secondChoiceIndex].setImageResource(android.R.color.transparent);
                         setclickable(true);
                         resetChoices(); // אתחול הבחירות
+
                     }
-                }, timeInNumbersS); // השהייה של שנייה לפני החבאת התמונות
+                }, timeofcards); // השהייה של שנייה לפני החבאת התמונות
             }
         }
     }

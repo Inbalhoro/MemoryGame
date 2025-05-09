@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="ltr"
-    android:layout_margin="10dp"
-    android:background="@drawable/backsettings"
-    android:orientation="vertical"
-    tools:context=".SettingsActivity">
+    android:fillViewport="true">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-    <!-- task: לעשות פונטים לעברית  -->
-    <TextView
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Settings"
-        android:layout_marginTop="10dp"
-        android:textColor="#56221F"
-        android:fontFamily="@font/title"
-        android:textSize="69dp"
-        />
+        android:layoutDirection="ltr"
+        android:layout_margin="10dp"
+        android:background="@drawable/backsettings"
+        android:orientation="vertical"
+        tools:context=".SettingsActivity">
+
+        <!-- task: לעשות פונטים לעברית  -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:layout_marginTop="10dp"
+            android:textColor="#56221F"
+            android:fontFamily="@font/title"
+            android:textSize="69dp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="______________________"
             android:textColor="#56221F"
-            android:textSize="18dp"
-            />
+            android:textSize="18dp" />
+
         <!-- אופציה להשתקת צלילים -->
         <Switch
             android:fontFamily="@font/title"
@@ -41,24 +42,22 @@
             android:layout_height="wrap_content"
             android:text="Sounds"
             android:padding="5dp"
-            android:checked="true"/>
+            android:checked="true" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="______________________"
             android:textColor="#56221F"
-            android:textSize="18dp"
-            />
+            android:textSize="18dp" />
 
-    <TextView
-        android:fontFamily="@font/title"
-        android:textSize="45dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" Difficulty Level:"
-        android:textColor="#56221F"
-        />
+        <TextView
+            android:fontFamily="@font/title"
+            android:textSize="45dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" Difficulty Level:"
+            android:textColor="#56221F" />
 
         <!-- בחירת סוג קושי -->
         <Spinner
@@ -69,16 +68,16 @@
             android:layout_marginBottom="6dp"
             android:layout_width="match_parent"
             android:padding="6dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:fontFamily="@font/title"
-        android:textSize="45dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" Time Of Disply:"
-        android:textColor="#56221F"
-        />
+        <TextView
+            android:fontFamily="@font/title"
+            android:textSize="45dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" Time Of Disply:"
+            android:textColor="#56221F" />
+
         <Spinner
             android:fontFamily="@font/title"
             android:textSize="35dp"
@@ -87,23 +86,22 @@
             android:padding="6dp"
             android:textColor="#56221F"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="______________________"
             android:textColor="#56221F"
-            android:textSize="18dp"
-            />
+            android:textSize="18dp" />
+
         <TextView
             android:fontFamily="@font/title"
             android:textSize="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=" Images:"
-            android:textColor="#56221F"
-            />
+            android:textColor="#56221F" />
 
         <!-- בחירת נושא המשחק -->
         <RadioGroup
@@ -119,7 +117,7 @@
                 android:id="@+id/radio_button_theme2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cartoon Characters"/>
+                android:text="Cartoon Characters" />
 
             <RadioButton
                 android:fontFamily="@font/title"
@@ -128,7 +126,7 @@
                 android:id="@+id/radio_button_theme1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Animals"/>
+                android:text="Animals" />
 
             <RadioButton
                 android:fontFamily="@font/title"
@@ -137,7 +135,8 @@
                 android:id="@+id/radio_button_theme3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Food"/>
+                android:text="Food" />
+
             <RadioButton
                 android:fontFamily="@font/title"
                 android:textSize="35dp"
@@ -145,7 +144,7 @@
                 android:id="@+id/radio_button_theme4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Flags"/>
+                android:text="Flags" />
         </RadioGroup>
 
         <Button
@@ -153,15 +152,15 @@
             android:layout_width="wrap_content"
             android:layout_height="63dp"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="#00FEFEFE"
             android:elevation="0dp"
             android:fontFamily="@font/title"
             android:outlineProvider="none"
             android:text="Save"
             android:textColor="#56221F"
-            android:textSize="35dp"></Button>
-    </LinearLayout>
+            android:textSize="35dp" />
 
     </LinearLayout>
-
-
+</ScrollView>
