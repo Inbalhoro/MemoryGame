@@ -33,11 +33,14 @@ package com.horovitz.memorygame;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class helpActivity extends AppCompatActivity {
@@ -67,12 +70,12 @@ public class helpActivity extends AppCompatActivity {
         String message = messageEditText.getText().toString().trim();
 
         if (userEmail.isEmpty() || message.isEmpty()) {
-            Toast.makeText(this, "אנא מלאי את כל השדות", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // אימייל של יוצרת המשחק – שימי כאן את האימייל שלך
-        String developerEmail = "developer@example.com";
+        String developerEmail = "inbal.peer317@gmail.com";
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:" + developerEmail));
@@ -85,5 +88,68 @@ public class helpActivity extends AppCompatActivity {
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(this, "אין אפליקציה מתאימה לשליחת אימייל", Toast.LENGTH_SHORT).show();
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.popupmenu_main, menu);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_settings
+                ,R.string.setting
+                ,R.drawable.baseline_settings_24);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_firstpage
+                ,R.string.firstpage
+                ,R.drawable.baseline_home);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_settings
+                ,R.string.setting
+                ,R.drawable.baseline_settings_24);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_shop
+                ,R.string.shop
+                ,R.drawable.baseline_shopping_cart);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_recordBoard
+                ,R.string.recordBoard
+                ,R.drawable.baseline_record);
+        GameDatabaseHelper.setIconInMenu(this,menu
+                ,R.id.action_help
+                ,R.string.help
+                ,R.drawable.baseline_help);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.action_firstpage){
+            Intent intent = new Intent(helpActivity.this, MainActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_settings){
+            Toast.makeText(this, "You can change the settings ONLY from the single player game!", Toast.LENGTH_SHORT).show();
+        }
+        if (id==R.id.action_recordBoard){
+            Intent intent = new Intent(helpActivity.this, RecordBoardActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+        }
+        if (id==R.id.action_shop) {
+            Intent intent = new Intent(helpActivity.this, MainShop.class);
+            startActivity(intent); // התחלת ה-Activity החדש        }
+        }
+        if (id==R.id.action_help){
+            Toast.makeText(this, "You are already here", Toast.LENGTH_SHORT).show();
+        }
+        if (id==R.id.action_start){
+            Intent intent = new Intent(helpActivity.this, MainStart.class);
+            startActivity(intent); // התחלת ה-Activity החדש
+            Toast.makeText(this, "You pressed RESTART -  Please wait a few seconds", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

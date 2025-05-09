@@ -400,13 +400,38 @@ public class MainEasyActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_settings
+                ,R.string.setting
+                ,R.drawable.baseline_settings_24);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_firstpage
+                ,R.string.firstpage
+                ,R.drawable.baseline_home);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_settings
+                ,R.string.setting
+                ,R.drawable.baseline_settings_24);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_shop
+                ,R.string.shop
+                ,R.drawable.baseline_shopping_cart);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu
+                ,R.id.action_recordBoard
+                ,R.string.recordBoard
+                ,R.drawable.baseline_record);
+        GameDatabaseHelper.setIconInMenu(this,menu
+                ,R.id.action_help
+                ,R.string.help
+                ,R.drawable.baseline_help);
         return true;
     }
 
-//
-//    private void popupmenu() {
-//        popupmenu = popupmenu()
-//    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();

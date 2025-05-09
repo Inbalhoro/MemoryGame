@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button navigateWithCom;
     SharedPreferences sharedPreferences;
     String selectedDifficulty;
-    View navController;
     private String selectedImage = ""; // משתנה לשמירת התמונה שנבחרה
     private TextView gameMoneyInDis;
     private int currentgameMoney = 0;
@@ -393,8 +392,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         int id = item.getItemId();
         if (id==R.id.action_firstpage){
             Toast.makeText(this, "You are already here", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(intent); // התחלת ה-Activity החדש
         }
         if (id==R.id.action_settings){
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
