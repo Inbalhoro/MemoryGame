@@ -105,7 +105,7 @@ public class MainPlayWithFriends extends AppCompatActivity {
         else if (selectedImage.equals("4")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
-                    R.drawable.food3, R.drawable.food3, R.drawable.food4, R.drawable.food4,
+                    R.drawable.food16, R.drawable.food16, R.drawable.food4, R.drawable.food4,
                     R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
                     R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8};
         }

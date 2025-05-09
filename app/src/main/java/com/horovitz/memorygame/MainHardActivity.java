@@ -232,7 +232,7 @@ public class MainHardActivity extends AppCompatActivity {
         else if (theme.equals("Food")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
-                    R.drawable.food3, R.drawable.food3, R.drawable.food4, R.drawable.food4,
+                    R.drawable.food16, R.drawable.food16, R.drawable.food4, R.drawable.food4,
                     R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
                     R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8,
                     R.drawable.food9, R.drawable.food9, R.drawable.food10, R.drawable.food10,

@@ -73,7 +73,6 @@ public class MainEasyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_easy); // קישור ל-XML שלך
 
-//        popupmenu();
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
         String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
@@ -143,12 +142,12 @@ public class MainEasyActivity extends AppCompatActivity {
         }
         else if (theme.equals("Food")) {
             // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[] {R.drawable.food4, R.drawable.food4, R.drawable.food2, R.drawable.food2,
+            imageResources = new int[] {R.drawable.food15, R.drawable.food15, R.drawable.food2, R.drawable.food2,
                     R.drawable.food3, R.drawable.food3};
         }else if (theme.equals("Flags")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.flag7, R.drawable.flag7, R.drawable.flag2, R.drawable.flag2,
-                    R.drawable.flag3, R.drawable.flag3};
+                    R.drawable.flag16, R.drawable.flag16};
         }
 
         // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה

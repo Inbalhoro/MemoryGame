@@ -145,7 +145,7 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putBoolean("isSoundEnabled", isSoundEnabled);
 
                 editor.commit(); // שמירה באופן אסינכרוני
-                Toast.makeText(SettingsActivity.this, "ההגדרות נשמרו", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsActivity.this, "Settings saved", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
                 startActivity(intent);
             }

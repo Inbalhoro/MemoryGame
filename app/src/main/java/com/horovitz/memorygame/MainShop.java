@@ -46,7 +46,9 @@ public class MainShop extends AppCompatActivity {
         backgroundOptionsLayout = findViewById(R.id.backgroundOptionsLayout);
 
         updateScoreDisplay(gameMoneyInDis, currentgameMoney);
+
         setupBackgroundSelector();
+
         loadButtonState();
         checkAndShowBackgroundSelector();
 
@@ -57,6 +59,8 @@ public class MainShop extends AppCompatActivity {
     }
 
     private void setupBackgroundSelector() {
+        // Always add default background option
+        addBackgroundOption(R.drawable.backgroundsingleplayer);
         // Add default background option
         ImageView defaultBg = findViewById(R.id.bg_default);
         defaultBg.setOnClickListener(v -> onBackgroundSelected(v));
@@ -73,7 +77,7 @@ public class MainShop extends AppCompatActivity {
     private void addBackgroundOption(int backgroundRes) {
         ImageView bgOption = new ImageView(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-            dpToPx(100), dpToPx(100));
+            dpToPx(70), dpToPx(70));
         params.setMargins(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4));
         bgOption.setLayoutParams(params);
         bgOption.setImageResource(backgroundRes);
@@ -85,6 +89,8 @@ public class MainShop extends AppCompatActivity {
 
     private void checkAndShowBackgroundSelector() {
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+        int selectedBackground = prefs.getInt("selectedBackground", R.drawable.backgroundsingleplayer);
+
         boolean hasPurchasedBackgrounds = false;
         for (String key : BACKGROUND_KEYS) {
             if (prefs.getBoolean(key, false)) {
@@ -95,36 +101,12 @@ public class MainShop extends AppCompatActivity {
         backgroundSelectorLayout.setVisibility(hasPurchasedBackgrounds ? View.VISIBLE : View.GONE);
     }
 
-    private void handlePurchase(Button button, String backgroundKey, int backgroundRes) {
-        int itemPrice = Integer.parseInt(button.getText().toString().trim());
-        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
-        int totalScore = prefs.getInt("totalScore", 0);
 
-        if (totalScore >= itemPrice) {
-            int newTotal = totalScore - itemPrice;
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("totalScore", newTotal);
-            editor.putBoolean(backgroundKey, true);
-            editor.apply();
-
-            gameMoneyInDis.setText(String.valueOf(newTotal));
-            button.setText("You bought it");
-            button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.blue));
-            button.setEnabled(false);
-
-            // Add the new background option
-            addBackgroundOption(backgroundRes);
-            checkAndShowBackgroundSelector();
-        } else {
-            Toast.makeText(this, "Not enough money!", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "But keep playing, you can do it", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     public void onBackgroundSelected(View view) {
-        int backgroundRes = 0;
+        int backgroundRes = (int) view.getTag();
         if (view.getId() == R.id.bg_default) {
-            backgroundRes = R.drawable.shopback;
+            backgroundRes = R.drawable.backgroundsingleplayer;
         } else {
             ImageView selectedView = (ImageView) view;
             backgroundRes = (int) selectedView.getTag();
@@ -181,7 +163,31 @@ public class MainShop extends AppCompatActivity {
         // Update the UI
         gameMoneyInDis.setText(String.valueOf(totalScore));
     }
+    private void handlePurchase(Button button, String backgroundKey, int backgroundRes) {
+        int itemPrice = Integer.parseInt(button.getText().toString().trim());
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+        int totalScore = prefs.getInt("totalScore", 0);
 
+        if (totalScore >= itemPrice) {
+            int newTotal = totalScore - itemPrice;
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("totalScore", newTotal);
+            editor.putBoolean(backgroundKey, true);
+            editor.apply();
+
+            gameMoneyInDis.setText(String.valueOf(newTotal));
+            button.setText("You bought it");
+            button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.blue));
+            button.setEnabled(false);
+
+            // Add the new background option
+            addBackgroundOption(backgroundRes);
+            checkAndShowBackgroundSelector();
+        } else {
+            Toast.makeText(this, "Not enough money!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "But keep playing, you can do it", Toast.LENGTH_SHORT).show();
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);

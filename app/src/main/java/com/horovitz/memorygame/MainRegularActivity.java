@@ -76,6 +76,11 @@ public class MainRegularActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_regular); // קישור ל-XML שלך
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+        int selectedBackground = prefs.getInt("selectedBackground", R.drawable.backgroundsingleplayer); // ברירת מחדל אם אין
+        // שינוי רקע לפי הבחירה שנשמרה
+        View rootLayout = findViewById(R.id.regularGame);
+        rootLayout.setBackgroundResource(selectedBackground);
 
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
@@ -158,7 +163,7 @@ public class MainRegularActivity extends AppCompatActivity {
             // להשתמש בתמונות של חיות
             imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
                     R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
-                    R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
+                    R.drawable.image10, R.drawable.image10, R.drawable.image6, R.drawable.image6,
                     R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
         } else if (theme.equals("Animals")) {
             // להשתמש בתמונות של דמויות מצוירות
@@ -170,13 +175,13 @@ public class MainRegularActivity extends AppCompatActivity {
         else if (theme.equals("Food")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
-                    R.drawable.food3, R.drawable.food3, R.drawable.food4, R.drawable.food4,
+                    R.drawable.food3, R.drawable.food3, R.drawable.food15, R.drawable.food15,
                     R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
                     R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8};
         }else if (theme.equals("Flags")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
-                    R.drawable.flag3, R.drawable.flag3, R.drawable.flag4, R.drawable.flag4,
+                    R.drawable.flag13, R.drawable.flag13, R.drawable.flag4, R.drawable.flag4,
                     R.drawable.flag5, R.drawable.flag5, R.drawable.flag6, R.drawable.flag6,
                     R.drawable.flag7, R.drawable.flag7, R.drawable.flag8, R.drawable.flag8};
         }
