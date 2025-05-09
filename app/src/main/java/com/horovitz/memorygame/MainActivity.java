@@ -354,11 +354,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public boolean onCreateOptionsMenu(Menu menu) {
         //super.onCreateOptionsMenu(menu);  // קריאה למתודה הבסיסית
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_settings
-                ,R.string.setting
-                ,R.drawable.baseline_settings_24);
+
         GameDatabaseHelper.setIconInMenu(this,
                 menu
                 ,R.id.action_firstpage

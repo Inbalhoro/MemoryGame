@@ -67,11 +67,6 @@ public class RecordBoardActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
         GameDatabaseHelper.setIconInMenu(this,
                 menu
-                ,R.id.action_settings
-                ,R.string.setting
-                ,R.drawable.baseline_settings_24);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
                 ,R.id.action_firstpage
                 ,R.string.firstpage
                 ,R.drawable.baseline_home);
