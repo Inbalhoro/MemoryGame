@@ -265,7 +265,6 @@ public class MainPlayWithFriends extends AppCompatActivity {
             }
             // אם התמונות לא תואמות
             else {
-                statusText.setText("Try again");
                 // השהה את הצגת התמונות למספר שניות, ואז החבא אותן
                 buttons[firstChoiceIndex].postDelayed(new Runnable() {
                     @Override

@@ -18,13 +18,4 @@
         android:max="100"
         android:indeterminate="false" />
 
-<!--    &lt;!&ndash; TextView להצגת הזמן הנותר &ndash;&gt;-->
-<!--    <TextView-->
-<!--        android:id="@+id/timeLeftText"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="90dp"-->
-<!--        android:text="5"-->
-<!--        android:textSize="30sp"-->
-<!--        android:layout_below="@id/progressBar"-->
-<!--        android:layout_centerHorizontal="true" />-->
 </LinearLayout>

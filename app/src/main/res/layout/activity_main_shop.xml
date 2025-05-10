@@ -25,8 +25,6 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="#C33767" />
-
-
     <TextView
         android:id="@+id/gameMoneyFromScores"
         android:layout_width="match_parent"
