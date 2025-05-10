@@ -28,7 +28,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
 
     public GameDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
+    }//
 
     @Override
     public void onCreate(SQLiteDatabase db) {
