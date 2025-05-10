@@ -54,17 +54,20 @@ public class MainShop extends AppCompatActivity {
         checkAndShowBackgroundSelector();
 
         // Set onClick listeners for buttons
-        buyButton1.setOnClickListener(v -> handlePurchase(buyButton1, BACKGROUND_KEYS[0], BACKGROUND_RESOURCES[0]));
-        buyButton2.setOnClickListener(v -> handlePurchase(buyButton2, BACKGROUND_KEYS[1], BACKGROUND_RESOURCES[1]));
-        buyButton3.setOnClickListener(v -> handlePurchase(buyButton3, BACKGROUND_KEYS[2], BACKGROUND_RESOURCES[2]));
+        buyButton1.setOnClickListener(view -> handlePurchase(buyButton1, BACKGROUND_KEYS[0], BACKGROUND_RESOURCES[0]));
+        buyButton2.setOnClickListener(view -> handlePurchase(buyButton2, BACKGROUND_KEYS[1], BACKGROUND_RESOURCES[1]));
+        buyButton3.setOnClickListener(view -> handlePurchase(buyButton3, BACKGROUND_KEYS[2], BACKGROUND_RESOURCES[2]));
+
+
     }
 
     private void setupBackgroundSelector() {
         // Always add default background option
         addBackgroundOption(R.drawable.backgroundsingleplayer);
         // Add default background option
-        ImageView defaultBg = findViewById(R.id.bg_default);
-        defaultBg.setOnClickListener(v -> onBackgroundSelected(v));
+//        ImageView defaultBg = findViewById(R.id.bg_default);
+//        defaultBg.setTag(R.drawable.backgroundsingleplayer); // חשוב! לשים tag כדי לזהות את הבחירה
+//        defaultBg.setOnClickListener(v -> onBackgroundSelected(v));
 
         // Add purchased backgrounds
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
@@ -76,18 +79,32 @@ public class MainShop extends AppCompatActivity {
     }
 
     private void addBackgroundOption(int backgroundRes) {
-        ImageView bgOption = new ImageView(this);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-            dpToPx(70), dpToPx(70));
+        ImageView bgOption = new ImageView(this); // יוצרת תמונה חדשה
+
+        // מגדירה לה גודל של 70dp על 70dp עם שוליים
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dpToPx(70), dpToPx(70));
         params.setMargins(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4));
         bgOption.setLayoutParams(params);
+
+        // מציבה את התמונה של הרקע שנשלח לפונקציה
         bgOption.setImageResource(backgroundRes);
+
+        // מגדירה שהתמונה תתאים למרכז ותחתוך את מה שמיותר
         bgOption.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        // מסגרת
         bgOption.setBackgroundResource(R.drawable.border);
+
+        // שומרת את המזהה של הרקע ב־tag כדי שנוכל לדעת מה נבחר
         bgOption.setTag(backgroundRes);
 
+        // מאזין ללחיצה
         bgOption.setOnClickListener(v -> onBackgroundSelected(v));
+
+        // מוסיפה את הרקע למסך
         backgroundOptionsLayout.addView(bgOption);
+
+
     }
 
     private void checkAndShowBackgroundSelector() {
@@ -109,27 +126,30 @@ public class MainShop extends AppCompatActivity {
     public void onBackgroundSelected(View view) {
         try {
             int backgroundRes = (int) view.getTag();
-            if (view.getId() == R.id.bg_default) {
-                backgroundRes = R.drawable.backgroundsingleplayer;
-            } else {
+//            if (view.getId() == R.drawable.backgroundsingleplayer) {
+//                backgroundRes = R.drawable.backgroundsingleplayer;
+//            } else {
+
                 ImageView selectedView = (ImageView) view;
                 backgroundRes = (int) selectedView.getTag();
-            }
 
-            // Save the selected background
-            SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("selectedBackground", backgroundRes);
-            editor.apply();
 
-            // Highlight the selected background
-            for (int i = 0; i < backgroundOptionsLayout.getChildCount(); i++) {
-                View child = backgroundOptionsLayout.getChildAt(i);
-                child.setBackgroundResource(R.drawable.border);
-            }
-            view.setBackgroundResource(R.drawable.border);
+                // Save the selected background
+                SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("selectedBackground", backgroundRes);
+                editor.apply();
 
-            Toast.makeText(this, "Background selected!", Toast.LENGTH_SHORT).show();
+                // Highlight the selected background
+                for (int i = 0; i < backgroundOptionsLayout.getChildCount(); i++) {
+                    View child = backgroundOptionsLayout.getChildAt(i);
+                    child.setBackgroundResource(R.drawable.border);
+                }
+                view.setBackgroundResource(R.drawable.border);
+
+                Toast.makeText(this, "Background selected!", Toast.LENGTH_SHORT).show();
+//            }
+//            }
         }
         catch (Exception ex){
             Log.d("INBA", ex.toString() );
@@ -172,15 +192,24 @@ public class MainShop extends AppCompatActivity {
         gameMoneyInDis.setText(String.valueOf(totalScore));
     }
     private void handlePurchase(Button button, String backgroundKey, int backgroundRes) {
-        int itemPrice = Integer.parseInt(button.getText().toString().trim());
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+
+        // בדיקה אם הכפתור כבר נרכש
+        boolean alreadyBought = prefs.getBoolean("button" + button.getId(), false);
+        if (alreadyBought) {
+            Toast.makeText(this, "You already bought this!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int itemPrice = Integer.parseInt(button.getText().toString().trim());
         int totalScore = prefs.getInt("totalScore", Constants.INITIAL_SCORE);
 
         if (totalScore >= itemPrice) {
             int newTotal = totalScore - itemPrice;
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("totalScore", newTotal);
-            editor.putBoolean(backgroundKey, true);
+            editor.putBoolean(backgroundKey, true); // הרקע נרכש
+            editor.putBoolean("button" + button.getId(), true); // שומר שהכפתור נרכש
             editor.apply();
 
             gameMoneyInDis.setText(String.valueOf(newTotal));
@@ -188,13 +217,13 @@ public class MainShop extends AppCompatActivity {
             button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.blue));
             button.setEnabled(false);
 
-            // Add the new background option
-            addBackgroundOption(backgroundRes);
+            addBackgroundOption(backgroundRes); // מציג את הרקע החדש למעלה
             checkAndShowBackgroundSelector();
         } else {
             Toast.makeText(this, "Not enough money!", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "But keep playing, you can do it", Toast.LENGTH_SHORT).show();
         }
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

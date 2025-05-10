@@ -11,32 +11,34 @@
         android:id="@+id/shopTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="Shop"
         android:textSize="65dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/title"
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="#C33767" />
 
+
+    <TextView
+        android:id="@+id/gameMoneyFromScores"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/title"
+        android:gravity="center"
+        android:textSize="36dp" />
+
     <!-- Background Selector Section -->
     <LinearLayout
         android:id="@+id/backgroundSelectorLayout"
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
         android:padding="8dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Select Background"
-            android:textSize="24dp"
-            android:fontFamily="@font/title"
-            android:gravity="center"
-            android:textColor="#C33767"
-            android:layout_marginBottom="8dp"/>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -48,31 +50,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
-
-                <!-- Default background option -->
-                <ImageView
-                    android:id="@+id/bg_default"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_margin="4dp"
-                    android:src="@drawable/shopback"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/border"
-                    android:onClick="onBackgroundSelected"/>
-
                 <!-- Purchased backgrounds will be added here dynamically -->
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/gameMoneyFromScores"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/title"
-        android:gravity="center"
-        android:textSize="36dp" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -115,7 +96,7 @@
                     android:backgroundTint="@color/white"
                     android:gravity="center"
                     android:padding="12dp"
-                    android:text="12000"
+                    android:text="100"
                     android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
