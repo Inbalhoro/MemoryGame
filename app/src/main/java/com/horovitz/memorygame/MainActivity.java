@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
 
         // Get the total score and last game score
-        int totalScore = prefs.getInt("totalScore", 0);
+        int totalScore = prefs.getInt("totalScore", Constants.INITIAL_SCORE);
         int lastGameScore = prefs.getInt("lastGameScore", 0);
 
         // Update the UI

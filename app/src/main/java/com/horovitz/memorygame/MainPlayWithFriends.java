@@ -347,7 +347,7 @@ public class MainPlayWithFriends extends AppCompatActivity {
 
     private int getTotalScore() {
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
-        return prefs.getInt("totalScore", 0);
+        return prefs.getInt("totalScore", Constants.INITIAL_SCORE);
     }
 
     private void saveScoreToSharedPreferences(int newScore) {
@@ -355,7 +355,7 @@ public class MainPlayWithFriends extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
 
         // Get the current total score
-        int currentTotalScore = prefs.getInt("totalScore", 0);
+        int currentTotalScore = prefs.getInt("totalScore", Constants.INITIAL_SCORE);
 
         // Add the new score to the total
         int updatedTotalScore = currentTotalScore + newScore;

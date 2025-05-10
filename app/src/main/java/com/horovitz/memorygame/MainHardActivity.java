@@ -88,7 +88,13 @@ public class MainHardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_hard);
-        
+
+        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+        int selectedBackground = prefs.getInt("selectedBackground", R.drawable.backgroundsingleplayer); // ברירת מחדל אם אין
+        // שינוי רקע לפי הבחירה שנשמרה
+        View rootLayout = findViewById(R.id.hardGame);
+        rootLayout.setBackgroundResource(selectedBackground);
+
         // Start the music service if it's not already running
         Intent serviceIntent = new Intent(MainHardActivity.this, MusicService.class);
         startService(serviceIntent);
@@ -421,7 +427,7 @@ public class MainHardActivity extends AppCompatActivity {
 
     private int getTotalScore() {
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
-        return prefs.getInt("totalScore", 0);
+        return prefs.getInt("totalScore", Constants.INITIAL_SCORE);
     }
 
     private void saveScoreToSharedPreferences(int newScore) {
@@ -429,7 +435,7 @@ public class MainHardActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
 
         // Get the current total score
-        int currentTotalScore = prefs.getInt("totalScore", 0);
+        int currentTotalScore = prefs.getInt("totalScore", Constants.INITIAL_SCORE);
 
         // Add the new score to the total
         int updatedTotalScore = currentTotalScore + newScore;

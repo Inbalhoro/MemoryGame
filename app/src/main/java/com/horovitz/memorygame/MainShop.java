@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,6 +84,8 @@ public class MainShop extends AppCompatActivity {
         bgOption.setImageResource(backgroundRes);
         bgOption.setScaleType(ImageView.ScaleType.CENTER_CROP);
         bgOption.setBackgroundResource(R.drawable.border);
+        bgOption.setTag(backgroundRes);
+
         bgOption.setOnClickListener(v -> onBackgroundSelected(v));
         backgroundOptionsLayout.addView(bgOption);
     }
@@ -104,28 +107,33 @@ public class MainShop extends AppCompatActivity {
 
 
     public void onBackgroundSelected(View view) {
-        int backgroundRes = (int) view.getTag();
-        if (view.getId() == R.id.bg_default) {
-            backgroundRes = R.drawable.backgroundsingleplayer;
-        } else {
-            ImageView selectedView = (ImageView) view;
-            backgroundRes = (int) selectedView.getTag();
+        try {
+            int backgroundRes = (int) view.getTag();
+            if (view.getId() == R.id.bg_default) {
+                backgroundRes = R.drawable.backgroundsingleplayer;
+            } else {
+                ImageView selectedView = (ImageView) view;
+                backgroundRes = (int) selectedView.getTag();
+            }
+
+            // Save the selected background
+            SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("selectedBackground", backgroundRes);
+            editor.apply();
+
+            // Highlight the selected background
+            for (int i = 0; i < backgroundOptionsLayout.getChildCount(); i++) {
+                View child = backgroundOptionsLayout.getChildAt(i);
+                child.setBackgroundResource(R.drawable.border);
+            }
+            view.setBackgroundResource(R.drawable.border);
+
+            Toast.makeText(this, "Background selected!", Toast.LENGTH_SHORT).show();
         }
-
-        // Save the selected background
-        SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("selectedBackground", backgroundRes);
-        editor.apply();
-
-        // Highlight the selected background
-        for (int i = 0; i < backgroundOptionsLayout.getChildCount(); i++) {
-            View child = backgroundOptionsLayout.getChildAt(i);
-            child.setBackgroundResource(R.drawable.border);
+        catch (Exception ex){
+            Log.d("INBA", ex.toString() );
         }
-        view.setBackgroundResource(R.drawable.border);
-
-        Toast.makeText(this, "Background selected!", Toast.LENGTH_SHORT).show();
     }
 
     private int dpToPx(int dp) {
@@ -158,7 +166,7 @@ public class MainShop extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
 
         // Get the total score
-        int totalScore = prefs.getInt("totalScore", 0);
+        int totalScore = prefs.getInt("totalScore", Constants.INITIAL_SCORE);
 
         // Update the UI
         gameMoneyInDis.setText(String.valueOf(totalScore));
@@ -166,7 +174,7 @@ public class MainShop extends AppCompatActivity {
     private void handlePurchase(Button button, String backgroundKey, int backgroundRes) {
         int itemPrice = Integer.parseInt(button.getText().toString().trim());
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
-        int totalScore = prefs.getInt("totalScore", 0);
+        int totalScore = prefs.getInt("totalScore", Constants.INITIAL_SCORE);
 
         if (totalScore >= itemPrice) {
             int newTotal = totalScore - itemPrice;
