@@ -64,10 +64,6 @@ public class MainShop extends AppCompatActivity {
     private void setupBackgroundSelector() {
         // Always add default background option
         addBackgroundOption(R.drawable.backgroundsingleplayer);
-        // Add default background option
-//        ImageView defaultBg = findViewById(R.id.bg_default);
-//        defaultBg.setTag(R.drawable.backgroundsingleplayer); // חשוב! לשים tag כדי לזהות את הבחירה
-//        defaultBg.setOnClickListener(v -> onBackgroundSelected(v));
 
         // Add purchased backgrounds
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
@@ -126,9 +122,6 @@ public class MainShop extends AppCompatActivity {
     public void onBackgroundSelected(View view) {
         try {
             int backgroundRes = (int) view.getTag();
-//            if (view.getId() == R.drawable.backgroundsingleplayer) {
-//                backgroundRes = R.drawable.backgroundsingleplayer;
-//            } else {
 
                 ImageView selectedView = (ImageView) view;
                 backgroundRes = (int) selectedView.getTag();
@@ -148,8 +141,7 @@ public class MainShop extends AppCompatActivity {
                 view.setBackgroundResource(R.drawable.border);
 
                 Toast.makeText(this, "Background selected!", Toast.LENGTH_SHORT).show();
-//            }
-//            }
+
         }
         catch (Exception ex){
             Log.d("INBA", ex.toString() );

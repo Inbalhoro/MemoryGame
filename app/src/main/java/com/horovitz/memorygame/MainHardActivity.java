@@ -147,30 +147,6 @@ public class MainHardActivity extends AppCompatActivity {
         buttons[34] = findViewById(R.id.button_35);
         buttons[35] = findViewById(R.id.button_36);
         timerTextView = findViewById(R.id.timerTextView);
-//        navigateToFirstPageButton = findViewById(R.id.navigateToFirstPageButton);
-//        navigateToFirstPageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // יצירת Intent כדי לעבור לדף החדש
-//                Intent intent = new Intent(MainGirlsActivity.this, MainActivity.class);
-//                startActivity(intent); // התחלת ה-Activity החדש
-//            }
-//        });
-
-
-
-
-//        navigateButton = findViewById(R.id.navigateButton); // למצוא את הכפתור במסך
-//        navigateButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // יצירת Intent כדי לעבור לדף החדש
-//                Intent intent = new Intent(MainRegularActivity.this, MainBoysActivity.class);
-//                startActivity(intent); // התחלת ה-Activity החדש
-//            }
-//
-//
-//        });
 
         // אתחול ה-TextView
         statusText = findViewById(R.id.statusText);

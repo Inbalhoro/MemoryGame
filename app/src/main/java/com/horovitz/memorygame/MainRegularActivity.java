@@ -133,13 +133,6 @@ public class MainRegularActivity extends AppCompatActivity {
                 }
             });
         }
-//        settingsButtonOnlyHere.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainRegularActivity.this, SettingsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
         // מאזין לכפתור איפוס
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,7 +15,7 @@ import android.content.SharedPreferences;
  */
 public class LightSensorHelper {
 
-    // 🔁 The one and only instance of this helper
+    //  The one and only instance of this helper
     private static final LightSensorHelper instance = new LightSensorHelper();
 
     //  Private constructor prevents other classes from creating instances

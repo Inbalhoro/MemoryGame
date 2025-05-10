@@ -1,34 +1,4 @@
 package com.horovitz.memorygame;
-//
-//import androidx.appcompat.app.AppCompatActivity;
-//import android.content.Intent;
-//import android.os.Bundle;
-//import android.view.View;
-//import android.widget.Button;
-//import android.widget.EditText;
-//
-//import com.horovitz.memorygame.R;
-//
-//public class helpActivity extends AppCompatActivity {
-//    EditText message;
-//    EditText subject;
-//    String tomyemail="inbal.peer317@gmail.com";
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.help_activity); // קישור ל-XML שלך
-//
-//        message = findViewById(R.id.textMessage);
-//        subject = findViewById(R.id.themeofemail);
-//    }
-//    public void sendEmail(View view) {
-//        Intent email = new Intent(Intent.ACTION_SEND); //המשלוח בפועל יתבצע דרך החשבון שהוא מחובר איתו באפליקציה.
-//        email.putExtra(Intent.EXTRA_EMAIL, new String[]{ tomyemail});  email.putExtra(Intent.EXTRA_SUBJECT, subject.getText().toString());  email.putExtra(Intent.EXTRA_TEXT, message.getText().toString());
-////need this to prompts email client only
-//        email.setType("message/rfc822"); //זו הדרך של Android להבין שצריך להפעיל אפליקציית מייל
-//        startActivity(Intent.createChooser(email, "Choose an Email client :"));
-//    }
-//}
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -57,27 +27,6 @@ public class helpActivity extends AppCompatActivity {
         messageEditText = findViewById(R.id.textMessage);
 
     }
-//
-//    private void thankyou() {
-//
-//                // אחרי השליחה ננקה שדות, נציג הודעה ונחזור
-//                emailEditText.setText("");
-//                subjectEditText.setText("");
-//                messageEditText.setText("");
-//
-//                // נציג דיאלוג
-//                new androidx.appcompat.app.AlertDialog.Builder(this)
-//                        .setTitle("\"Thank you for taking the time to share your feedback. ")
-//                        .setMessage("I’ll get back to you as soon as possible. ❤\uFE0F\"️")
-//                        .setPositiveButton("back", (dialog, which) -> {
-//                            // חזרה למסך הראשי של המשחק
-//                            Intent intentBack = new Intent(helpActivity.this, helpActivity.class);
-//                            startActivity(intentBack);
-//                            finish(); // סוגר את המסך הנוכחי
-//                        })
-//                        .setCancelable(false)
-//                        .show();
-//    }
 
     // נשלח כשהמשתמש לוחץ על כפתור שליחה
     public void sendEmail(View view) {
