@@ -28,6 +28,8 @@ import java.util.Collections;
 public class MainPlayWithFriends extends AppCompatActivity {
     Button navigateButton; // הכפתור שיעביר אותנו לדף החדש
     private long startTime;
+    private int timeInNumbersS;
+
     private long elapsedTime;
     private TextView timerTextView;  // TextView להצגת הזמן הרץ
     private Handler handler = new Handler();  // Handler לעדכון הזמן
@@ -51,10 +53,6 @@ public class MainPlayWithFriends extends AppCompatActivity {
     private ImageButton[] buttons = new ImageButton[16]; // מערך של כפתורים
     private ArrayList<Integer> images = new ArrayList<>(); // תמונות שנמצאות במשחק
     private int[] imageResources;
-//            = {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
-//            R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
-//            R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
-//            R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8}; // כאן תוכל להוסיף את התמונות שלך
 
     private int firstChoice = -1;
     private int secondChoice = -1;
@@ -75,40 +73,22 @@ public class MainPlayWithFriends extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playwithafriends); // קישור ל-XML שלך
 
+// קריאת ההגדרות מ-SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
+
+        String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל:
+        String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
+        boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
+
+        updateGameSettings(difficulty, time, theme, isSoundEnabled);
+
+
         // קבלת הערכים שהועברו מהדיאלוג
         Intent intent = getIntent();
-        String selectedImage = intent.getStringExtra("selectedImage"); // התמונה שנבחרה
         String player1Name = intent.getStringExtra("player1Name"); // שם השחקן הראשון
         String player2Name = intent.getStringExtra("player2Name"); // שם השחקן השני
 
-        if (selectedImage.equals("1")) {
-            // להשתמש בתמונות של חיות
-            imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
-                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
-                    R.drawable.image5, R.drawable.image5, R.drawable.image6, R.drawable.image6,
-                    R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
-        }
-        else if (selectedImage.equals("2")) {
-            // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
-                    R.drawable.animal3, R.drawable.animal3, R.drawable.animal4, R.drawable.animal4,
-                    R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
-                    R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8};
-        }
-        else if (selectedImage.equals("3")) {
-            // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[]{R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
-                    R.drawable.flag3, R.drawable.flag3, R.drawable.flag4, R.drawable.flag4,
-                    R.drawable.flag5, R.drawable.flag5, R.drawable.flag6, R.drawable.flag6,
-                    R.drawable.flag7, R.drawable.flag7, R.drawable.flag8, R.drawable.flag8};
-        }
-        else if (selectedImage.equals("4")) {
-            // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
-                    R.drawable.food16, R.drawable.food16, R.drawable.food4, R.drawable.food4,
-                    R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
-                    R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8};
-        }
         // הצגת שמות השחקנים במסך המשחק
         TextView playerNamesTextView = findViewById(R.id.playerNamesTextView); // TextView להציג את השמות
         playerNamesTextView.setText(player1Name + " VS " + player2Name); // הצגת השמות
@@ -161,6 +141,60 @@ public class MainPlayWithFriends extends AppCompatActivity {
         });
     }
 
+    private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
+
+        if (time.equals("Short")) {
+            timeInNumbersS = 300;  // זמן בשניות
+        } else if (time.equals("Regular")) {
+            timeInNumbersS = 700;
+        } else if (time.equals("Long")) {
+            timeInNumbersS = 1000;
+        }
+        // עדכון נושא
+        if (theme.equals("Cartoon Characters")) {
+            // להשתמש בתמונות של חיות
+            imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
+                    R.drawable.image9b, R.drawable.image9b, R.drawable.image6, R.drawable.image6,
+                    R.drawable.imageb3, R.drawable.imageb3, R.drawable.image8, R.drawable.image8};
+        } else if (theme.equals("Animals")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
+                    R.drawable.animal3, R.drawable.animal3, R.drawable.animal4, R.drawable.animal4,
+                    R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
+                    R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8};
+        }
+        else if (theme.equals("Food")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
+                    R.drawable.food3, R.drawable.food3, R.drawable.food15, R.drawable.food15,
+                    R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
+                    R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8};
+        }else if (theme.equals("Flags")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
+                    R.drawable.flag13, R.drawable.flag13, R.drawable.flag12, R.drawable.flag12,
+                    R.drawable.flag5, R.drawable.flag5, R.drawable.flag6, R.drawable.flag6,
+                    R.drawable.flag7, R.drawable.flag7, R.drawable.flag10, R.drawable.flag10};
+        }
+
+        // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה
+        if (isSoundEnabled) {
+            startMusicService();
+        } else {
+            stopMusicService();
+        }
+    }
+
+    private void stopMusicService() {
+        Intent serviceIntent = new Intent(MainPlayWithFriends.this, MusicService.class);
+        stopService(serviceIntent); // עוצר את המוזיקה
+    }
+
+    private void startMusicService() {
+        Intent serviceIntent = new Intent(MainPlayWithFriends.this, MusicService.class);
+        startService(serviceIntent); // מתחיל את המוזיקה
+    }
     private void startNewGame(String player1Name) {
         // אתחול מחדש של כפתורים (מסתיר את התמונות)
         for (int i = 0; i < 16; i++) {
@@ -218,11 +252,11 @@ public class MainPlayWithFriends extends AppCompatActivity {
             if (firstChoice == secondChoice) {
                 if (currentPlayer == 1) {
                     player1Matches++;
-                    statusText.setText(player1Name + " found a match!");
+                    statusText.setText(player1Name + " found a match! - you have another turn");
                 }
                 else{
                     player2Matches++;
-                    statusText.setText(player2Name + " found a match!");
+                    statusText.setText(player2Name + " found a match! - you have another turn");
                 }
                 isButtonMatched[firstChoiceIndex] = true;
                 isButtonMatched[secondChoiceIndex] = true;
@@ -244,7 +278,7 @@ public class MainPlayWithFriends extends AppCompatActivity {
                         resetChoices(player1Name,player2Name); // אתחול הבחירות
                         switchPlayer(player1Name,player2Name);
                     }
-                }, 700); // השהייה של שנייה לפני החבאת התמונות
+                }, timeInNumbersS); // השהייה של שנייה לפני החבאת התמונות
             }
         }
     }
@@ -421,8 +455,9 @@ public class MainPlayWithFriends extends AppCompatActivity {
             Intent intent = new Intent(MainPlayWithFriends.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_settings){
-            Toast.makeText(this, "You can change the settings ONLY from the single player game!", Toast.LENGTH_SHORT).show();
+        if (id==R.id.action_settings) {
+            Intent intent = new Intent(MainPlayWithFriends.this, SettingsActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש        }
         }
         if (id==R.id.action_recordBoard){
             Intent intent = new Intent(MainPlayWithFriends.this, RecordBoardActivity.class);

@@ -89,8 +89,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-
-
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -157,7 +155,6 @@ public class SettingsActivity extends AppCompatActivity {
         stopService(serviceIntent); // עוצר את המוזיקה
     }
 
-
     private void startMusicService() {
         Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
         startService(serviceIntent); // מתחיל את המוזיקה
@@ -166,15 +163,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        // שמור את המצב של הצלילים כשה-Activity נפסק
-//        SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-//        boolean isSoundEnabled = soundSwitch.isChecked();
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putBoolean("isSoundEnabled",  soundSwitch.isChecked());
-//        editor.commit();//צריך לבדוק אם צריך את זה או לא
     }
-
-
 
     private int getDifficultyIndex(String difficulty) {
         String[] difficulties = getResources().getStringArray(R.array.difficulty_levels);

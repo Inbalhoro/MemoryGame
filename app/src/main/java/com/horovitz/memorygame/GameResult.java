@@ -6,7 +6,6 @@ package com.horovitz.memorygame;
         private int score;
         private int time;
 
-
         public GameResult(int id, String gameType, int score, int time) {
             this.id = id;
             this.gameType = gameType;

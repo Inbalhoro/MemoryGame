@@ -80,9 +80,9 @@ public class MainEasyActivity extends AppCompatActivity {
 
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
+        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל
 
-        String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל: "5 שניות"
+        String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל:
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 

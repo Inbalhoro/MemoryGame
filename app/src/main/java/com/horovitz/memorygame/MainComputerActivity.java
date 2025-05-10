@@ -27,6 +27,7 @@ import java.util.Random;
 
 public class MainComputerActivity extends AppCompatActivity {
     Button navigateButton;
+    private int timeInNumbersS;
     private long startTime;
     private long elapsedTime;
     private TextView timerTextView;
@@ -69,11 +70,15 @@ public class MainComputerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playwithcomputer);
 
-            imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
-                    R.drawable.animal13, R.drawable.animal13, R.drawable.animal4, R.drawable.animal4,
-                    R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
-                    R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8};
+// קריאת ההגדרות מ-SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
 
+        String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל:
+        String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
+        boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
+
+        updateGameSettings(difficulty, time, theme, isSoundEnabled);
 
         buttons[0] = findViewById(R.id.button_1);
         buttons[1] = findViewById(R.id.button_2);
@@ -113,6 +118,62 @@ public class MainComputerActivity extends AppCompatActivity {
                 startNewGame();
             }
         });
+    }
+
+
+    private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
+
+        if (time.equals("Short")) {
+            timeInNumbersS = 300;  // זמן בשניות
+        } else if (time.equals("Regular")) {
+            timeInNumbersS = 700;
+        } else if (time.equals("Long")) {
+            timeInNumbersS = 1000;
+        }
+        // עדכון נושא
+        if (theme.equals("Cartoon Characters")) {
+            // להשתמש בתמונות של חיות
+            imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
+                    R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
+                    R.drawable.image10, R.drawable.image10, R.drawable.image6, R.drawable.image6,
+                    R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
+        } else if (theme.equals("Animals")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
+                    R.drawable.animal3, R.drawable.animal3, R.drawable.animal4, R.drawable.animal4,
+                    R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
+                    R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8};
+        }
+        else if (theme.equals("Food")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
+                    R.drawable.food3, R.drawable.food3, R.drawable.food15, R.drawable.food15,
+                    R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
+                    R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8};
+        }else if (theme.equals("Flags")) {
+            // להשתמש בתמונות של דמויות מצוירות
+            imageResources = new int[] {R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
+                    R.drawable.flag13, R.drawable.flag13, R.drawable.flag12, R.drawable.flag12,
+                    R.drawable.flag5, R.drawable.flag5, R.drawable.flag6, R.drawable.flag6,
+                    R.drawable.flag7, R.drawable.flag7, R.drawable.flag10, R.drawable.flag10};
+        }
+
+        // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה
+        if (isSoundEnabled) {
+            startMusicService();
+        } else {
+            stopMusicService();
+        }
+    }
+
+    private void stopMusicService() {
+        Intent serviceIntent = new Intent(MainComputerActivity.this, MusicService.class);
+        stopService(serviceIntent); // עוצר את המוזיקה
+    }
+
+    private void startMusicService() {
+        Intent serviceIntent = new Intent(MainComputerActivity.this, MusicService.class);
+        startService(serviceIntent); // מתחיל את המוזיקה
     }
 
     private void startNewGame() {
@@ -166,7 +227,7 @@ public class MainComputerActivity extends AppCompatActivity {
                 statusText.setText("You found a match! Play again.");
             } else {
                 computerMatches++;
-                statusText.setText("Computer found a match! Playing again...");
+                statusText.setText("Computer found a match!");
             }
             isButtonMatched[firstChoiceIndex] = true;
             isButtonMatched[secondChoiceIndex] = true;
@@ -178,7 +239,7 @@ public class MainComputerActivity extends AppCompatActivity {
             }
 
         } else {
-            statusText.setText("Try again later,");
+//            statusText.setText("Try again later,");
             buttons[firstChoiceIndex].postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -187,7 +248,7 @@ public class MainComputerActivity extends AppCompatActivity {
                     resetChoices();
                     switchPlayer(); //  רק כאן יש החלפת תור
                 }
-            }, 700);
+            }, timeInNumbersS);
         }
     }
 
@@ -225,13 +286,13 @@ public class MainComputerActivity extends AppCompatActivity {
         builder.setTitle(title);
 
         if (computerMatches<playerMatches){
-            SpannableString subTitle = new SpannableString( playerMatches +"You Won!!");
+            SpannableString subTitle = new SpannableString( playerMatches +" matches You found and the computer found "+computerMatches+ " - you won!");
             subTitle.setSpan(new AbsoluteSizeSpan(16, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת המשנה ל-24sp
             builder.setMessage(subTitle);
 
         }
         else if (playerMatches<computerMatches){
-            SpannableString subTitle = new SpannableString(computerMatches +" The computer Wons!");
+            SpannableString subTitle = new SpannableString(computerMatches +" matches the computer found and you found "+playerMatches+ " - computer wons!");
             subTitle.setSpan(new AbsoluteSizeSpan(16, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // שינוי גודל לכותרת המשנה ל-24sp
             builder.setMessage(subTitle);
         }
@@ -254,7 +315,6 @@ public class MainComputerActivity extends AppCompatActivity {
 
         message += "Score: " +score;  // הניקוד
 
-        Log.d("Rinat", "score " + score);
 
         GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
         dbHelper.insertGame("playing with the computer game",score, (int) elapsedTime / 1000);
@@ -273,12 +333,9 @@ public class MainComputerActivity extends AppCompatActivity {
                 // Save the score using SharedPreferences
                 saveScoreToSharedPreferences(score);
 
-                // Log for debugging
-                Log.d("Rinat", "scoreShowD " + score);
 
                 // Get the updated total score
                 int updatedTotalScore = getTotalScore();
-                Log.d("Rinat", "currentM " + updatedTotalScore);
 
                 // Return to MainActivity
                 Intent intent = new Intent(MainComputerActivity.this, MainActivity.class);
@@ -314,12 +371,12 @@ public class MainComputerActivity extends AppCompatActivity {
     private void switchPlayer() {
         if (currentPlayer == 1) {
             currentPlayer = 2;  // Switch to computer
-            statusText.setText(statusText.getText().toString()+" Computer's turn!");
+            statusText.setText("Computer's turn!");
             isComputerTurn = true;
             computerMove();
         } else {
             currentPlayer = 1;  // Switch to player
-            statusText.setText(statusText.getText().toString()+" Your turn!");
+            statusText.setText("Your turn!");
             isComputerTurn = false;
         }
     }
@@ -330,7 +387,23 @@ public class MainComputerActivity extends AppCompatActivity {
             public void run() {
                 if (!isGameRunning) return;
 
-                // Simulate computer turn with random moves (basic AI)
+                //  בדיקה אם כל הכפתורים נחשפו - עצור!
+                boolean allMatched = true;
+                for (boolean matched : isButtonMatched) {
+                    if (!matched) {
+                        allMatched = false;
+                        break;
+                    }
+                }
+                if (allMatched) {//   כל הזוגות נמצאו - אל תמשיך אם המשחק נגמר
+                    elapsedTime = System.currentTimeMillis() - startTime;  // זמן שלקח לסיים את המשחק
+                    statusText.setText("Game over!");
+                    showTimeDialog();
+                    isGameRunning = false;  // עצור את זמן הריצה
+                    handler.removeCallbacks(timerRunnable);  // הסר את הריצה של עדכון הזמן
+                }
+
+                // המשך מהלך רגיל של המחשב
                 int index1 = random.nextInt(16);
                 int index2 = random.nextInt(16);
                 while (index2 == index1 || isButtonMatched[index1] || isButtonMatched[index2]) {
@@ -342,30 +415,35 @@ public class MainComputerActivity extends AppCompatActivity {
                 buttons[index2].setImageResource(images.get(index2));
 
                 if (images.get(index1).equals(images.get(index2))) {
-
                     isButtonMatched[index1] = true;
                     isButtonMatched[index2] = true;
 
                     computerMatches++;
-                    statusText.setText("Computer found a match!");
-                    switchPlayer();
+                    statusText.setText("Computer found a match! - The computer has another turn");
+
+                    // ✅ נקרא לעצמו רק אם לא נגמר המשחק
+                    resetChoices();
+                    if (isGameRunning) {
+                        computerMove();  // המשך רק אם המשחק לא הסתיים
+                    }
 
                 } else {
-                    int finalIndex = index2;
                     int finalIndex1 = index1;
+                    int finalIndex2 = index2;
                     buttons[index1].postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             buttons[finalIndex1].setImageResource(android.R.color.transparent);
-                            buttons[finalIndex].setImageResource(android.R.color.transparent);
+                            buttons[finalIndex2].setImageResource(android.R.color.transparent);
                             statusText.setText("Computer did not find a match!");
                             switchPlayer();
                         }
-                    }, 700);
+                    }, timeInNumbersS);
                 }
             }
-        }, 1000);
+        }, 2000);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -405,8 +483,9 @@ public class MainComputerActivity extends AppCompatActivity {
             Intent intent = new Intent(MainComputerActivity.this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_settings){
-            Toast.makeText(this, "You can change the settings ONLY from the single player game!", Toast.LENGTH_SHORT).show();
+        if (id==R.id.action_settings) {
+            Intent intent = new Intent(MainComputerActivity.this, SettingsActivity.class);
+            startActivity(intent); // התחלת ה-Activity החדש        }
         }
         if (id==R.id.action_recordBoard){
             Intent intent = new Intent(MainComputerActivity.this, RecordBoardActivity.class);

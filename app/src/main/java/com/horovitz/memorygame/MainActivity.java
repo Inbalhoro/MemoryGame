@@ -63,37 +63,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         gameMoneyInDis = findViewById(R.id.gameMoneyFromScores);
         updateScoreDisplay(gameMoneyInDis, currentgameMoney);
 
-//// קבלת הציון המתקבל אם יש
-//        Intent intent = getIntent();
-//        int newScore = intent.getIntExtra("score", 0);  // אם לא נשלח ציון, ברירת מחדל = 0
-//        Log.d("INBA", "NEWmoney " + newScore);
-//        Log.d("INBA", "Updated money " + currentgameMoney);
-//        // עדכון currentgameMoney עם הציון החדש
-//        currentgameMoney += newScore;  // הוספת הציון החדש לציון הקודם
-//        Log.d("INBA", "AFTER money " + currentgameMoney);
-//
-//        // שמירה ב- SharedPreferences
-//        SharedPreferences sharedPreferencesM = getSharedPreferences("ScoreToMoney", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferencesM.edit();
-//        editor.putInt("currentMoney", currentgameMoney);  // שמירה של הציון המעודכן
-//        editor.apply();  // שמירה
-//
-//        // עדכון ה-TextView עם הציון החדש
-//        gameMoneyInDis.setText("" + currentgameMoney);
-
-
-
-
-        // לוגים לעקוב אחרי המידע//        // קריאת הציון שנשמר ב-SharedPreferences
-//        SharedPreferences sharedPreferencesM = getSharedPreferences("ScoreToMoney", MODE_PRIVATE);
-//        currentgameMoney = sharedPreferencesM.getInt("currentMoney", 0); // ברירת מחדל 0 אם אין ציון
-//
-//        // עדכון ה-TextView עם הציון
-//        gameMoneyInDis.setText("" + currentgameMoney);
-
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-
-
 
         String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל: "Regular"
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
@@ -140,33 +110,33 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 builder.setView(layout);
 
-                TextView title = new TextView(MainActivity.this);
-                title.setText("בחר תמונה:");
-                title.setGravity(Gravity.CENTER); // ממרכזים את הכותרת
-                layout.addView(title);
-
-
-                // יצירת שני LinearLayouts אופקיים עבור כל שורה
-                LinearLayout row1 = new LinearLayout(MainActivity.this);
-                row1.setOrientation(LinearLayout.HORIZONTAL); // שורה אחת
-                row1.setGravity(Gravity.CENTER); // הצבת התמונות במרכז של השורה
-                LinearLayout row2 = new LinearLayout(MainActivity.this);
-                row2.setOrientation(LinearLayout.HORIZONTAL); // שורה שנייה
-                row2.setGravity(Gravity.CENTER); // הצבת התמונות במרכז של השורה
-
-
-                ImageView imageView1 = createImageView("1", R.drawable.image1);
-                ImageView imageView2 = createImageView("2", R.drawable.animal1);
-                ImageView imageView3 = createImageView("3", R.drawable.flag13);
-                ImageView imageView4 = createImageView("4", R.drawable.food9);
-                row1.addView(imageView1);
-                row1.addView(imageView2);
-                row2.addView(imageView3);
-                row2.addView(imageView4);
-
-                // הוספת השורות ל-layout הראשי
-                layout.addView(row1);
-                layout.addView(row2);
+//                TextView title = new TextView(MainActivity.this);
+//                title.setText("בחר תמונה:");
+//                title.setGravity(Gravity.CENTER); // ממרכזים את הכותרת
+//                layout.addView(title);
+//
+//
+//                // יצירת שני LinearLayouts אופקיים עבור כל שורה
+//                LinearLayout row1 = new LinearLayout(MainActivity.this);
+//                row1.setOrientation(LinearLayout.HORIZONTAL); // שורה אחת
+//                row1.setGravity(Gravity.CENTER); // הצבת התמונות במרכז של השורה
+//                LinearLayout row2 = new LinearLayout(MainActivity.this);
+//                row2.setOrientation(LinearLayout.HORIZONTAL); // שורה שנייה
+//                row2.setGravity(Gravity.CENTER); // הצבת התמונות במרכז של השורה
+//
+//
+//                ImageView imageView1 = createImageView("1", R.drawable.image1);
+//                ImageView imageView2 = createImageView("2", R.drawable.animal1);
+//                ImageView imageView3 = createImageView("3", R.drawable.flag13);
+//                ImageView imageView4 = createImageView("4", R.drawable.food9);
+//                row1.addView(imageView1);
+//                row1.addView(imageView2);
+//                row2.addView(imageView3);
+//                row2.addView(imageView4);
+//
+//                // הוספת השורות ל-layout הראשי
+//                layout.addView(row1);
+//                layout.addView(row2);
 
                 builder.setMessage("")
                         .setPositiveButton("Start!", new DialogInterface.OnClickListener() {
@@ -185,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 }
 
                                 Intent intent = new Intent(MainActivity.this, MainPlayWithFriends.class);
-                                intent.putExtra("selectedImage", selectedImage); // שולחים את התמונה שנבחרה
                                 intent.putExtra("player1Name", player1Name); // שולחים את שם השחקן הראשון
                                 intent.putExtra("player2Name", player2Name); // שולחים את שם השחקן השני
                                 startActivity(intent);
@@ -244,33 +213,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-
-
         // Update the displayed score whenever returning to this activity
         gameMoneyInDis = findViewById(R.id.gameMoneyFromScores);
         updateScoreDisplay(gameMoneyInDis, currentgameMoney);
-
-
-
-//        // קבלת הציון המתקבל אם יש
-//        Intent intent = getIntent();
-//        int newScore = intent.getIntExtra("score", 0);  // אם לא נשלח ציון, ברירת מחדל = 0
-//        Log.d("INBA", "NEWmoney " + newScore);
-//        Log.d("INBA", "Updated money " + currentgameMoney);
-//        // עדכון currentgameMoney עם הציון החדש
-//        currentgameMoney += newScore;  // הוספת הציון החדש לציון הקודם
-//        Log.d("INBA", "AFTER money " + currentgameMoney);
-//
-//        // שמירה ב- SharedPreferences
-//        SharedPreferences sharedPreferencesM = getSharedPreferences("ScoreToMoney", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferencesM.edit();
-//        editor.putInt("currentMoney", currentgameMoney);  // שמירה של הציון המעודכן
-//        editor.apply();  // שמירה
-//
-//        // עדכון ה-TextView עם הציון החדש
-//        gameMoneyInDis.setText("" + currentgameMoney);
-//
-//        // לוגים לעקוב אחרי המידע
 
     }
 

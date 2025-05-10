@@ -84,7 +84,7 @@ public class MainRegularActivity extends AppCompatActivity {
 
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
+        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Regular"
 
         String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל:
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
@@ -181,9 +181,9 @@ public class MainRegularActivity extends AppCompatActivity {
         }else if (theme.equals("Flags")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
-                    R.drawable.flag13, R.drawable.flag13, R.drawable.flag4, R.drawable.flag4,
+                    R.drawable.flag13, R.drawable.flag13, R.drawable.flag12, R.drawable.flag12,
                     R.drawable.flag5, R.drawable.flag5, R.drawable.flag6, R.drawable.flag6,
-                    R.drawable.flag7, R.drawable.flag7, R.drawable.flag8, R.drawable.flag8};
+                    R.drawable.flag7, R.drawable.flag7, R.drawable.flag10, R.drawable.flag10};
         }
 
         // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה

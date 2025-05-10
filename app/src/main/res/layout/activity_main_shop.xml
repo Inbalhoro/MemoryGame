@@ -6,14 +6,21 @@
     android:background="@drawable/shopback"
     android:orientation="vertical"
     tools:context=".MainShop">
-
     <TextView
         android:id="@+id/shopTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Shop"
-        android:textSize="65dp"
-        android:layout_marginTop="10dp"
+        android:textSize="55dp"
+        android:fontFamily="@font/title"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#C33767" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Backgrounds for single player games"
+        android:textSize="30dp"
         android:fontFamily="@font/title"
         android:textStyle="bold"
         android:gravity="center"
@@ -24,7 +31,6 @@
         android:id="@+id/gameMoneyFromScores"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/title"
         android:gravity="center"
@@ -37,13 +43,10 @@
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:padding="8dp">
-
+        android:visibility="gone">
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <LinearLayout
                 android:id="@+id/backgroundOptionsLayout"
                 android:layout_width="wrap_content"
@@ -96,7 +99,7 @@
                     android:backgroundTint="@color/white"
                     android:gravity="center"
                     android:padding="12dp"
-                    android:text="100"
+                    android:text="8000"
                     android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -125,7 +128,7 @@
                     android:backgroundTint="@color/white"
                     android:gravity="center"
                     android:padding="12dp"
-                    android:text="120"
+                    android:text="2000"
                     android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
