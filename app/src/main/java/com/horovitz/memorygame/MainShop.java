@@ -123,7 +123,7 @@ public class MainShop extends AppCompatActivity {
             View child = backgroundOptionsLayout.getChildAt(i);
             child.setBackgroundResource(R.drawable.border);
         }
-        view.setBackgroundResource(R.drawable.selected_border);
+        view.setBackgroundResource(R.drawable.border);
 
         Toast.makeText(this, "Background selected!", Toast.LENGTH_SHORT).show();
     }

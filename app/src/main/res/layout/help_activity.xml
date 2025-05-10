@@ -4,62 +4,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:padding="10dp"
     android:background="#EDC2C9">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="How can I help you?"
+        android:text="How can I help?"
         android:fontFamily="@font/title"
-        android:textSize="50dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Write me and I will help"
-        android:fontFamily="@font/title"
-        android:textSize="30dp"/>
-    <!-- שדה להזנת אימייל -->
-    <EditText
-        android:layout_marginTop="40dp"
-        android:id="@+id/emailText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:padding="10dp"
-        android:layout_marginBottom="16dp" />
-    <!-- שדה להזנת נושא האימייל -->
-    <EditText
-        android:id="@+id/themeofemail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Subject"
-        android:inputType="textEmailAddress"
-        android:padding="10dp"
-        android:layout_marginBottom="16dp" />
+        android:textSize="70dp"/>
 
-    <!-- שדה להזנת ההודעה -->
-    <EditText
-        android:id="@+id/textMessage"
+    <!-- Scrollable Content -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:hint="Enter your problem"
-        android:inputType="textMultiLine"
-        android:gravity="top|start"
-        android:padding="10dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="10dp"
+            android:paddingBottom="16dp">
 
+
+        <!-- שדה להזנת אימייל -->
+            <EditText
+                android:id="@+id/emailText"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:padding="10dp" />
+        <!-- שדה להזנת נושא האימייל -->
+        <EditText
+            android:id="@+id/themeofemail"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:hint="Subject"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- שדה להזנת ההודעה -->
+        <EditText
+            android:id="@+id/textMessage"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:hint="Enter your problem"
+            android:inputType="textMultiLine"
+            android:gravity="top|start"
+            android:padding="10dp"
+            android:layout_marginBottom="16dp" />
+        </LinearLayout>
+    </ScrollView>
     <!-- כפתור שליחה -->
     <Button
         android:id="@+id/sendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send"
+        android:layout_width="122dp"
+        android:layout_height="74dp"
         android:layout_gravity="center"
         android:backgroundTint="#E91E63"
         android:onClick="sendEmail"
+        android:text="Send"
         android:textColor="#FFFFFF" />
-
-
 
 </LinearLayout>
