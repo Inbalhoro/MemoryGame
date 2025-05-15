@@ -193,6 +193,17 @@ public class MainComputerActivity extends AppCompatActivity {
         }
         Collections.shuffle(images);
 
+
+        // Log each image after shuffle with index info
+        for (int row = 0; row < 4; row++) {
+            StringBuilder rowLog = new StringBuilder();
+            for (int col = 0; col < 4; col++) {
+                int index = row * 4 + col;
+                rowLog.append(images.get(index)).append("  ");
+            }
+            Log.d("BOARD", "Row " + row + ": " + rowLog.toString());
+        }
+
         firstChoice = -1;
         secondChoice = -1;
         firstChoiceIndex = -1;
