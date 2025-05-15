@@ -343,7 +343,7 @@ public class MainPlayWithFriends extends AppCompatActivity {
 
         message += "Score: " +score;  // הניקוד
 
-        Log.d("Rinat", "score " + score);
+//        Log.d("Rinat", "score " + score);
 
         GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
         dbHelper.insertGame("playing with a friend game",score, (int) elapsedTime / 1000);
@@ -367,7 +367,7 @@ public class MainPlayWithFriends extends AppCompatActivity {
 
                 // Get the updated total score
                 int updatedTotalScore = getTotalScore();
-                Log.d("Rinat", "currentM " + updatedTotalScore);
+//                Log.d("Rinat", "currentM " + updatedTotalScore);
 
                 // Return to MainActivity
                 Intent intent = new Intent(MainPlayWithFriends.this, MainActivity.class);

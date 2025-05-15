@@ -209,7 +209,6 @@ public class MainRegularActivity extends AppCompatActivity {
         buttons[index].setImageResource(images.get(index));
         isButtonFlipped[index] = true;
 
-        Log.d("Rinat", "onButtonClick firstChoice = " + firstChoice);
         // אם זו הבחירה הראשונה
         if (firstChoice == -1) {
             firstChoice = images.get(index);
@@ -253,7 +252,6 @@ public class MainRegularActivity extends AppCompatActivity {
     }
 
     private void resetChoices() {
-        Log.d("Rinat","resetChoices firstChoice = -1");
         firstChoice = -1;
         secondChoice = -1;
         firstChoiceIndex = -1;
@@ -263,12 +261,21 @@ public class MainRegularActivity extends AppCompatActivity {
 
         // בדוק אם כל הכפתורים נחשפו
         boolean allFlipped = true;
+
         for (boolean matched : isButtonMatched) {
             if (!matched) {
                 allFlipped = false;
                 break;
             }
         }
+
+//        for (int i = 0; i < isButtonMatched.length; i++) {
+//            if (!isButtonMatched[i]) {
+//                allFlipped = false;
+//                break;
+//            }
+//        }
+
 
         if (allFlipped) {
             elapsedTime = System.currentTimeMillis() - startTime;  // זמן שלקח לסיים את המשחק
@@ -301,7 +308,6 @@ public class MainRegularActivity extends AppCompatActivity {
         int score = baseScore - timePenalty; // 100 נקודות לכל זוג שנמצא
 
         message += "Score: " +score;  // הניקוד
-        Log.d("Rinat", "score " + score);
 
         GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
         dbHelper.insertGame("The regular game",score, (int) elapsedTime / 1000);
@@ -322,11 +328,11 @@ public class MainRegularActivity extends AppCompatActivity {
                 saveScoreToSharedPreferences(score);
 
                 // Log for debugging
-                Log.d("Rinat", "scoreShowD " + score);
+//                Log.d("Rinat", "scoreShowD " + score);
 
                 // Get the updated total score
                 int updatedTotalScore = getTotalScore();
-                Log.d("Rinat", "currentM " + updatedTotalScore);
+//                Log.d("Rinat", "currentM " + updatedTotalScore);
 
                 // כפתור חזרה לדף הבית
                 Intent intent = new Intent(MainRegularActivity.this, MainActivity.class);

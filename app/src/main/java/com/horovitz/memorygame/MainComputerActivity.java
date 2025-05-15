@@ -203,10 +203,9 @@ public class MainComputerActivity extends AppCompatActivity {
     }
 
     private void onButtonClick(int index) {
-        if (isButtonMatched[index] || isComputerTurn || index == firstChoiceIndex) {
+        if (isButtonMatched[index] || isComputerTurn || index == firstChoiceIndex) { //כל האופציות שיכולות לגמור למשחק לא נכון
             return;
         }
-
         buttons[index].setImageResource(images.get(index));
         isButtonFlipped[index] = true;
 
@@ -239,8 +238,7 @@ public class MainComputerActivity extends AppCompatActivity {
             }
 
         } else {
-//            statusText.setText("Try again later,");
-            buttons[firstChoiceIndex].postDelayed(new Runnable() {
+            buttons[firstChoiceIndex].postDelayed(new Runnable() {//אם אין זוג
                 @Override
                 public void run() {
                     buttons[firstChoiceIndex].setImageResource(android.R.color.transparent);
@@ -406,7 +404,7 @@ public class MainComputerActivity extends AppCompatActivity {
                 // המשך מהלך רגיל של המחשב
                 int index1 = random.nextInt(16);
                 int index2 = random.nextInt(16);
-                while (index2 == index1 || isButtonMatched[index1] || isButtonMatched[index2]) {
+                while (index2 == index1 || isButtonMatched[index1] || isButtonMatched[index2]) { //עד שהוא לא מגריל כפתור שלא נלחץ הוא לא מסיים את הלולאה
                     index1 = random.nextInt(16);
                     index2 = random.nextInt(16);
                 }
@@ -441,14 +439,13 @@ public class MainComputerActivity extends AppCompatActivity {
                     }, timeInNumbersS);
                 }
             }
-        }, 2000);
+        }, 2000);//זמן שלוקח למחשב להגיב ולשחק
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
-
         GameDatabaseHelper.setIconInMenu(this,
                 menu
                 ,R.id.action_firstpage
