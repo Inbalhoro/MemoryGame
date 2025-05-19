@@ -115,11 +115,14 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        themeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton selectedRadioButton = findViewById(checkedId);
-            String selectedTheme = selectedRadioButton.getText().toString();
-            editor.putString("selectedTheme", selectedTheme);
-            editor.commit();
+        themeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton selectedRadioButton = SettingsActivity.this.findViewById(checkedId);
+                String selectedTheme = selectedRadioButton.getText().toString();
+                editor.putString("selectedTheme", selectedTheme);
+                editor.commit();
+            }
         });
 
 

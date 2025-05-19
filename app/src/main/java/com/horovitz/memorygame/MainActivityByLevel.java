@@ -1,9 +1,5 @@
 package com.horovitz.memorygame;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,26 +17,31 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-//
-public class MainHardActivity extends AppCompatActivity {
-    Button navigateButton; // הכפתור שיעביר אותנו לדף החדש
-    Button navigateToFirstPageButton;
+import java.util.List;
+
+public class MainActivityByLevel extends AppCompatActivity {
+    private GameLevel gameLevel;
     private long startTime;
     private long elapsedTime;
-    private int timeofcards=700; //הזמן של לפני החבאת הקלפים זמן השהייה במצב הנוכחי
     private TextView timerTextView;  // TextView להצגת הזמן הרץ
-    private Handler handler = new Handler();  // Handler לעדכון הזמן
+    private final Handler handler = new Handler();  // Handler לעדכון הזמן
     private boolean isGameRunning = false;  // משתנה לבדוק אם המשחק רץ
+
+
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
             // מחשבים את הזמן הנוכחי (שנמסר מאז התחלת המשחק)
-            long elapsedTime = System.currentTimeMillis() - startTime;
+            long timeSinceStart = System.currentTimeMillis() - startTime;
 
             // מעדכנים את ה-TextView עם הזמן החדש
-            timerTextView.setText("time: " + (elapsedTime / 1000) );
+            timerTextView.setText("time: " + (timeSinceStart / 1000));
 
             // מריצים את הריצה הזו כל 100 מילישניות (0.1 שניה)
             if (isGameRunning) {
@@ -49,103 +50,89 @@ public class MainHardActivity extends AppCompatActivity {
         }
     };
 
-    private ImageButton[] buttons = new ImageButton[36]; // מערך של כפתורים
+    private ImageButton[] buttons; // מערך של כפתורים
     private ArrayList<Integer> images = new ArrayList<>(); // תמונות שנמצאות במשחק
-    private int[] imageResources = {
-            R.drawable.image1, R.drawable.image1, // Pair 1
-            R.drawable.image2, R.drawable.image2, // Pair 2
-            R.drawable.image3, R.drawable.image3, // Pair 3
-            R.drawable.image4, R.drawable.image4, // Pair 4
-            R.drawable.image5, R.drawable.image5, // Pair 5
-            R.drawable.image6, R.drawable.image6, // Pair 6
-            R.drawable.image7, R.drawable.image7, // Pair 7
-            R.drawable.image8, R.drawable.image8, // Pair 8
-            R.drawable.image9, R.drawable.image9, // Pair 9
-            R.drawable.image10, R.drawable.image10, // Pair 10
-            R.drawable.image11, R.drawable.image11, // Pair 11
-            R.drawable.image12, R.drawable.image12, // Pair 12
-            R.drawable.image13, R.drawable.image13, // Pair 13
-            R.drawable.image14, R.drawable.image14, // Pair 14
-            R.drawable.image15, R.drawable.image15, // Pair 15
-            R.drawable.image16, R.drawable.image16, // Pair 16
-            R.drawable.image17, R.drawable.image17, // Pair 17
-            R.drawable.image18, R.drawable.image18  // Pair 18
-    }; // כאן תוכל להוסיף את התמונות שלך
+    private List<Integer> imageResources; // כאן תוכל להוסיף את התמונות שלך
 
     private int firstChoice = -1;
     private int secondChoice = -1;
     private int firstChoiceIndex = -1;
     private int secondChoiceIndex = -1;
     private int timeInNumbersS;
+    private Button settingsButtonOnlyHere;
 
-    private boolean[] isButtonFlipped = new boolean[36]; // מעקב אם כפתור כבר נחשף
-    private boolean[] isButtonMatched = new boolean[36]; // מעקב אם הכפתור כבר נמצא בזוג נכון
+    private boolean[] isButtonFlipped; // מעקב אם כפתור כבר נחשף
+    private boolean[] isButtonMatched; // מעקב אם הכפתור כבר נמצא בזוג נכון
 
     private TextView statusText;
     private Button resetButton; // כפתור איפוס
 
+    public List<Integer> generateImageList(List<Integer> allImages, int pairCount) {
+        List<Integer> selectedImages = new ArrayList<>();
+
+        for (int i = 0; i < pairCount; i++) {
+            int imageRes = allImages.get(i);
+            selectedImages.add(imageRes);
+            selectedImages.add(imageRes);
+        }
+
+        Collections.shuffle(selectedImages);
+        return selectedImages;
+    }
+
+
+    private void setupButtons(int count) {
+        buttons = new ImageButton[count];
+        isButtonFlipped = new boolean[count];
+        isButtonMatched = new boolean[count];
+
+        for (int i = 0; i < count; i++) {
+            final int index = i; // effectively final copy for use in the inner class
+
+            int resId = getResources().getIdentifier("button_" + i, "id", getPackageName());
+            buttons[i] = findViewById(resId);
+            buttons[i].setVisibility(View.VISIBLE);
+            buttons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onButtonClick(index, timeInNumbersS);
+                }
+            });
+        }
+
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_hard);
-
+        setContentView(R.layout.activity_main_regular); // קישור ל-XML שלך
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
         int selectedBackground = prefs.getInt("selectedBackground", R.drawable.backgroundsingleplayer); // ברירת מחדל אם אין
         // שינוי רקע לפי הבחירה שנשמרה
-        View rootLayout = findViewById(R.id.hardGame);
+        View rootLayout = findViewById(R.id.regularGame);
         rootLayout.setBackgroundResource(selectedBackground);
 
-        // Start the music service if it's not already running
-        Intent serviceIntent = new Intent(MainHardActivity.this, MusicService.class);
-        startService(serviceIntent);
 
-        // קריאת ההגדרות מ-SharedPreferences
+// קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
-
-        String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל: "5 שניות"
+        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Regular"
+        String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל:
         String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
+
+        String levelName = getIntent().getStringExtra("GAME_LEVEL");
+        gameLevel = GameLevel.valueOf(levelName); // careful: can throw exception if invalid
+
+        imageResources = getImageResourcesForTheme(Theme.valueOf(theme), gameLevel);  // now returns List<Integer>
+
+        setupButtons(gameLevel.getButtonCount());
+
+
         updateGameSettings(difficulty, time, theme, isSoundEnabled);
 
-        // אתחול כפתורים
-        buttons[0] = findViewById(R.id.button_1);
-        buttons[1] = findViewById(R.id.button_2);
-        buttons[2] = findViewById(R.id.button_3);
-        buttons[3] = findViewById(R.id.button_4);
-        buttons[4] = findViewById(R.id.button_5);
-        buttons[5] = findViewById(R.id.button_6);
-        buttons[6] = findViewById(R.id.button_7);
-        buttons[7] = findViewById(R.id.button_8);
-        buttons[8] = findViewById(R.id.button_9);
-        buttons[9] = findViewById(R.id.button_10);
-        buttons[10] = findViewById(R.id.button_11);
-        buttons[11] = findViewById(R.id.button_12);
-        buttons[12] = findViewById(R.id.button_13);
-        buttons[13] = findViewById(R.id.button_14);
-        buttons[14] = findViewById(R.id.button_15);
-        buttons[15] = findViewById(R.id.button_16);
-        buttons[16] = findViewById(R.id.button_17);
-        buttons[17] = findViewById(R.id.button_18);
-        buttons[18] = findViewById(R.id.button_19);
-        buttons[19] = findViewById(R.id.button_20);
-        buttons[20] = findViewById(R.id.button_21);
-        buttons[21] = findViewById(R.id.button_22);
-        buttons[22] = findViewById(R.id.button_23);
-        buttons[23] = findViewById(R.id.button_24);
-        buttons[24] = findViewById(R.id.button_25);
-        buttons[25] = findViewById(R.id.button_26);
-        buttons[26] = findViewById(R.id.button_27);
-        buttons[27] = findViewById(R.id.button_28);
-        buttons[28] = findViewById(R.id.button_29);
-        buttons[29] = findViewById(R.id.button_30);
-        buttons[30] = findViewById(R.id.button_31);
-        buttons[31] = findViewById(R.id.button_32);
-        buttons[32] = findViewById(R.id.button_33);
-        buttons[33] = findViewById(R.id.button_34);
-        buttons[34] = findViewById(R.id.button_35);
-        buttons[35] = findViewById(R.id.button_36);
+
         timerTextView = findViewById(R.id.timerTextView);
 
         // אתחול ה-TextView
@@ -153,97 +140,89 @@ public class MainHardActivity extends AppCompatActivity {
 
         // אתחול כפתור האיפוס
         resetButton = findViewById(R.id.resetButton);
+//        settingsButtonOnlyHere = findViewById(R.id.settingsButton);
+
 
         // מיקסום התמונות באופן אקראי
-        startNewGame();
+        startNewGame(gameLevel);
+
 
         // מאזין ללחיצות על כפתורים
-        for (int i = 0; i < 36; i++) {
-            final int index = i;
-            buttons[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onButtonClick(index,timeInNumbersS);
-                }
-            });
-        }
+
 
         // מאזין לכפתור איפוס
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startNewGame(); // איפוס המשחק
+                startNewGame(gameLevel); // איפוס המשחק
             }
         });
     }
 
-    //
-    private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
-        if (time.equals("Regular")){
-            timeofcards = 700;
-        } else if(time.equals("Short")){
-            timeofcards = 200;
-        }else if(time.equals("Long")){
-            timeofcards = 1200;
+    //TODO
+    private List<Integer> getImageResourcesForTheme(Theme theme, GameLevel level) {
+        int pairCount = level.getButtonCount() / 2;
+        List<Integer> baseImages = new ArrayList<>();
+
+        for (int i = 0; i < pairCount; i++) {
+            String prefix = "";
+
+            switch (theme) {
+                case CARTOON_CHARACTERS:
+                    prefix = "image";
+                    break;
+                case ANIMALS:
+                    prefix = "animal";
+                    break;
+                case FOOD:
+                    prefix = "food";
+                    break;
+                case FLAGS:
+                    prefix = "flag";
+                    break;
+                default:
+                    prefix = "image";
+            }
+
+            int resId = getResources().getIdentifier(prefix + (i + 1), "drawable", getPackageName());
+            baseImages.add(resId);
         }
 
-        // עדכון נושא
-        if (theme.equals("Cartoon Characters")) {
-            // להשתמש בתמונות של חיות
-            imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2, R.drawable.image3, R.drawable.image3,
-                    R.drawable.image4, R.drawable.image4, R.drawable.image5, R.drawable.image5,
-                    R.drawable.image6, R.drawable.image6, R.drawable.image7, R.drawable.image7,
-                    R.drawable.image8, R.drawable.image8, R.drawable.image9, R.drawable.image9,
-                    R.drawable.image10, R.drawable.image10, R.drawable.image11, R.drawable.image11,
-                    R.drawable.image12, R.drawable.image12, R.drawable.image13, R.drawable.image13,
-                    R.drawable.image14, R.drawable.image14, R.drawable.image15, R.drawable.image15,
-                    R.drawable.image16, R.drawable.image16, R.drawable.image17, R.drawable.image17,
-                    R.drawable.image18, R.drawable.image18};
-        } else if (theme.equals("Animals")) {
-            // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
-                    R.drawable.animal3, R.drawable.animal3, R.drawable.animal4, R.drawable.animal4,
-                    R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
-                    R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8,
-                    R.drawable.animal9, R.drawable.animal9, R.drawable.animal10, R.drawable.animal10,
-                    R.drawable.animal11, R.drawable.animal11, R.drawable.animal12, R.drawable.animal12,
-                    R.drawable.animal13, R.drawable.animal13, R.drawable.animal14, R.drawable.animal14,
-                    R.drawable.animal15, R.drawable.animal15, R.drawable.animal16, R.drawable.animal16,
-                    R.drawable.animal17, R.drawable.animal17, R.drawable.animal18, R.drawable.animal18};
-        }
-        else if (theme.equals("Food")) {
-            // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
-                    R.drawable.food16, R.drawable.food16, R.drawable.food4, R.drawable.food4,
-                    R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
-                    R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8,
-                    R.drawable.food9, R.drawable.food9, R.drawable.food10, R.drawable.food10,
-                    R.drawable.food11, R.drawable.food11, R.drawable.food12, R.drawable.food12,
-                    R.drawable.food13, R.drawable.food13, R.drawable.food14, R.drawable.food14,
-                    R.drawable.food15, R.drawable.food15, R.drawable.food16, R.drawable.food16,
-                    R.drawable.food17, R.drawable.food17, R.drawable.food18, R.drawable.food18};
-        }else if (theme.equals("Flags")) {
-            // להשתמש בתמונות של דמויות מצוירות
-            imageResources = new int[] {R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
-                    R.drawable.flag3, R.drawable.flag3, R.drawable.flag4, R.drawable.flag4,
-                    R.drawable.flag5, R.drawable.flag5, R.drawable.flag6, R.drawable.flag6,
-                    R.drawable.flag7, R.drawable.flag7, R.drawable.flag8, R.drawable.flag8,
-                    R.drawable.flag9, R.drawable.flag9, R.drawable.flag10, R.drawable.flag10,
-                    R.drawable.flag11, R.drawable.flag11, R.drawable.flag12, R.drawable.flag12,
-                    R.drawable.flag13, R.drawable.flag13, R.drawable.flag14, R.drawable.flag14,
-                    R.drawable.flag15, R.drawable.flag15, R.drawable.flag16, R.drawable.flag16,
-                    R.drawable.flag17, R.drawable.flag17, R.drawable.flag18, R.drawable.flag18};
-        }
+        return generateImageList(baseImages, pairCount);
+    }
 
-        // אם צלילים מופעלים, תתחיל את המוזיקה, אחרת תפסיק אותה
+
+    private void updateGameSettings(String difficultyStr, String timeStr, String themeStr, boolean isSoundEnabled) {
+        // Parse enum values from strings (handle casing carefully)
+        TimeSetting timeSetting = TimeSetting.valueOf(timeStr.toUpperCase().replace(" ", "_"));
+        Theme theme = Theme.valueOf(themeStr.toUpperCase().replace(" ", "_"));
+
+        // Set time
+        timeInNumbersS = timeSetting.getSeconds();
+
+        // Set images
+        imageResources = getImageResourcesForTheme(theme, gameLevel);  //TODO
+
+        // Handle sound
         if (isSoundEnabled) {
-            // No need to call stopMusicService() as it's handled by MusicService
+            startMusicService();
         } else {
-            // No need to call startMusicService() as it's handled by MusicService
+            stopMusicService();
         }
     }
 
-    private void onButtonClick(int index,int timeInNumbersS) {
+
+    private void stopMusicService() {
+        Intent serviceIntent = new Intent(this, MusicService.class);
+        stopService(serviceIntent); // עוצר את המוזיקה
+    }
+
+    private void startMusicService() {
+        Intent serviceIntent = new Intent(this, MusicService.class);
+        startService(serviceIntent); // מתחיל את המוזיקה
+    }
+
+    private void onButtonClick(int index, int timeInNumbersS) {
         // אם הכפתור כבר נמצא בזוג נכון, אל תאפשר ללחוץ עליו
         if (isButtonMatched[index]) {
             return;
@@ -255,7 +234,6 @@ public class MainHardActivity extends AppCompatActivity {
         buttons[index].setImageResource(images.get(index));
         isButtonFlipped[index] = true;
 
-        Log.d("Rinat", "onButtonClick firstChoice = " + firstChoice);
         // אם זו הבחירה הראשונה
         if (firstChoice == -1) {
             firstChoice = images.get(index);
@@ -266,6 +244,8 @@ public class MainHardActivity extends AppCompatActivity {
             setclickable(false);
             secondChoice = images.get(index);
             secondChoiceIndex = index;
+
+            //stop
 
             // אם התמונות תואמות
             if (firstChoice == secondChoice) {
@@ -283,6 +263,7 @@ public class MainHardActivity extends AppCompatActivity {
                 buttons[firstChoiceIndex].postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        //TODO
                         Log.d("Rinat", "run firstChoice = " + firstChoice);
                         // החבא את התמונה הראשונה אם לא תואמת
                         buttons[firstChoiceIndex].setImageResource(android.R.color.transparent);
@@ -290,28 +271,37 @@ public class MainHardActivity extends AppCompatActivity {
                         buttons[secondChoiceIndex].setImageResource(android.R.color.transparent);
                         setclickable(true);
                         resetChoices(); // אתחול הבחירות
-
                     }
-                }, timeofcards); // השהייה של שנייה לפני החבאת התמונות
+                }, timeInNumbersS); // השהייה של שנייה לפני החבאת התמונות
             }
         }
     }
 
     private void resetChoices() {
-        Log.d("Rinat","resetChoices firstChoice = -1");
         firstChoice = -1;
         secondChoice = -1;
         firstChoiceIndex = -1;
         secondChoiceIndex = -1;
 
+        //start
+
         // בדוק אם כל הכפתורים נחשפו
         boolean allFlipped = true;
+
         for (boolean matched : isButtonMatched) {
             if (!matched) {
                 allFlipped = false;
                 break;
             }
         }
+
+//        for (int i = 0; i < isButtonMatched.length; i++) {
+//            if (!isButtonMatched[i]) {
+//                allFlipped = false;
+//                break;
+//            }
+//        }
+
 
         if (allFlipped) {
             elapsedTime = System.currentTimeMillis() - startTime;  // זמן שלקח לסיים את המשחק
@@ -336,19 +326,18 @@ public class MainHardActivity extends AppCompatActivity {
 
         // הצגת הזמן והניקוד בשתי שורות
         String message = "Time: " + (elapsedTime / 1000) + " s\n";  // זמן בשניות
-
         long elapsedTimeInSeconds = (elapsedTime / 1000);
 
         // חישוב הניקוד - נניח ניקוד התחלתי של 1000 נקודות, ונפחית 1 נקודה לכל שנייה
-        int baseScore = 700;
+        int baseScore = 500;
         int timePenalty = (int) elapsedTimeInSeconds;
         int score = baseScore - timePenalty; // 100 נקודות לכל זוג שנמצא
 
-        message += "Score: " +score;  // הניקוד
-
+        message += "Score: " + score;  // הניקוד
 
         GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
-        dbHelper.insertGame("The hard game",score, (int) elapsedTime / 1000);
+        dbHelper.insertGame("The regular game", score, (int) elapsedTime / 1000);
+
 
 // יצירת TextView עם טקסט מותאם אישית
         TextView messageTextView = new TextView(this);
@@ -358,7 +347,6 @@ public class MainHardActivity extends AppCompatActivity {
 
         builder.setView(messageTextView);  // הגדרת TextView כצפייה בהודעה
 
-
         builder.setPositiveButton("Home page", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -366,14 +354,14 @@ public class MainHardActivity extends AppCompatActivity {
                 saveScoreToSharedPreferences(score);
 
                 // Log for debugging
-                Log.d("Rinat", "scoreShowD " + score);
+//                Log.d("Rinat", "scoreShowD " + score);
 
                 // Get the updated total score
                 int updatedTotalScore = getTotalScore();
-                Log.d("Rinat", "currentM " + updatedTotalScore);
+//                Log.d("Rinat", "currentM " + updatedTotalScore);
 
                 // כפתור חזרה לדף הבית
-                Intent intent = new Intent(MainHardActivity.this, MainActivity.class);
+                Intent intent = new Intent(MainActivityByLevel.this, MainActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
@@ -383,7 +371,7 @@ public class MainHardActivity extends AppCompatActivity {
                 saveScoreToSharedPreferences(score);
 
                 // כפתור חזרה לדף הבית
-                Intent intent = new Intent(MainHardActivity.this, MainHardActivity.class);
+                Intent intent = new Intent(MainActivityByLevel.this, MainActivityByLevel.class);  //TODO
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
@@ -392,14 +380,13 @@ public class MainHardActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 saveScoreToSharedPreferences(score);
 
-                Intent intent = new Intent(MainHardActivity.this, RecordBoardActivity.class);
+                Intent intent = new Intent(MainActivityByLevel.this, RecordBoardActivity.class);
                 startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
             }
         });
         builder.setCancelable(false);  // אם אתה רוצה שהשחקן לא יוכל לדלג על ההודעה לפני שלחץ על כפתור
         builder.create().show();
     }
-
 
     private int getTotalScore() {
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
@@ -424,14 +411,14 @@ public class MainHardActivity extends AppCompatActivity {
     }
 
     private void setclickable(boolean b) {
-        for (int i = 0; i < 36; i++) {
+        for (int i = 0; i < gameLevel.getButtonCount(); i++) {
             buttons[i].setEnabled(b);
         }
     }
 
-    private void startNewGame() {
+    private void startNewGame(GameLevel gameLevel) {
         // אתחול מחדש של כפתורים (מסתיר את התמונות)
-        for (int i = 0; i < 36; i++) {
+        for (int i = 0; i < gameLevel.getButtonCount(); i++) {
             buttons[i].setImageResource(android.R.color.transparent);
             isButtonFlipped[i] = false; // לא נחשף
             isButtonMatched[i] = false; // כפתור לא נמצא בזוג נכון
@@ -444,10 +431,20 @@ public class MainHardActivity extends AppCompatActivity {
 
         // אקראי מחדש את התמונות על פי הגדרות
         images.clear();
-        for (int i = 0; i < imageResources.length; i++) {
-            images.add(imageResources[i]);
-        }
+        images.addAll(imageResources);
         Collections.shuffle(images);
+
+        // Log each image after shuffle with index info
+        int tmp = (int)Math.sqrt(gameLevel.getButtonCount());
+        for (int row = 0; row < tmp ; row++) {
+            StringBuilder rowLog = new StringBuilder();
+            for (int col = 0; col < tmp; col++) {
+                int index = row * tmp + col;
+                rowLog.append(images.get(index)).append("  ");
+            }
+            Log.d("BOARD", "Row " + row + ": " + rowLog.toString());
+        }
+
 
         // איפוס משתנים
         firstChoice = -1;
@@ -459,67 +456,65 @@ public class MainHardActivity extends AppCompatActivity {
         statusText.setText("start!");
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
+
         GameDatabaseHelper.setIconInMenu(this,
                 menu
-                ,R.id.action_firstpage
-                ,R.string.firstpage
-                ,R.drawable.baseline_home);
+                , R.id.action_firstpage
+                , R.string.firstpage
+                , R.drawable.baseline_home);
         GameDatabaseHelper.setIconInMenu(this,
                 menu
-                ,R.id.action_settings
-                ,R.string.setting
-                ,R.drawable.baseline_settings_24);
+                , R.id.action_settings
+                , R.string.setting
+                , R.drawable.baseline_settings_24);
         GameDatabaseHelper.setIconInMenu(this,
                 menu
-                ,R.id.action_shop
-                ,R.string.shop
-                ,R.drawable.baseline_shopping_cart);
+                , R.id.action_shop
+                , R.string.shop
+                , R.drawable.baseline_shopping_cart);
         GameDatabaseHelper.setIconInMenu(this,
                 menu
-                ,R.id.action_recordBoard
-                ,R.string.recordBoard
-                ,R.drawable.baseline_record);
-        GameDatabaseHelper.setIconInMenu(this,menu
-                ,R.id.action_help
-                ,R.string.help
-                ,R.drawable.baseline_help);
+                , R.id.action_recordBoard
+                , R.string.recordBoard
+                , R.drawable.baseline_record);
+        GameDatabaseHelper.setIconInMenu(this, menu
+                , R.id.action_help
+                , R.string.help
+                , R.drawable.baseline_help);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id==R.id.action_firstpage){
-            Intent intent = new Intent(MainHardActivity.this, MainActivity.class);
+        if (id == R.id.action_firstpage) {
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_settings){
-            Intent intent = new Intent(MainHardActivity.this, SettingsActivity.class);
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_recordBoard){
-            Intent intent = new Intent(MainHardActivity.this, RecordBoardActivity.class);
+        if (id == R.id.action_recordBoard) {
+            Intent intent = new Intent(this, RecordBoardActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_help){
-            Intent intent = new Intent(MainHardActivity.this, helpActivity.class);
+        if (id == R.id.action_help) {
+            Intent intent = new Intent(this, helpActivity.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_shop){
-            Intent intent = new Intent(MainHardActivity.this, MainShop.class);
+        if (id == R.id.action_shop) {
+            Intent intent = new Intent(this, MainShop.class);
             startActivity(intent); // התחלת ה-Activity החדש
         }
-        if (id==R.id.action_start){
-            Intent intent = new Intent(MainHardActivity.this, MainStart.class);
+        if (id == R.id.action_start) {
+            Intent intent = new Intent(this, MainStart.class);
             startActivity(intent); // התחלת ה-Activity החדש
             Toast.makeText(this, "You pressed RESTART - Please wait a few seconds", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
 }
-

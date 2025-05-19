@@ -74,18 +74,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void onClick(View v) {
                 Log.d("SelectedDifficulty", "SelectedDifficulty = " + selectedDifficulty);
-                if ("Hard".equals(selectedDifficulty)) {
-                    Intent intent = new Intent(MainActivity.this, MainHardActivity.class);
-                    startActivity(intent);
-                } else if ("Easy".equals(selectedDifficulty)) {
-                    Intent intent = new Intent(MainActivity.this, MainEasyActivity.class);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(MainActivity.this, MainRegularActivity.class);
-                    startActivity(intent);
+
+                GameLevel level;
+                try {
+                    level = GameLevel.valueOf(selectedDifficulty.toUpperCase()); // Convert "Easy" -> "EASY"
+                } catch (IllegalArgumentException e) {
+                    Log.e("GameLevelError", "Unknown difficulty: " + selectedDifficulty);
+                    return;
                 }
+
+                Intent intent = new Intent(MainActivity.this, MainActivityByLevel.class);
+                intent.putExtra("GAME_LEVEL", level.name());
+                startActivity(intent);
             }
         });
+
 
         navigateWithButton = findViewById(R.id.navigateWithFriendButton);
         navigateWithButton.setOnClickListener(new View.OnClickListener() {
