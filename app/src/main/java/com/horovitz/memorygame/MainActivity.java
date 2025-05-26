@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TextView gameMoneyInDis;
     private int currentgameMoney = 0;
 
+    Intent serviceIntent;
+
 
 
     @Override
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
 
         // Start the music service if it's not already running
-        Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
+        serviceIntent = new Intent(MainActivity.this, MusicService.class);
         startService(serviceIntent);
 
         gameMoneyInDis = findViewById(R.id.gameMoneyFromScores);
@@ -225,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        stopService(serviceIntent);
         //unregisterLightSensorListener(); //של הLIGHTS
     }
 

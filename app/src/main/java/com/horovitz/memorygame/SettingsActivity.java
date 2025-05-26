@@ -19,184 +19,131 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 public class SettingsActivity extends AppCompatActivity {
 
     private Switch soundSwitch;
-    Button saveButton;
     private Spinner difficultySpinner;
     private Spinner timeSpinner;
-
     private RadioGroup themeRadioGroup;
+    private Button saveButton;
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+
         soundSwitch = findViewById(R.id.switch_sound);
         difficultySpinner = findViewById(R.id.spinner_difficulty);
         timeSpinner = findViewById(R.id.spinner_time);
         themeRadioGroup = findViewById(R.id.radio_group_theme);
+        saveButton = findViewById(R.id.saveButton);
 
+        // Load saved values and update UI
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true);
         soundSwitch.setChecked(isSoundEnabled);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.difficulty_levels, android.R.layout.simple_spinner_item);
-        difficultySpinner.setAdapter(adapter);
+        ArrayAdapter<CharSequence> difficultyAdapter = ArrayAdapter.createFromResource(this, R.array.difficulty_levels, android.R.layout.simple_spinner_item);
+        difficultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        difficultySpinner.setAdapter(difficultyAdapter);
 
-
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.time_presentation_cards, android.R.layout.simple_spinner_item);
-        timeSpinner.setAdapter(adapter1);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> timeAdapter = ArrayAdapter.createFromResource(this, R.array.time_presentation_cards, android.R.layout.simple_spinner_item);
+        timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeSpinner.setAdapter(timeAdapter);
 
         String savedDifficulty = sharedPreferences.getString("selectedDifficulty", "REGULAR");
-        int x = getDifficultyIndex(savedDifficulty);
-        difficultySpinner.setSelection(x);
+        difficultySpinner.setSelection(getIndexFromArray(savedDifficulty, R.array.difficulty_levels));
 
-        String savedTime = sharedPreferences.getString("timeSelection", "REGULAR");
-        timeSpinner.setSelection(getTimeIndex(savedTime));
+        String savedTime = sharedPreferences.getString("selectedTime", "Regular");
+        timeSpinner.setSelection(getIndexFromArray(savedTime, R.array.time_presentation_cards));
 
         String savedTheme = sharedPreferences.getString("selectedTheme", "CARTOON_CHARACTERS");
         setThemeSelection(savedTheme);
 
-        // עדכון המוזיקה על פי המצב של ה-Switch
-        if (isSoundEnabled) {startMusicService();}
-        else {stopMusicService();}
+        // Update music service based on switch state
+        if (isSoundEnabled) {
+            startMusicService();
+        } else {
+            stopMusicService();
+        }
 
-        // שמירה של ההגדרות כאשר המשתמש משנה אותם
+        // Sound switch saves immediately
         soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Save the state immediately
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isSoundEnabled", isChecked);
                 editor.apply();
-                
-                // Update the music service
+
                 if (isChecked) {
-                    Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
-                    startService(serviceIntent);
-                    MusicService.setMusicEnabled(true);
+                    startMusicService();
                     Toast.makeText(SettingsActivity.this, "Music is now playing", Toast.LENGTH_SHORT).show();
                 } else {
-                    MusicService.setMusicEnabled(false);
+                    stopMusicService();
                     Toast.makeText(SettingsActivity.this, "Music is now stopped", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
-                String selectedDifficulty = parentView.getItemAtPosition(position).toString();
-                editor.putString("selectedDifficulty", selectedDifficulty);
-                editor.commit();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // אם לא נבחר דבר
-            }
-        });
-        timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String timeSelection = adapterView.getItemAtPosition(i).toString();
-                editor.putString("timeSelection", timeSelection);
-                editor.commit();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-
-        themeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton selectedRadioButton = SettingsActivity.this.findViewById(checkedId);
-                String selectedTheme = selectedRadioButton.getText().toString();
-                editor.putString("selectedTheme", selectedTheme);
-                editor.commit();
-            }
-        });
-
-
-        saveButton = findViewById(R.id.saveButton);
+        // No immediate saving on spinner or theme changes — just update UI
+        // Save everything on Save button click
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-// שמירת הקושי
-                String selectedDifficulty = difficultySpinner.getSelectedItem().toString().toUpperCase().replace(" ", "_");
-                editor.putString("selectedDifficulty", selectedDifficulty);
-
-// שמירת זמן
-                String selectedTime = timeSpinner.getSelectedItem().toString().toUpperCase().replace(" ", "_");
-                editor.putString("selectedTime", selectedTime);
-
-// שמירת הנושא
-                int selectedThemeId = themeRadioGroup.getCheckedRadioButtonId();
-                RadioButton selectedRadioButton = findViewById(selectedThemeId);
-                String selectedTheme = selectedRadioButton.getText().toString().toUpperCase().replace(" ", "_");
-                editor.putString("selectedTheme", selectedTheme);
-
-                // שמירה של הגדרות הצלילים (כבר קיימת)
-                boolean isSoundEnabled = soundSwitch.isChecked();
-                editor.putBoolean("isSoundEnabled", isSoundEnabled);
-
-                editor.commit(); // שמירה באופן אסינכרוני
+                saveSettings();
                 Toast.makeText(SettingsActivity.this, "Settings saved", Toast.LENGTH_SHORT).show();
+
+                // Navigate back to MainActivity or wherever you want
                 Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish(); // optional: close settings activity
             }
         });
     }
 
-    private void stopMusicService() {
-        Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
-        stopService(serviceIntent); // עוצר את המוזיקה
+    private void saveSettings() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Save difficulty (exact string from spinner)
+        String selectedDifficulty = difficultySpinner.getSelectedItem().toString();
+        editor.putString("selectedDifficulty", selectedDifficulty);
+
+        // Save time
+        String selectedTime = timeSpinner.getSelectedItem().toString();
+        editor.putString("selectedTime", selectedTime);
+
+        // Save theme (get checked radio button text)
+        int selectedThemeId = themeRadioGroup.getCheckedRadioButtonId();
+        RadioButton selectedRadioButton = findViewById(selectedThemeId);
+        if (selectedRadioButton != null) {
+            String selectedTheme = selectedRadioButton.getText().toString().toUpperCase().replace(" ","_");
+            editor.putString("selectedTheme", selectedTheme);
+        }
+
+        // Save sound enabled state (already saved in switch listener but no harm repeating)
+        boolean isSoundEnabled = soundSwitch.isChecked();
+        editor.putBoolean("isSoundEnabled", isSoundEnabled);
+
+        editor.apply();  // async save
     }
 
-    private void startMusicService() {
-        Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
-        startService(serviceIntent); // מתחיל את המוזיקה
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    private int getDifficultyIndex(String difficulty) {
-        String[] difficulties = getResources().getStringArray(R.array.difficulty_levels);
-        for (int i = 0; i < difficulties.length; i++) {
-            if (difficulties[i].equals(difficulty)) {
+    private int getIndexFromArray(String value, int arrayResId) {
+        String[] array = getResources().getStringArray(arrayResId);
+        for (int i = 0; i < array.length; i++) {
+            if (array[i].equalsIgnoreCase(value)) {
                 return i;
             }
         }
-        return 0;
-    }
-
-    private int getTimeIndex(String time) {
-        String[] times = getResources().getStringArray(R.array.time_presentation_cards);
-        for (int i = 0; i < times.length; i++) {
-            if (times[i].equals(time)) {
-                return i;
-            }
-        }
-        return 0;
+        return 0; // fallback to first item
     }
 
     private void setThemeSelection(String theme) {
         String[] themes = getResources().getStringArray(R.array.themes);
         for (int i = 0; i < themes.length; i++) {
-            if (themes[i].equals(theme)) {
+            if (themes[i].equalsIgnoreCase(theme)) {
                 RadioButton radioButton = (RadioButton) themeRadioGroup.getChildAt(i);
                 if (radioButton != null) {
                     radioButton.setChecked(true);
@@ -206,62 +153,79 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    private void stopMusicService() {
+        Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
+        stopService(serviceIntent);
+    }
+
+    private void startMusicService() {
+        Intent serviceIntent = new Intent(SettingsActivity.this, MusicService.class);
+        startService(serviceIntent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
         GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_firstpage
-                ,R.string.firstpage
-                ,R.drawable.baseline_home);
+                menu,
+                R.id.action_firstpage,
+                R.string.firstpage,
+                R.drawable.baseline_home);
         GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_settings
-                ,R.string.setting
-                ,R.drawable.baseline_settings_24);
+                menu,
+                R.id.action_settings,
+                R.string.setting,
+                R.drawable.baseline_settings_24);
         GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_shop
-                ,R.string.shop
-                ,R.drawable.baseline_shopping_cart);
+                menu,
+                R.id.action_shop,
+                R.string.shop,
+                R.drawable.baseline_shopping_cart);
         GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_recordBoard
-                ,R.string.recordBoard
-                ,R.drawable.baseline_record);
-        GameDatabaseHelper.setIconInMenu(this,menu
-                ,R.id.action_help
-                ,R.string.help
-                ,R.drawable.baseline_help);
+                menu,
+                R.id.action_recordBoard,
+                R.string.recordBoard,
+                R.drawable.baseline_record);
+        GameDatabaseHelper.setIconInMenu(this,
+                menu,
+                R.id.action_help,
+                R.string.help,
+                R.drawable.baseline_help);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id==R.id.action_firstpage){
+        if (id == R.id.action_firstpage) {
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-            startActivity(intent); // התחלת ה-Activity החדש
+            startActivity(intent);
+            return true;
         }
-        if (id==R.id.action_settings){
+        if (id == R.id.action_settings) {
             Toast.makeText(this, "You are already here", Toast.LENGTH_SHORT).show();
+            return true;
         }
-        if (id==R.id.action_recordBoard){
+        if (id == R.id.action_recordBoard) {
             Intent intent = new Intent(SettingsActivity.this, RecordBoardActivity.class);
-            startActivity(intent); // התחלת ה-Activity החדש
+            startActivity(intent);
+            return true;
         }
-        if (id==R.id.action_shop){
+        if (id == R.id.action_shop) {
             Intent intent = new Intent(SettingsActivity.this, MainShop.class);
-            startActivity(intent); // התחלת ה-Activity החדש
+            startActivity(intent);
+            return true;
         }
-        if (id==R.id.action_help){
+        if (id == R.id.action_help) {
             Intent intent = new Intent(SettingsActivity.this, helpActivity.class);
-            startActivity(intent); // התחלת ה-Activity החדש
+            startActivity(intent);
+            return true;
         }
-        if (id==R.id.action_start){
+        if (id == R.id.action_start) {
             Intent intent = new Intent(SettingsActivity.this, MainStart.class);
-            startActivity(intent); // התחלת ה-Activity החדש
+            startActivity(intent);
             Toast.makeText(this, "You pressed RESTART - Please wait a few seconds", Toast.LENGTH_SHORT).show();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

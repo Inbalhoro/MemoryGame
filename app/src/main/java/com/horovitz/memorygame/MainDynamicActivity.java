@@ -51,7 +51,7 @@ public class MainDynamicActivity extends AppCompatActivity {
             long timeSinceStart = System.currentTimeMillis() - startTime;
             timerTextView.setText("Time: " + (timeSinceStart / 1000));
             if (isGameRunning) {
-                handler.postDelayed(this, 1000); // Delay every 1 second
+                handler.postDelayed(this, 1000);
             }
         }
     };
@@ -62,6 +62,8 @@ public class MainDynamicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_dynamic);
 
         loadPreferences();
+        generateButtonsDynamically(gameLevel.getButtonCount());
+        loadImageResources();
         initializeViews();
         initializeGame();
     }
@@ -73,23 +75,39 @@ public class MainDynamicActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
         String difficulty = sharedPreferences.getString("difficulty", "REGULAR");
-        String time = sharedPreferences.getString("selectedTime", "REGULAR");
-        String theme = sharedPreferences.getString("selectedTheme", "CARTOON_CHARACTERS");
+        String time = sharedPreferences.getString("selectedTime", "Regular");
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true);
 
         String levelName = getIntent().getStringExtra("GAME_LEVEL");
         gameLevel = GameLevel.valueOf(levelName);
 
-        generateButtonsDynamically(gameLevel.getButtonCount());
-        imageResources = getImageResourcesForTheme(Theme.valueOf(theme), gameLevel);
-        updateGameSettings(difficulty, time, theme, isSoundEnabled);
+        updateGameSettings(difficulty, time, isSoundEnabled);
+    }
+
+    private void loadImageResources() {
+        SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        String theme = sharedPreferences.getString("selectedTheme", "CARTOON_CHARACTERS");
+
+        Theme selectedThemeEnum;
+        try {
+            selectedThemeEnum = Theme.valueOf(theme.toUpperCase().replace(" ", "_"));
+        } catch (IllegalArgumentException e) {
+            selectedThemeEnum = Theme.CARTOON_CHARACTERS;
+        }
+
+        imageResources = getImageResourcesForTheme(selectedThemeEnum, gameLevel);
     }
 
     private void initializeViews() {
         timerTextView = findViewById(R.id.timerTextView);
         statusText = findViewById(R.id.statusText);
         resetButton = findViewById(R.id.resetButton);
-        resetButton.setOnClickListener(v -> startNewGame(gameLevel));
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNewGame(gameLevel);
+            }
+        });
     }
 
     private void initializeGame() {
@@ -131,7 +149,12 @@ public class MainDynamicActivity extends AppCompatActivity {
                 button.setElevation(dpToPx(4));
 
                 final int finalIndex = index;
-                button.setOnClickListener(v -> onButtonClick(finalIndex, timeInNumbersS));
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onButtonClick(finalIndex, timeInNumbersS);
+                    }
+                });
 
                 rowLayout.addView(button);
                 buttons[index] = button;
@@ -146,29 +169,28 @@ public class MainDynamicActivity extends AppCompatActivity {
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
     }
-    private void updateGameSettings(String difficultyStr, String timeStr, String themeStr, boolean isSoundEnabled) {
-        if(difficultyStr=="HARD"){//לדיאלוג לכתיבה בטבלת נתונים
+
+    private void updateGameSettings(String difficultyStr, String timeStr, boolean isSoundEnabled) {
+        if ("HARD".equals(difficultyStr)) {
             nameOfLevel = "The hard game";
-        }
-        else if(difficultyStr=="EASY"){
+        } else if ("EASY".equals(difficultyStr)) {
             nameOfLevel = "The easy game";
-        }
-        else{
+        } else {
             nameOfLevel = "The regular game";
         }
-        TimeSetting timeSetting = TimeSetting.valueOf(timeStr.toUpperCase().replace(" ", "_"));
-        Theme theme;
+
+        TimeSetting timeSetting;
         try {
-            theme = Theme.valueOf(themeStr.toUpperCase().replace(" ", "_"));
-        } catch (IllegalArgumentException | NullPointerException e) {
-            theme = Theme.CARTOON_CHARACTERS; // ברירת מחדל
+            timeSetting = TimeSetting.valueOf(timeStr.toUpperCase().replace(" ", "_"));
+        } catch (IllegalArgumentException e) {
+            timeSetting = TimeSetting.REGULAR;
         }
+
         timeInNumbersS = timeSetting.getSeconds();
-        imageResources = getImageResourcesForTheme(theme, gameLevel);
+
         if (isSoundEnabled) startMusicService();
         else stopMusicService();
     }
-
 
     private void startMusicService() {
         startService(new Intent(this, MusicService.class));
@@ -257,82 +279,60 @@ public class MainDynamicActivity extends AppCompatActivity {
         title.setSpan(new AbsoluteSizeSpan(24, true), 0, title.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setTitle(title);
 
-        // הצגת הזמן והניקוד בשתי שורות
         SpannableString subTitle = new SpannableString("Your time was: " + (elapsedTime / 1000) + " seconds");
         subTitle.setSpan(new AbsoluteSizeSpan(20, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setMessage(subTitle);
 
-        // חישוב הניקוד - נניח ניקוד התחלתי של 1000 נקודות, ונפחית 1 נקודה לכל שנייה
-
         int baseScore = 500;
         int timePenalty = (int) elapsedTime / 1000;
-        int score = baseScore - timePenalty; // 100 נקודות לכל זוג שנמצא
+        int score = baseScore - timePenalty;
 
-        String messageScore = "Score: " +score;  // הניקוד
+        String messageScore = "Score: " + score;
 
         GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
-        dbHelper.insertGame(nameOfLevel,score, (int) elapsedTime / 1000);
+        dbHelper.insertGame(nameOfLevel, score, (int) elapsedTime / 1000);
 
-
-// יצירת TextView עם טקסט מותאם אישית
         TextView messageTextView = new TextView(this);
         messageTextView.setText(messageScore);
-        messageTextView.setGravity(Gravity.CENTER);  // יישור טקסט למרכז
-        messageTextView.setTextSize(20);  // שינוי גודל טקסט לניקוד ולזמן
+        messageTextView.setGravity(Gravity.CENTER);
+        messageTextView.setTextSize(20);
 
-        builder.setView(messageTextView);  // הגדרת TextView כצפייה בהודעה
+        builder.setView(messageTextView);
 
         builder.setPositiveButton("Home page", new DialogInterface.OnClickListener() {
-            @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Save the score using SharedPreferences
                 saveScoreToSharedPreferences(score);
-                Intent intent = new Intent(MainDynamicActivity.this, MainActivity.class);
-                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
+                startActivity(new Intent(MainDynamicActivity.this, MainActivity.class));
             }
         });
+
         builder.setNegativeButton("Yeah!", new DialogInterface.OnClickListener() {
-            @Override
             public void onClick(DialogInterface dialog, int which) {
                 saveScoreToSharedPreferences(score);
-
-                // כפתור חזרה לדף הבית
-                Intent intent = new Intent(MainDynamicActivity.this, MainDynamicActivity.class);
-                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
+                startActivity(new Intent(MainDynamicActivity.this, MainDynamicActivity.class));
             }
         });
+
         builder.setNeutralButton("Record board", new DialogInterface.OnClickListener() {
-            @Override
             public void onClick(DialogInterface dialog, int which) {
                 saveScoreToSharedPreferences(score);
-
-                Intent intent = new Intent(MainDynamicActivity.this, RecordBoardActivity.class);
-                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
+                startActivity(new Intent(MainDynamicActivity.this, RecordBoardActivity.class));
             }
         });
-        builder.setCancelable(false);  // אם אתה רוצה שהשחקן לא יוכל לדלג על ההודעה לפני שלחץ על כפתור
+
+        builder.setCancelable(false);
         builder.create().show();
     }
 
     private void startNewGame(GameLevel level) {
-        imageResources = getImageResourcesForTheme(Theme.CARTOON_CHARACTERS, level);
         images.clear();
         images.addAll(imageResources);
         Collections.shuffle(images);
+
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setImageResource(android.R.color.transparent);
             isButtonFlipped[i] = false;
             isButtonMatched[i] = false;
-        }
-
-        // Log each image after shuffle with index info
-        for (int row = 0; row < 4; row++) {
-            StringBuilder rowLog = new StringBuilder();
-            for (int col = 0; col < 4; col++) {
-                int index = row * 4 + col;
-                rowLog.append(images.get(index)).append("  ");
-            }
-            Log.d("BOARD", "Row " + row + ": " + rowLog.toString());
         }
 
         resetChoices();
