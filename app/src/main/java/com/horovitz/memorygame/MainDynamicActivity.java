@@ -147,7 +147,7 @@ public class MainDynamicActivity extends AppCompatActivity {
         return Math.round(dp * density);
     }
     private void updateGameSettings(String difficultyStr, String timeStr, String themeStr, boolean isSoundEnabled) {
-        if(difficultyStr=="HARD"){
+        if(difficultyStr=="HARD"){//לדיאלוג לכתיבה בטבלת נתונים
             nameOfLevel = "The hard game";
         }
         else if(difficultyStr=="EASY"){
