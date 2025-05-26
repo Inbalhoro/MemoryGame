@@ -53,14 +53,14 @@ public class SettingsActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        String savedDifficulty = sharedPreferences.getString("selectedDifficulty", "Regular");
+        String savedDifficulty = sharedPreferences.getString("selectedDifficulty", "REGULAR");
         int x = getDifficultyIndex(savedDifficulty);
         difficultySpinner.setSelection(x);
 
-        String savedTime = sharedPreferences.getString("timeSelection", "Regular");
+        String savedTime = sharedPreferences.getString("timeSelection", "REGULAR");
         timeSpinner.setSelection(getTimeIndex(savedTime));
 
-        String savedTheme = sharedPreferences.getString("selectedTheme", "Cartoon Characters");
+        String savedTheme = sharedPreferences.getString("selectedTheme", "CARTOON_CHARACTERS");
         setThemeSelection(savedTheme);
 
         // עדכון המוזיקה על פי המצב של ה-Switch
@@ -132,13 +132,18 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                String selectedDifficulty = difficultySpinner.getSelectedItem().toString();
+// שמירת הקושי
+                String selectedDifficulty = difficultySpinner.getSelectedItem().toString().toUpperCase().replace(" ", "_");
                 editor.putString("selectedDifficulty", selectedDifficulty);
 
+// שמירת זמן
+                String selectedTime = timeSpinner.getSelectedItem().toString().toUpperCase().replace(" ", "_");
+                editor.putString("selectedTime", selectedTime);
+
+// שמירת הנושא
                 int selectedThemeId = themeRadioGroup.getCheckedRadioButtonId();
                 RadioButton selectedRadioButton = findViewById(selectedThemeId);
-                String selectedTheme = selectedRadioButton.getText().toString();
+                String selectedTheme = selectedRadioButton.getText().toString().toUpperCase().replace(" ", "_");
                 editor.putString("selectedTheme", selectedTheme);
 
                 // שמירה של הגדרות הצלילים (כבר קיימת)

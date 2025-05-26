@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     return;
                 }
 
-                Intent intent = new Intent(MainActivity.this, MainActivityByLevel.class);
+                Intent intent = new Intent(MainActivity.this, MainDynamicActivity.class);
                 intent.putExtra("GAME_LEVEL", level.name());
                 startActivity(intent);
             }

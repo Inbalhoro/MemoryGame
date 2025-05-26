@@ -13,33 +13,35 @@
         android:theme="@style/Theme.MemoryGame"
         tools:targetApi="31">
         <activity
+            android:name=".MainDynamicActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
             android:name=".RecordBoardActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light"/>
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".MainShop"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light"/>
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".helpActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light"/>
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".MainEasyActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light"/>
-        <activity
-            android:name=".MainHardActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light"/>
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".MainComputerActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light"/>
+            android:theme="@style/Theme.AppCompat.Light" />
+
         <service
             android:name=".MusicService"
             android:enabled="true"
             android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="false"
@@ -61,6 +63,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
