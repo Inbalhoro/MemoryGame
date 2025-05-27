@@ -8,11 +8,13 @@ import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -65,7 +67,7 @@ public class MainDynamicActivity extends AppCompatActivity {
         generateButtonsDynamically(gameLevel.getButtonCount());
         loadImageResources();
         initializeViews();
-        initializeGame();
+//        initializeGame();
     }
 
     private void loadPreferences() {
@@ -118,52 +120,80 @@ public class MainDynamicActivity extends AppCompatActivity {
         LinearLayout parentLayout = findViewById(R.id.llDynamicButtons);
         parentLayout.removeAllViews();
 
-        int columns = (int) Math.sqrt(totalButtons);
-        int rows = (int) Math.ceil((double) totalButtons / columns);
-
         buttons = new ImageButton[totalButtons];
         isButtonFlipped = new boolean[totalButtons];
         isButtonMatched = new boolean[totalButtons];
 
-        int index = 0;
+        // מקשיבים לרגע שבו ה-layout כבר נמדד (ולכן אפשר לגשת למידותיו)
+        ViewTreeObserver vto = parentLayout.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                parentLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-        for (int row = 0; row < rows; row++) {
-            LinearLayout rowLayout = new LinearLayout(this);
-            rowLayout.setOrientation(LinearLayout.HORIZONTAL);
-            rowLayout.setGravity(Gravity.CENTER);
-            rowLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
+                int layoutWidth = parentLayout.getWidth();     // רוחב אמיתי של llDynamicButtons
+                int layoutHeight = parentLayout.getHeight();   // גובה אמיתי של llDynamicButtons
 
-            for (int col = 0; col < columns && index < totalButtons; col++) {
-                ImageButton button = new ImageButton(this);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        0, dpToPx(74));
-                params.weight = 1;
-                params.setMargins(dpToPx(6), dpToPx(6), dpToPx(6), dpToPx(6));
-                button.setLayoutParams(params);
-                button.setImageResource(android.R.color.transparent);
-                button.setBackgroundResource(R.drawable.white);
-                button.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                button.setContentDescription("button_" + index);
-                button.setElevation(dpToPx(4));
+                int columns = (int) Math.sqrt(totalButtons);
+                int rows = (int) Math.ceil((double) totalButtons / columns);
 
-                final int finalIndex = index;
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onButtonClick(finalIndex, timeInNumbersS);
+                int marginPx = dpToPx(4);
+                int totalHorizontalMargins = marginPx * (columns + 1);
+                int totalVerticalMargins = marginPx * (rows + 1);
+
+                int maxButtonWidth = (layoutWidth - totalHorizontalMargins) / columns;
+                int maxButtonHeight = (layoutHeight - totalVerticalMargins) / rows;
+
+                int buttonSize = Math.min(maxButtonWidth, maxButtonHeight);
+
+                int index = 0;
+
+                for (int row = 0; row < rows; row++) {
+                    LinearLayout rowLayout = new LinearLayout(parentLayout.getContext());
+                    rowLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    rowLayout.setGravity(Gravity.CENTER);
+                    rowLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                    for (int col = 0; col < columns && index < totalButtons; col++) {
+                        ImageButton button = new ImageButton(parentLayout.getContext());
+
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                buttonSize, buttonSize);
+                        params.setMargins(marginPx / 2, marginPx / 2, marginPx / 2, marginPx / 2);
+                        button.setLayoutParams(params);
+
+                        button.setImageResource(android.R.color.transparent);
+                        button.setBackgroundResource(R.drawable.white);
+                        button.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        button.setContentDescription("button_" + index);
+                        button.setElevation(dpToPx(4));
+
+                        final int finalIndex = index;
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onButtonClick(finalIndex, timeInNumbersS);
+                            }
+                        });
+
+                        rowLayout.addView(button);
+                        buttons[index] = button;
+                        index++;
                     }
-                });
 
-                rowLayout.addView(button);
-                buttons[index] = button;
-                index++;
+                    // בסיום הלולאה בתוך onGlobalLayout:
+                    parentLayout.addView(rowLayout);
+
+                }
+                // אחרי שנוצרו כל הכפתורים - נתחיל את המשחק
+                startNewGame(gameLevel);
             }
-
-            parentLayout.addView(rowLayout);
-        }
+        });
     }
+
+
 
     private int dpToPx(int dp) {
         float density = getResources().getDisplayMetrics().density;

@@ -1,58 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dynamicGame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/dynamicGame"
-    android:background="@drawable/backgroundsingleplayer"
     android:orientation="vertical"
-    android:padding="16dp"
     android:gravity="center"
+    android:background="@drawable/backgroundsingleplayer"
     tools:context=".MainDynamicActivity">
 
     <TextView
         android:id="@+id/timerTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:text="time: 0"
         android:textSize="20sp"
-        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textColor="#000000"/>
+        android:textColor="#000000" />
 
-    <ScrollView
+    <!-- אזור הכפתורים יתפוס את כל השטח הפנוי -->
+
+    <LinearLayout
+        android:id="@+id/llDynamicButtons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:gravity="center"
+        android:orientation="vertical" />
 
-        <LinearLayout
-            android:id="@+id/llDynamicButtons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"/>
-    </ScrollView>
-    <!-- TextView להודעת מצב המשחק -->
     <TextView
         android:id="@+id/statusText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:text="Start!"
         android:textSize="18sp"
         android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:layout_marginBottom="16dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true" />
+        android:gravity="center" />
+
     <Button
         android:id="@+id/resetButton"
-        android:background="#E6B3A4"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:text="new game"
+        android:background="#E6B3A4"
         android:layout_gravity="center"
         android:padding="12dp"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 </LinearLayout>
 
+    <!-- TextView להודעת מצב המשחק -->
