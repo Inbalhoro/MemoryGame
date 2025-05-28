@@ -3,6 +3,7 @@ package com.horovitz.memorygame;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
         String savedDifficulty = sharedPreferences.getString("selectedDifficulty", "REGULAR");
         difficultySpinner.setSelection(getIndexFromArray(savedDifficulty, R.array.difficulty_levels));
 
-        String savedTime = sharedPreferences.getString("selectedTime", "Regular");
+        String savedTime = sharedPreferences.getString("selectedTime", "REGULAR");
         timeSpinner.setSelection(getIndexFromArray(savedTime, R.array.time_presentation_cards));
 
         String savedTheme = sharedPreferences.getString("selectedTheme", "CARTOON_CHARACTERS");
@@ -110,6 +111,8 @@ public class SettingsActivity extends AppCompatActivity {
         // Save difficulty (exact string from spinner)
         String selectedDifficulty = difficultySpinner.getSelectedItem().toString();
         editor.putString("selectedDifficulty", selectedDifficulty);
+        Log.d("DIFFICULTY_CHECK", "Loaded difficulty: " + selectedDifficulty);
+
 
         // Save time
         String selectedTime = timeSpinner.getSelectedItem().toString();

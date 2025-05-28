@@ -76,7 +76,7 @@ public class MainDynamicActivity extends AppCompatActivity {
         findViewById(R.id.dynamicGame).setBackgroundResource(selectedBackground);
 
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-        String difficulty = sharedPreferences.getString("difficulty", "REGULAR");
+        String difficulty = sharedPreferences.getString("selectedDifficulty", "REGULAR");
         String time = sharedPreferences.getString("selectedTime", "Regular");
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true);
 
@@ -201,9 +201,9 @@ public class MainDynamicActivity extends AppCompatActivity {
     }
 
     private void updateGameSettings(String difficultyStr, String timeStr, boolean isSoundEnabled) {
-        if ("HARD".equals(difficultyStr)) {
+        if ("HARD".equals(difficultyStr.toUpperCase())) {
             nameOfLevel = "The hard game";
-        } else if ("EASY".equals(difficultyStr)) {
+        } else if ("EASY".equals(difficultyStr.toUpperCase())) {
             nameOfLevel = "The easy game";
         } else {
             nameOfLevel = "The regular game";
@@ -336,10 +336,10 @@ public class MainDynamicActivity extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("Yeah!", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Play again", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 saveScoreToSharedPreferences(score);
-                startActivity(new Intent(MainDynamicActivity.this, MainDynamicActivity.class));
+                startNewGame(gameLevel);
             }
         });
 
@@ -363,6 +363,23 @@ public class MainDynamicActivity extends AppCompatActivity {
             buttons[i].setImageResource(android.R.color.transparent);
             isButtonFlipped[i] = false;
             isButtonMatched[i] = false;
+        }
+
+        int totalButtons = gameLevel.getButtonCount();
+        int columns = (int) Math.sqrt(totalButtons);
+        int rows = (int) Math.ceil((double) totalButtons / columns);
+
+        Log.d("BOARD", "Logging game board: " + rows + " rows x " + columns + " columns");
+
+        for (int row = 0; row < rows; row++) {
+            StringBuilder rowLog = new StringBuilder();
+            for (int col = 0; col < columns; col++) {
+                int index = row * columns + col;
+                if (index < images.size()) {
+                    rowLog.append(images.get(index)).append("  ");
+                }
+            }
+            Log.d("BOARD", "Row " + row + ": " + rowLog.toString());
         }
 
         resetChoices();

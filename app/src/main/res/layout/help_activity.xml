@@ -16,49 +16,50 @@
     <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="514dp"
         android:layout_weight="1"
+        android:fillViewport="true"
         android:overScrollMode="never"
-        android:scrollbars="none"
-        android:fillViewport="true">
+        android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="400dp"
             android:layout_marginHorizontal="10dp"
-            android:paddingBottom="16dp">
+            android:orientation="vertical"
+            android:paddingBottom="40dp">
 
 
-        <!-- שדה להזנת אימייל -->
+            <!-- שדה להזנת אימייל שכבר אמורה להיות בתוך האפליקציית אימייל של הטלפון -->
+            <!--            <EditText-->
+            <!--                android:id="@+id/emailText"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="60dp"-->
+            <!--                android:layout_marginTop="20dp"-->
+            <!--                android:layout_marginBottom="16dp"-->
+            <!--                android:hint="Email"-->
+            <!--                android:inputType="textEmailAddress"-->
+            <!--                android:padding="10dp" />-->
+            <!-- שדה להזנת נושא האימייל -->
             <EditText
-                android:id="@+id/emailText"
+                android:id="@+id/themeofemail"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginBottom="16dp"
-                android:hint="Email"
+                android:hint="Subject"
                 android:inputType="textEmailAddress"
                 android:padding="10dp" />
-        <!-- שדה להזנת נושא האימייל -->
-        <EditText
-            android:id="@+id/themeofemail"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:hint="Subject"
-            android:inputType="textEmailAddress"
-            android:padding="10dp"
-            android:layout_marginBottom="16dp" />
 
-        <!-- שדה להזנת ההודעה -->
-        <EditText
-            android:id="@+id/textMessage"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:hint="Enter your problem"
-            android:inputType="textMultiLine"
-            android:gravity="top|start"
-            android:padding="10dp"
-            android:layout_marginBottom="16dp" />
+            <!-- שדה להזנת ההודעה -->
+            <EditText
+                android:id="@+id/textMessage"
+                android:layout_width="match_parent"
+                android:layout_height="357dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="top|start"
+                android:hint="Enter your problem"
+                android:inputType="textMultiLine"
+                android:padding="10dp" />
         </LinearLayout>
     </ScrollView>
     <!-- כפתור שליחה -->

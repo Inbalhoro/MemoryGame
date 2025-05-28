@@ -22,7 +22,7 @@ public class helpActivity extends AppCompatActivity {
         setContentView(R.layout.help_activity);
 
         // קישור לשדות בטופס
-        emailEditText = findViewById(R.id.emailText);
+//        emailEditText = findViewById(R.id.emailText);
         subjectEditText = findViewById(R.id.themeofemail);
         messageEditText = findViewById(R.id.textMessage);
 
@@ -39,7 +39,7 @@ public class helpActivity extends AppCompatActivity {
             return;
         }
 
-        String developerEmail = "inbal.peer317@gmail.com";
+        String developerEmail = "inbal.peer317@gmail.com";//האימייל של היוצרת - אני
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("message/rfc822"); // מציין שמדובר באימייל
@@ -64,7 +64,7 @@ public class helpActivity extends AppCompatActivity {
             emailIntentLaunched = false;
 
             // ננקה את השדות
-            emailEditText.setText("");
+//            emailEditText.setText("");
             subjectEditText.setText("");
             messageEditText.setText("");
 

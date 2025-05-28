@@ -357,21 +357,23 @@ public class MainPlayWithFriends extends AppCompatActivity {
         builder.setView(messageTextView);  // הגדרת TextView כצפייה בהודעה
 
         builder.setPositiveButton("Home page", new DialogInterface.OnClickListener() {
-            @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Save the score using SharedPreferences
                 saveScoreToSharedPreferences(score);
+                startActivity(new Intent(MainPlayWithFriends.this, MainActivity.class));
+            }
+        });
 
-                // Log for debugging
-                Log.d("Rinat", "scoreShowD " + score);
+        builder.setNegativeButton("Play again", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                saveScoreToSharedPreferences(score);
+                startNewGame(player1Name);
+            }
+        });
 
-                // Get the updated total score
-                int updatedTotalScore = getTotalScore();
-//                Log.d("Rinat", "currentM " + updatedTotalScore);
-
-                // Return to MainActivity
-                Intent intent = new Intent(MainPlayWithFriends.this, MainActivity.class);
-                startActivity(intent);  // התחלת ה-Activity החדש (חזרה לדף הבית)
+        builder.setNeutralButton("Record board", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                saveScoreToSharedPreferences(score);
+                startActivity(new Intent(MainPlayWithFriends.this, RecordBoardActivity.class));
             }
         });
         builder.setCancelable(false);  // אם אתה רוצה שהשחקן לא יוכל לדלג על ההודעה לפני שלחץ על כפתור
@@ -386,7 +388,6 @@ public class MainPlayWithFriends extends AppCompatActivity {
     private void saveScoreToSharedPreferences(int newScore) {
         // Get SharedPreferences instance
         SharedPreferences prefs = getSharedPreferences("GameData", MODE_PRIVATE);
-
         // Get the current total score
         int currentTotalScore = prefs.getInt("totalScore", Constants.INITIAL_SCORE);
 
