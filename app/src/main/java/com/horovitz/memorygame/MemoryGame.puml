@@ -1,0 +1,302 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+' מחלקה שלך
+class MainStart {
+  - progressBar: ProgressBar
+  - timeLeftText: TextView
+  + onCreate(savedInstanceState: Bundle): void
+}
+
+class MainDynamicActivity{
+  - gameLevel: GameLevel
+  - startTime: long
+  - nameOfLevel: String
+  - elapsedTime: long
+  - handler: Handler
+  - isGameRunning: boolean
+  - timerTextView: TextView
+  - resetButton: Button
+  - statusText: TextView
+  - buttons: ImageButton[]
+  - images: ArrayList<Integer>
+  - imageResources: List<Integer>
+  - isButtonFlipped: boolean[]
+  - isButtonMatched: boolean[]
+  - firstChoice: int
+  - secondChoice: int
+  - baseScore: int
+  - firstChoiceIndex: int
+  - secondChoiceIndex: int
+  - timeInNumbersS: int
+
+  + onCreate(savedInstanceState: Bundle): void
+  + initializeGame(): void
+  + setupButtons(): void
+  + startTimer(): void
+  + stopTimer(): void
+  + onButtonClick(index: int): void
+  + checkMatch(): void
+  + updateScore(): void
+  + resetGame(): void
+  + showStatusMessage(message: String): void
+  + saveGameState(): void
+  + loadGameState(): void
+  + otherHelperMethods(): void
+}
+class helpActivity{
+  - emailIntentLaunched: boolean
+  - emailEditText: EditText
+  - subjectEditText: EditText
+  - messageEditText: EditText
+  - sendButtonToMail: Button
+
+  + onCreate(savedInstanceState: Bundle): void
+  + sendEmail(view: View): void
+  + onResume(): void
+  + onCreateOptionsMenu(menu: Menu): boolean
+  + onOptionsItemSelected(item: MenuItem): boolean
+}
+class MainPlayWithFriends{
+  - navigateButton: Button
+  - startTime: long
+  - timeInNumbersS: int
+  - elapsedTime: long
+  - timerTextView: TextView
+  - handler: Handler
+  - isGameRunning: boolean
+  - timerRunnable: Runnable
+  - buttons: ImageButton[]
+  - images: ArrayList<Integer>
+  - imageResources: int[]
+  - firstChoice: int
+  - secondChoice: int
+  - firstChoiceIndex: int
+  - secondChoiceIndex: int
+  - isButtonFlipped: boolean[]
+  - isButtonMatched: boolean[]
+  - statusText: TextView
+  - resetButton: Button
+  - player1Matches: int
+  - player2Matches: int
+  - currentPlayer: int
+
+  + onCreate(savedInstanceState: Bundle): void
+  + updateGameSettings(time: String, theme: String, isSoundEnabled: boolean): void
+  + stopMusicService(): void
+  + startMusicService(): void
+  + startNewGame(player1Name: String): void
+  + onButtonClick(index: int, player1Name: String, player2Name: String): void
+  + resetChoices(player1Name: String, player2Name: String): void
+  + showTimeDialog(player1Name: String, player2Name: String): void
+  + getTotalScore(): int
+  + saveScoreToSharedPreferences(newScore: int): void
+  + switchPlayer(player1Name: String, player2Name: String): void
+  + setclickable(enabled: boolean): void
+  + onCreateOptionsMenu(menu: Menu): boolean
+  + onOptionsItemSelected(item: MenuItem): boolean
+}
+class MainComputerActivity{
+    - Button navigateButton
+    - int timeInNumbersS
+    - long startTime
+    - long elapsedTime
+    - TextView timerTextView
+    - Handler handler
+    - boolean isGameRunning
+    - Runnable timerRunnable
+    - ImageButton[] buttons
+    - ArrayList<Integer> images
+    - int[] imageResources
+    - int firstChoice, secondChoice
+    - int firstChoiceIndex, secondChoiceIndex
+    - boolean[] isButtonFlipped
+    - boolean[] isButtonMatched
+    - TextView statusText
+    - Button resetButton
+    - int playerMatches, computerMatches
+    - int currentPlayer
+    - boolean computerPlaying, isComputerTurn
+    - Random random
+
+    + onCreate(Bundle)
+    - updateGameSettings(String, String, boolean)
+    - stopMusicService()
+    - startMusicService()
+    - startNewGame()
+    - onButtonClick(int)
+    - checkMatch()
+    - resetChoices()
+    - showTimeDialog()
+    - saveScoreToSharedPreferences(int)
+    - getTotalScore() : int
+    - switchPlayer()
+    - computerMove()
+    + onCreateOptionsMenu(Menu) : boolean
+    + onOptionsItemSelected(MenuItem) : boolean
+}
+class MainActivity implements SensorEventListener {
+    - SensorManager sensorManager
+    - Sensor lightSensor
+    - Button navigateButton
+    - Button bottomNevigationView
+    - Button navigateWithButton
+    - Button navigateWithCom
+    - SharedPreferences sharedPreferences
+    - String selectedDifficulty
+    - String selectedImage
+    - TextView gameMoneyInDis
+    - int currentgameMoney
+    - Intent serviceIntent
+
+    + onCreate(Bundle)
+    - updateScoreDisplay(TextView, int)
+    + onResume()
+    - createImageView(String, int) : ImageView
+    + onDestroy()
+    + onStart()
+    + onStop()
+    + onCreateOptionsMenu(Menu) : boolean
+    + onOptionsItemSelected(MenuItem) : boolean
+    + onSensorChanged(SensorEvent)
+    + onAccuracyChanged(Sensor, int)
+}
+
+class LightSensorHelper {
+    - static final LightSensorHelper instance
+
+    - LightSensorHelper()  // private constructor
+    + static getInstance() : LightSensorHelper
+    + handleLightChange(SensorEvent, Activity) : void
+}
+class helpActivity{
+    - boolean emailIntentLaunched
+    - EditText emailEditText, subjectEditText, messageEditText
+    - Button sendButtonToMail
+
+    + onCreate(Bundle) : void
+    + sendEmail(View) : void
+    + onResume() : void
+    + onCreateOptionsMenu(Menu) : boolean
+    + onOptionsItemSelected(MenuItem) : boolean
+}
+class GameResult {
+    - int id
+    - String gameType
+    - int score
+    - int time
+
+    + GameResult(int id, String gameType, int score, int time)
+    + getId() : int
+    + getGameType() : String
+    + getScore() : int
+    + getTime() : int
+}
+enum GameLevel {
+    EASY (buttonCount = 6),
+    REGULAR (buttonCount = 16),
+    HARD (buttonCount = 36)
+
+    - int buttonCount
+
+    + GameLevel(int buttonCount)
+    + getButtonCount() : int
+}
+class GameDatabaseHelper{
+  - DATABASE_NAME : String = "games.db"
+  - DATABASE_VERSION : int = 1
+
+  + TABLE_GAMES : String = "games"
+  + COLUMN_ID : String = "id"
+  + COLUMN_GAME_TYPE : String = "game_type"
+  + COLUMN_SCORE : String = "score"
+  + COLUMN_TIME : String = "time"
+
+  + GameDatabaseHelper(context: Context)
+  + onCreate(db: SQLiteDatabase) : void
+  + onUpgrade(db: SQLiteDatabase, oldVersion: int, newVersion: int) : void
+
+  + insertGame(gameType: String, score: int, time: int) : void
+  + getAllGames() : List<GameResult>
+
+  + static setIconInMenu(context: Context, menu: Menu, menuItemId: int, labelId: int, iconId: int) : void
+}
+class Constants {
+  + INITIAL_SCORE : int = 0
+  + TOTAL_SCORE : String = "totalScore"
+}
+class MusicService extends Service {
+  - static instance : MusicService
+  - mediaPlayer : MediaPlayer
+  - isMusicEnabled : boolean = true
+
+  + onCreate() : void
+  + onStartCommand(intent: Intent, flags: int, startId: int) : int
+  + static setMusicEnabled(enabled: boolean) : void
+  + static pauseMusic() : void
+  + static resumeMusic() : void
+  + onDestroy() : void
+  + onBind(intent: Intent) : IBinder
+}
+class RecordBoardActivity{
+  - gameListView : ListView
+  - dbHelper : GameDatabaseHelper
+
+  + onCreate(savedInstanceState: Bundle) : void
+  + onCreateOptionsMenu(menu: Menu) : boolean
+  + onOptionsItemSelected(item: MenuItem) : boolean
+
+  - getGameTitles(games: List<GameResult>) : List<String>
+  - showGameDetails(game: GameResult) : void
+}
+class SettingsActivity {
+  - soundSwitch : Switch
+  - difficultySpinner : Spinner
+  - timeSpinner : Spinner
+  - themeRadioGroup : RadioGroup
+  - saveButton : Button
+  - sharedPreferences : SharedPreferences
+
+  + onCreate(savedInstanceState: Bundle) : void
+  + onCreateOptionsMenu(menu: Menu) : boolean
+  + onOptionsItemSelected(item: MenuItem) : boolean
+
+  - saveSettings() : void
+  - getIndexFromArray(value: String, arrayResId: int) : int
+  - setThemeSelection(theme: String) : void
+  - stopMusicService() : void
+  - startMusicService() : void
+}
+enum Theme {
+   + CARTOON_CHARACTERS : Theme
+   + ANIMALS : Theme
+   + FOOD : Theme
+   + FLAGS : Theme
+
+   - prefix : String
+
+   + getPrefix() : String
+ }
+ enum TimeSetting {
+   + SHORT : TimeSetting
+   + REGULAR : TimeSetting
+   + LONG : TimeSetting
+
+   - seconds : int
+
+   + getSeconds() : int
+ }
+ RecordBoardActivity --> GameDatabaseHelper : uses
+     SettingsActivity --> SharedPreferences : reads/writes
+     SettingsActivity --> MusicService : starts/stops
+     MusicService ..> SharedPreferences : reads sound setting
+     GameDatabaseHelper --> GameResult : returns list of
+     SettingsActivity --> Theme : uses selected theme
+     SettingsActivity --> TimeSetting : uses selected time setting
+     SettingsActivity --> GameLevel : uses selected difficulty (likely)
+     RecordBoardActivity --> Constants : uses constants (possibly)
+
+
+
+
+@enduml

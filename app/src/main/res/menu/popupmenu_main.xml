@@ -37,6 +37,5 @@
         android:icon="@drawable/baseline_restart"
         android:orderInCategory="500"
         app:showAsAction="always"
-        />  <!-- הוספת actionLayout -->
-
+        />
 </menu>
