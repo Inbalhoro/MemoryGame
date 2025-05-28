@@ -89,14 +89,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        // No immediate saving on spinner or theme changes — just update UI
-        // Save everything on Save button click
+        // Save CHANGES
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveSettings();
                 Toast.makeText(SettingsActivity.this, "Settings saved", Toast.LENGTH_SHORT).show();
-
                 // Navigate back to MainActivity or wherever you want
                 Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
                 startActivity(intent);

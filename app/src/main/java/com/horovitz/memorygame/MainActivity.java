@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 GameLevel level;
                 try {
-                    level = GameLevel.valueOf(selectedDifficulty.toUpperCase()); // Convert "Easy" -> "EASY"
+                    level = GameLevel.valueOf(selectedDifficulty.toUpperCase()); //  do "Easy" to-> "EASY"
                 } catch (IllegalArgumentException e) {
                     Log.e("GameLevelError", "Unknown difficulty: " + selectedDifficulty);
                     return;
@@ -250,33 +250,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //super.onCreateOptionsMenu(menu);  // קריאה למתודה הבסיסית
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
-
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_firstpage
-                ,R.string.firstpage
-                ,R.drawable.baseline_home);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_settings
-                ,R.string.setting
-                ,R.drawable.baseline_settings_24);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_shop
-                ,R.string.shop
-                ,R.drawable.baseline_shopping_cart);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_recordBoard
-                ,R.string.recordBoard
-                ,R.drawable.baseline_record);
-        GameDatabaseHelper.setIconInMenu(this,menu
-                ,R.id.action_help
-                ,R.string.help
-                ,R.drawable.baseline_help);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_firstpage, R.string.firstpage, R.drawable.baseline_home);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_settings, R.string.setting, R.drawable.baseline_settings_24);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_shop, R.string.shop, R.drawable.baseline_shopping_cart);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_recordBoard, R.string.recordBoard, R.drawable.baseline_record);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_help, R.string.help, R.drawable.baseline_help);
         return true;
     }
 
@@ -313,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        // 💡 Use the helper to update UI based on light level
+        // Use the helper to update UI based on light level
         LightSensorHelper.getInstance().handleLightChange(event, this);
     }
 

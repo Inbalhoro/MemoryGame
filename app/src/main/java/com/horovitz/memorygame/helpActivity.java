@@ -1,5 +1,6 @@
 package com.horovitz.memorygame;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -72,11 +73,14 @@ public class helpActivity extends AppCompatActivity {
             new androidx.appcompat.app.AlertDialog.Builder(this)
                     .setTitle("Thank you for your feedback!")
                     .setMessage("I truly appreciate it and will get back to you as soon as possible. ❤️")
-                    .setPositiveButton("Back to game", (dialog, which) -> {
-                        // חוזרים לדף הבית
-                        Intent back = new Intent(helpActivity.this, helpActivity.class);
-                        startActivity(back);
-                        finish();
+                    .setPositiveButton("Back to game", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // חוזרים לדף הבית
+                            Intent back = new Intent(helpActivity.this, helpActivity.class);
+                            startActivity(back);
+                            finish();
+                        }
                     })
                     .setCancelable(false)
                     .show();
@@ -85,7 +89,6 @@ public class helpActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
-
         GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_firstpage, R.string.firstpage, R.drawable.baseline_home);
         GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_settings, R.string.setting, R.drawable.baseline_settings_24);
         GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_shop, R.string.shop, R.drawable.baseline_shopping_cart);

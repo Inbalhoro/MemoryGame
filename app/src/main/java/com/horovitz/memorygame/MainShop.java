@@ -54,9 +54,26 @@ public class MainShop extends AppCompatActivity {
         checkAndShowBackgroundSelector();
 
         // Set onClick listeners for buttons
-        buyButton1.setOnClickListener(view -> handlePurchase(buyButton1, BACKGROUND_KEYS[0], BACKGROUND_RESOURCES[0]));
-        buyButton2.setOnClickListener(view -> handlePurchase(buyButton2, BACKGROUND_KEYS[1], BACKGROUND_RESOURCES[1]));
-        buyButton3.setOnClickListener(view -> handlePurchase(buyButton3, BACKGROUND_KEYS[2], BACKGROUND_RESOURCES[2]));
+        buyButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handlePurchase(buyButton1, BACKGROUND_KEYS[0], BACKGROUND_RESOURCES[0]);
+            }
+        });
+
+        buyButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handlePurchase(buyButton2, BACKGROUND_KEYS[1], BACKGROUND_RESOURCES[1]);
+            }
+        });
+
+        buyButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handlePurchase(buyButton3, BACKGROUND_KEYS[2], BACKGROUND_RESOURCES[2]);
+            }
+        });
 
 
     }
@@ -95,7 +112,12 @@ public class MainShop extends AppCompatActivity {
         bgOption.setTag(backgroundRes);
 
         // מאזין ללחיצה
-        bgOption.setOnClickListener(v -> onBackgroundSelected(v));
+        bgOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackgroundSelected(v);
+            }
+        });
 
         // מוסיפה את הרקע למסך
         backgroundOptionsLayout.addView(bgOption);
@@ -220,31 +242,11 @@ public class MainShop extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_firstpage
-                ,R.string.firstpage
-                ,R.drawable.baseline_home);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_settings
-                ,R.string.setting
-                ,R.drawable.baseline_settings_24);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_shop
-                ,R.string.shop
-                ,R.drawable.baseline_shopping_cart);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_recordBoard
-                ,R.string.recordBoard
-                ,R.drawable.baseline_record);
-        GameDatabaseHelper.setIconInMenu(this,menu
-                ,R.id.action_help
-                ,R.string.help
-                ,R.drawable.baseline_help);
-
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_firstpage, R.string.firstpage, R.drawable.baseline_home);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_settings, R.string.setting, R.drawable.baseline_settings_24);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_shop, R.string.shop, R.drawable.baseline_shopping_cart);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_recordBoard, R.string.recordBoard, R.drawable.baseline_record);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_help, R.string.help, R.drawable.baseline_help);
         return true;
     }
 

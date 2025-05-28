@@ -75,13 +75,12 @@ public class MainPlayWithFriends extends AppCompatActivity {
 
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
 
         String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל:
-        String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
+        String theme = sharedPreferences.getString("selectedTheme", "CARTOON_CHARACTERS"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
-        updateGameSettings(difficulty, time, theme, isSoundEnabled);
+        updateGameSettings(time, theme, isSoundEnabled);
 
 
         // קבלת הערכים שהועברו מהדיאלוג
@@ -141,36 +140,36 @@ public class MainPlayWithFriends extends AppCompatActivity {
         });
     }
 
-    private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
-
-        if (time.equals("Short")) {
-            timeInNumbersS = 300;  // זמן בשניות
-        } else if (time.equals("Regular")) {
-            timeInNumbersS = 700;
-        } else if (time.equals("Long")) {
-            timeInNumbersS = 1000;
+    private void updateGameSettings(String time, String theme, boolean isSoundEnabled) {
+        TimeSetting timeSetting;
+        try {
+            timeSetting = TimeSetting.valueOf(time.toUpperCase().replace(" ", "_"));
+        } catch (IllegalArgumentException e) {
+            timeSetting = TimeSetting.REGULAR;
         }
+        timeInNumbersS = timeSetting.getSeconds();
+
         // עדכון נושא
-        if (theme.equals("Cartoon Characters")) {
+        if (theme.equalsIgnoreCase("CARTOON_CHARACTERS")) {
             // להשתמש בתמונות של חיות
             imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
                     R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
                     R.drawable.image18, R.drawable.image18, R.drawable.image6, R.drawable.image6,
                     R.drawable.image12, R.drawable.image12, R.drawable.image8, R.drawable.image8};
-        } else if (theme.equals("Animals")) {
+        } else if (theme.equalsIgnoreCase("ANIMALS")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
                     R.drawable.animal3, R.drawable.animal3, R.drawable.animal4, R.drawable.animal4,
                     R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
                     R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8};
         }
-        else if (theme.equals("Food")) {
+        else if (theme.equalsIgnoreCase("FOOD")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
                     R.drawable.food3, R.drawable.food3, R.drawable.food15, R.drawable.food15,
                     R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
                     R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8};
-        }else if (theme.equals("Flags")) {
+        }else if (theme.equalsIgnoreCase("FLAGS")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
                     R.drawable.flag13, R.drawable.flag13, R.drawable.flag12, R.drawable.flag12,
@@ -215,6 +214,16 @@ public class MainPlayWithFriends extends AppCompatActivity {
         }
         Collections.shuffle(images);
 
+        // Log each image after shuffle with index
+        Log.d("BOARD", "play with a friend");
+        for (int row = 0; row < 4; row++) {
+            StringBuilder rowLog = new StringBuilder();
+            for (int col = 0; col < 4; col++) {
+                int index = row * 4 + col;
+                rowLog.append(images.get(index)).append("  ");
+            }
+            Log.d("BOARD", "Row " + row + ": " + rowLog.toString());
+        }
         // איפוס משתנים
         firstChoice = -1;
         secondChoice = -1;
@@ -343,8 +352,6 @@ public class MainPlayWithFriends extends AppCompatActivity {
 
         message += "Score: " +score;  // הניקוד
 
-//        Log.d("Rinat", "score " + score);
-
         GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
         dbHelper.insertGame("playing with a friend game",score, (int) elapsedTime / 1000);
 
@@ -419,31 +426,11 @@ public class MainPlayWithFriends extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
-
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_firstpage
-                ,R.string.firstpage
-                ,R.drawable.baseline_home);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_settings
-                ,R.string.setting
-                ,R.drawable.baseline_settings_24);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_shop
-                ,R.string.shop
-                ,R.drawable.baseline_shopping_cart);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_recordBoard
-                ,R.string.recordBoard
-                ,R.drawable.baseline_record);
-        GameDatabaseHelper.setIconInMenu(this,menu
-                ,R.id.action_help
-                ,R.string.help
-                ,R.drawable.baseline_help);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_firstpage, R.string.firstpage, R.drawable.baseline_home);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_settings, R.string.setting, R.drawable.baseline_settings_24);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_shop, R.string.shop, R.drawable.baseline_shopping_cart);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_recordBoard, R.string.recordBoard, R.drawable.baseline_record);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_help, R.string.help, R.drawable.baseline_help);
         return true;
     }
 

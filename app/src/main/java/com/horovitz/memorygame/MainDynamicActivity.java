@@ -44,6 +44,7 @@ public class MainDynamicActivity extends AppCompatActivity {
     private boolean[] isButtonFlipped;
     private boolean[] isButtonMatched;
     private int firstChoice = -1, secondChoice = -1;
+    private int baseScore =0;
     private int firstChoiceIndex = -1, secondChoiceIndex = -1;
     private int timeInNumbersS;
 
@@ -67,7 +68,6 @@ public class MainDynamicActivity extends AppCompatActivity {
         generateButtonsDynamically(gameLevel.getButtonCount());
         loadImageResources();
         initializeViews();
-//        initializeGame();
     }
 
     private void loadPreferences() {
@@ -202,11 +202,15 @@ public class MainDynamicActivity extends AppCompatActivity {
 
     private void updateGameSettings(String difficultyStr, String timeStr, boolean isSoundEnabled) {
         if ("HARD".equals(difficultyStr.toUpperCase())) {
+            baseScore = 800;
             nameOfLevel = "The hard game";
         } else if ("EASY".equals(difficultyStr.toUpperCase())) {
             nameOfLevel = "The easy game";
+            baseScore = 200;
         } else {
             nameOfLevel = "The regular game";
+            baseScore = 500;
+
         }
 
         TimeSetting timeSetting;
@@ -271,12 +275,16 @@ public class MainDynamicActivity extends AppCompatActivity {
                 setButtonsEnabled(true);
             } else {
                 statusText.setText("Try again");
-                buttons[firstChoiceIndex].postDelayed(() -> {
-                    buttons[firstChoiceIndex].setImageResource(android.R.color.transparent);
-                    buttons[secondChoiceIndex].setImageResource(android.R.color.transparent);
-                    resetChoices();
-                    setButtonsEnabled(true);
+                buttons[firstChoiceIndex].postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        buttons[firstChoiceIndex].setImageResource(android.R.color.transparent);
+                        buttons[secondChoiceIndex].setImageResource(android.R.color.transparent);
+                        resetChoices();
+                        setButtonsEnabled(true);
+                    }
                 }, timeInMilliseconds);
+
             }
         }
     }
@@ -313,7 +321,6 @@ public class MainDynamicActivity extends AppCompatActivity {
         subTitle.setSpan(new AbsoluteSizeSpan(20, true), 0, subTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setMessage(subTitle);
 
-        int baseScore = 500;
         int timePenalty = (int) elapsedTime / 1000;
         int score = baseScore - timePenalty;
 

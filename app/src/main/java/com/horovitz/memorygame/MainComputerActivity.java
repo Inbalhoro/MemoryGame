@@ -72,13 +72,12 @@ public class MainComputerActivity extends AppCompatActivity {
 
 // קריאת ההגדרות מ-SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-        String difficulty = sharedPreferences.getString("difficulty", "Regular");  // ברירת מחדל היא "Easy"
 
         String time = sharedPreferences.getString("selectedTime", "Regular"); // ברירת מחדל:
-        String theme = sharedPreferences.getString("selectedTheme", "Cartoon Characters"); // ברירת מחדל: "דמויות מצוירות"
+        String theme = sharedPreferences.getString("selectedTheme", "CARTOON_CHARACTERS"); // ברירת מחדל: "דמויות מצוירות"
         boolean isSoundEnabled = sharedPreferences.getBoolean("isSoundEnabled", true); // ברירת מחדל: true
 
-        updateGameSettings(difficulty, time, theme, isSoundEnabled);
+        updateGameSettings(time, theme, isSoundEnabled);
 
         buttons[0] = findViewById(R.id.button_1);
         buttons[1] = findViewById(R.id.button_2);
@@ -99,7 +98,6 @@ public class MainComputerActivity extends AppCompatActivity {
         timerTextView = findViewById(R.id.timerTextView);
         statusText = findViewById(R.id.statusText);
         resetButton = findViewById(R.id.resetButton);
-
         startNewGame();
 
         for (int i = 0; i < 16; i++) {
@@ -121,36 +119,36 @@ public class MainComputerActivity extends AppCompatActivity {
     }
 
 
-    private void updateGameSettings(String difficulty, String time, String theme, boolean isSoundEnabled) {
-
-        if (time.equals("Short")) {
-            timeInNumbersS = 300;  // זמן בשניות
-        } else if (time.equals("Regular")) {
-            timeInNumbersS = 700;
-        } else if (time.equals("Long")) {
-            timeInNumbersS = 1000;
+    private void updateGameSettings(String time, String theme, boolean isSoundEnabled) {
+        TimeSetting timeSetting;
+        try {
+            timeSetting = TimeSetting.valueOf(time.toUpperCase().replace(" ", "_"));
+        } catch (IllegalArgumentException e) {
+            timeSetting = TimeSetting.REGULAR;
         }
+        timeInNumbersS = timeSetting.getSeconds();
+
         // עדכון נושא
-        if (theme.equals("Cartoon Characters")) {
+        if (theme.equalsIgnoreCase("CARTOON_CHARACTERS")) {
             // להשתמש בתמונות של חיות
             imageResources = new int [] {R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image2,
                     R.drawable.image3, R.drawable.image3, R.drawable.image4, R.drawable.image4,
                     R.drawable.image10, R.drawable.image10, R.drawable.image6, R.drawable.image6,
                     R.drawable.image7, R.drawable.image7, R.drawable.image8, R.drawable.image8};
-        } else if (theme.equals("Animals")) {
+        } else if (theme.equalsIgnoreCase("ANIMALS")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.animal1, R.drawable.animal1, R.drawable.animal2, R.drawable.animal2,
                     R.drawable.animal3, R.drawable.animal3, R.drawable.animal4, R.drawable.animal4,
                     R.drawable.animal5, R.drawable.animal5, R.drawable.animal6, R.drawable.animal6,
                     R.drawable.animal7, R.drawable.animal7, R.drawable.animal8, R.drawable.animal8};
         }
-        else if (theme.equals("Food")) {
+        else if (theme.equalsIgnoreCase("FOOD")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.food1, R.drawable.food1, R.drawable.food2, R.drawable.food2,
                     R.drawable.food3, R.drawable.food3, R.drawable.food15, R.drawable.food15,
                     R.drawable.food5, R.drawable.food5, R.drawable.food6, R.drawable.food6,
                     R.drawable.food7, R.drawable.food7, R.drawable.food8, R.drawable.food8};
-        }else if (theme.equals("Flags")) {
+        }else if (theme.equalsIgnoreCase("FLAGS")) {
             // להשתמש בתמונות של דמויות מצוירות
             imageResources = new int[] {R.drawable.flag1, R.drawable.flag1, R.drawable.flag2, R.drawable.flag2,
                     R.drawable.flag13, R.drawable.flag13, R.drawable.flag12, R.drawable.flag12,
@@ -194,7 +192,8 @@ public class MainComputerActivity extends AppCompatActivity {
         Collections.shuffle(images);
 
 
-        // Log each image after shuffle with index info
+        // Log each image after shuffle with index
+        Log.d("BOARD", "play with computer");
         for (int row = 0; row < 4; row++) {
             StringBuilder rowLog = new StringBuilder();
             for (int col = 0; col < 4; col++) {
@@ -245,7 +244,12 @@ public class MainComputerActivity extends AppCompatActivity {
 
             // שחקן ממשיך – אם זה המחשב, קורא לעצמו שוב
             if (currentPlayer == 2) {
-                new Handler().postDelayed(() -> computerMove(), 1000);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        computerMove();
+                    }
+                }, 1000);
             }
 
         } else {
@@ -317,17 +321,14 @@ public class MainComputerActivity extends AppCompatActivity {
         long elapsedTimeInSeconds = (elapsedTime / 1000);
 
         // חישוב הניקוד - נניח ניקוד התחלתי של 1000 נקודות, ונפחית 1 נקודה לכל שנייה
-        int baseScore = 400;
+        int baseScore = 500;
         int timePenalty = (int) elapsedTimeInSeconds;
         int score = baseScore - timePenalty ; // 100 נקודות לכל זוג שנמצא
 
-
         message += "Score: " +score;  // הניקוד
-
 
         GameDatabaseHelper dbHelper = new GameDatabaseHelper(this);
         dbHelper.insertGame("playing with the computer game",score, (int) elapsedTime / 1000);
-
 
         TextView messageTextView = new TextView(this);
         messageTextView.setText(message);
@@ -336,21 +337,18 @@ public class MainComputerActivity extends AppCompatActivity {
 
         builder.setView(messageTextView);  // הגדרת TextView כצפייה בהודעה
 
-
         builder.setPositiveButton("Home page", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 saveScoreToSharedPreferences(score);
                 startActivity(new Intent(MainComputerActivity.this, MainActivity.class));
             }
         });
-
         builder.setNegativeButton("Play again", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 saveScoreToSharedPreferences(score);
                 startNewGame();
             }
         });
-
         builder.setNeutralButton("Record board", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 saveScoreToSharedPreferences(score);
@@ -436,7 +434,7 @@ public class MainComputerActivity extends AppCompatActivity {
                     computerMatches++;
                     statusText.setText("Computer found a match! - The computer has another turn");
 
-                    // ✅ נקרא לעצמו רק אם לא נגמר המשחק
+                    // נקרא לעצמו רק אם לא נגמר המשחק
                     resetChoices();
                     if (isGameRunning) {
                         computerMove();  // המשך רק אם המשחק לא הסתיים
@@ -463,30 +461,11 @@ public class MainComputerActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.popupmenu_main, menu);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_firstpage
-                ,R.string.firstpage
-                ,R.drawable.baseline_home);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_settings
-                ,R.string.setting
-                ,R.drawable.baseline_settings_24);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_shop
-                ,R.string.shop
-                ,R.drawable.baseline_shopping_cart);
-        GameDatabaseHelper.setIconInMenu(this,
-                menu
-                ,R.id.action_recordBoard
-                ,R.string.recordBoard
-                ,R.drawable.baseline_record);
-        GameDatabaseHelper.setIconInMenu(this,menu
-                ,R.id.action_help
-                ,R.string.help
-                ,R.drawable.baseline_help);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_firstpage, R.string.firstpage, R.drawable.baseline_home);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_settings, R.string.setting, R.drawable.baseline_settings_24);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_shop, R.string.shop, R.drawable.baseline_shopping_cart);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_recordBoard, R.string.recordBoard, R.drawable.baseline_record);
+        GameDatabaseHelper.setIconInMenu(this, menu, R.id.action_help, R.string.help, R.drawable.baseline_help);
         return true;
     }
 
